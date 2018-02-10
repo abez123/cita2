@@ -113,7 +113,10 @@
 								@endif >{{$item->nombrecompleto}} | Celular: {{$item->celular}} | Tel casa: {{$item->telcasa}} | {{$item->correo}}</option>
 							@endforeach
 						</select>
-					
+					<div class="box box-success" id="clientehistory">
+	<!--<div class="box-header"></div>-->
+	
+</div>
 
 			<div style="display: none" class="modal-header" id="newclient">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -223,7 +226,7 @@ $(function () {
 
            
                $('#pedicurista_id').empty();
-                      $('#pedicurista_id').append('<option value ="000">Cualquiera</option');
+                     
 
            $.each(data, function(index, subcatObj){
         
@@ -276,7 +279,40 @@ $(function () {
 
 
    });
+$('#cliente_id').on('change', function(e){
+ 
+    var cliente_id  = e.target.value; 
+ 
+    
+  
+       //ajax 
 
+       $.get('{{url('/cliente-ajax')}}?cliente_id=' +cliente_id, function(data){
+
+           //success data
+           $('#clientehistory').empty();
+
+           
+            
+           $.each(data, function(index, subcatObj){
+                if(data && data !="")
+$('#clientehistory').append('<div class="box-body"><table id="example1" class="table table-bordered"><thead><tr class="success"><th>id</th><th>Cliente</th><th>Sucursal</th><th>Servicio</th><th>Pedicurista</th><th>Fecha</th><th>Hora</th><th>Estaus</th></tr></thead><tbody><tr><td>'+ subcatObj.id+ '</td><td>'+ subcatObj.nombrecompleto+ '</td><td>'+ subcatObj.nombresuc+ '</td><td>'+ subcatObj.nombreservicio+ '</td><td>'+ subcatObj.nombrecompletoped+ '</td><td>'+ subcatObj.fechaservicio+ '</td><td>'+ subcatObj.hora+ '</td><td>'+ subcatObj.estatus+ '</td></tr></tbody></table></div>');
+               else
+ $('#clientehistory').append('Sin Historial');
+                
+              
+             
+				//for (index = 0; index < timedisable.length; ++index) {
+				      // $("#hora option[value='"+timedisable[index]+"']").remove();
+				//}
+           });
+     
+            
+
+       });
+
+
+   });
 
 </script>
 

@@ -28,7 +28,13 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	
 	Route::get(config('laraadmin.adminRoute'), 'LA\DashboardController@index');
 	Route::get(config('laraadmin.adminRoute'). '/dashboard', 'LA\DashboardController@index');
+	/* ================== Ajax calls JSON ================== */
+	Route::get('/cliente-ajax', 'LA\CitasController@buscarCliente');
+
+	Route::get('/pedicurista-ajax', 'LA\CitasController@buscarPedicurista');
+
 	
+	Route::get('/horario-ajax', 'LA\CitasController@buscarHorario');
 	/* ================== Users ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/users', 'LA\UsersController');
 	Route::get(config('laraadmin.adminRoute') . '/user_dt_ajax', 'LA\UsersController@dtajax');
@@ -101,10 +107,7 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 
 	Route::get(config('laraadmin.adminRoute') . '/createcita', 'LA\CitasController@createcita');
 
-	Route::get('/pedicurista-ajax', 'LA\CitasController@buscarPedicurista');
-
 	
-	Route::get('/horario-ajax', 'LA\CitasController@buscarHorario');
 
 
 	/* ================== Clientes ================== */

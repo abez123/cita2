@@ -113,6 +113,21 @@ class CitasController extends Controller
         }
 	}
 
+	  public function buscarCliente(){
+            
+
+            $cliente_id = Input::get('cliente_id');
+          
+      
+        
+    
+         $cliente = DB::table('citas')->join('clientes','clientes.id','=','citas.cliente_id')->join('sucursals','sucursals.id','=','citas.sucursal_id')->join('servicios','servicios.id','=','citas.servicio_id')->join('pedicuristas','pedicuristas.id','=','citas.pedicurista_id')->select(array('citas.id','clientes.nombrecompleto','sucursals.nombresuc','servicios.nombreservicio','pedicuristas.nombrecompletoped','citas.fechaservicio','citas.hora','citas.estatus'))->where('clientes.id',$cliente_id)->whereNull('citas.deleted_at')->orderBy('citas.fechaservicio','DESC')->limit(5)->get();
+
+
+
+            return Response::json($cliente);
+        }
+
 	    public function buscarPedicurista(){
             
 

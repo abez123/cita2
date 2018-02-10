@@ -23,7 +23,7 @@ class IncapacidadsController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'pedicurista_id';
-	public $listing_cols = ['id', 'pedicurista_id', 'incapacidadinica', 'incapacidadtermina'];
+	public $listing_cols = ['id', 'pedicurista_id', 'incapacidadinica', 'incapacidadtermina', 'tipo'];
 	
 	public function __construct() {
 		// Field Access of Listing Columns

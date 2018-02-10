@@ -18,7 +18,7 @@ class CreatePedicuristasTable extends Migration
     public function up()
     {
         Module::generate("Pedicuristas", 'pedicuristas', 'nombrecompleto', 'fa-user-plus', [
-            ["nombrecompleto", "Nombre Completo", "Name", false, "", 0, 256, true],
+            ["nombrecompletoped", "Nombre Completo", "Name", false, "", 0, 256, true],
             ["sucursal_id", "Sucursal", "Dropdown", false, "", 0, 0, false, "@sucursals"],
             ["imagen", "Imagen", "Image", false, "", 0, 0, false],
             ["pediestandard", "Pedicure Estandard", "Checkbox", false, "1", 0, 0, false],
@@ -31,8 +31,6 @@ class CreatePedicuristasTable extends Migration
             ["comidainicia", "Comida Inicia", "Datetime", false, "", 0, 0, false],
             ["comidaduracion", "Comida duración", "Integer", false, "", 0, 11, false],
             ["comidatermina", "Comida Termina", "Datetime", false, "", 0, 0, false],
-            ["vacacionesinicia", "Vacaciones Inicia", "Datetime", false, "", 0, 0, false],
-            ["vacacionestermina", "Vacaciones Termina", "Datetime", false, "", 0, 0, false],
         ]);
 		
 		/*

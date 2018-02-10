@@ -19,8 +19,9 @@ class CreateIncapacidadsTable extends Migration
     {
         Module::generate("Incapacidads", 'incapacidads', 'pedicurista_id', 'fa-ambulance', [
             ["pedicurista_id", "Pedicurista", "Dropdown", false, "", 0, 0, false, "@pedicuristas"],
-            ["incapacidadinica", "Incapacidad inicia", "Datetime", false, "", 0, 0, false],
-            ["incapacidadtermina", "Incapacidad Termina", "Datetime", false, "", 0, 0, false],
+            ["incapacidadinica", "Inicia", "Datetime", false, "", 0, 0, false],
+            ["incapacidadtermina", "Finaliza", "Datetime", false, "", 0, 0, false],
+            ["tipo", "Tipo", "Dropdown", false, "", 0, 0, true, ["Falta","Descanso","Incapacidad","Retardo","Suspension","Permiso sin goce","Cubre como encargada","Apoyo en otra tienda","Tiempo por tiempo","Asistencia normal","Vacaciones"]],
         ]);
 		
 		/*

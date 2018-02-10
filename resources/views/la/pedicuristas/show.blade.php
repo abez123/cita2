@@ -107,7 +107,7 @@
 						<h4>General Info</h4>
 					</div>
 					<div class="panel-body">
-						@la_display($module, 'nombrecompleto')
+						@la_display($module, 'nombrecompletoped')
 						@la_display($module, 'sucursal_id')
 						@la_display($module, 'imagen')
 						@la_display($module, 'pediestandard')
@@ -118,10 +118,8 @@
 						@la_display($module, 'horario_entrada')
 						@la_display($module, 'horario_salida')
 						@la_display($module, 'comidainicia')
-					
+						@la_display($module, 'comidaduracion')
 						@la_display($module, 'comidatermina')
-						@la_display($module, 'vacacionesinicia')
-						@la_display($module, 'vacacionestermina')
 					</div>
 				</div>
 			</div>

@@ -202,7 +202,7 @@ $(function () {
            $.each(data, function(index, subcatObj){
         
                $('#pedicurista_id').append('<option value ="'
-               + subcatObj.id +'">' + subcatObj.nombrecompleto  + '</option');
+               + subcatObj.id +'">' + subcatObj.nombrecompletoped  + '</option');
                  
 
       
@@ -228,7 +228,7 @@ $(function () {
            $.each(data, function(index, subcatObj){
         
                $('#pedicurista_id').append('<option value ="'
-               + subcatObj.id +'">' + subcatObj.nombrecompleto  + '</option');
+               + subcatObj.id +'">' + subcatObj.nombrecompletoped  + '</option');
                  
 
       

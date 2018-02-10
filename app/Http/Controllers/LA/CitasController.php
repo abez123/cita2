@@ -140,7 +140,7 @@ class CitasController extends Controller
            		break;
            }
     
-         $pedicuristas = Pedicurista::where('pedicuristas.sucursal_id','=',$sucursal_id)->where($campo,'=',1)->select(array('pedicuristas.id','pedicuristas.nombrecompleto','pedicuristas.sucursal_id'))->orderBy('pedicuristas.nombrecompleto', 'asc')->groupBy('pedicuristas.id')->get();
+         $pedicuristas = Pedicurista::where('pedicuristas.sucursal_id','=',$sucursal_id)->where($campo,'=',1)->select(array('pedicuristas.id','pedicuristas.nombrecompletoped','pedicuristas.sucursal_id'))->orderBy('pedicuristas.nombrecompletoped', 'asc')->groupBy('pedicuristas.id')->get();
 
 
 
@@ -435,7 +435,7 @@ class CitasController extends Controller
             
 			$sucursal =  Sucursal::where('sucursals.id','=',$cita->sucursal_id)->value('nombresuc');
 
-			$pedicurista =  Pedicurista::where('pedicuristas.id','=',$cita->pedicurista_id)->value('nombrecompleto');
+			$pedicurista =  Pedicurista::where('pedicuristas.id','=',$cita->pedicurista_id)->value('nombrecompletoped');
 
 			$servicio =  Servicio::where('servicios.id','=',$cita->servicio_id)->value('nombreservicio');
 			$serviciomin =  Servicio::where('servicios.id','=',$cita->servicio_id)->value('duracion');
@@ -587,12 +587,12 @@ class CitasController extends Controller
 	
 	/**
 	 * Datatable Ajax fetch
-	 *
+	 *['id', 'cliente_id', 'sucursal_id', 'servicio_id', 'pedicurista_id', 'fechaservicio','hora','estatus'];
 	 * @return
 	 */
 	public function dtajax()
 	{
-		$values = DB::table('citas')->select($this->listing_cols)->whereNull('deleted_at');
+		$values = DB::table('citas')->join('clientes','clientes.id','=','citas.cliente_id')->join('sucursals','sucursals.id','=','citas.sucursal_id')->join('servicios','servicios.id','=','citas.servicio_id')->join('pedicuristas','pedicuristas.id','=','citas.pedicurista_id')->select(array('citas.id','clientes.nombrecompleto','sucursals.nombresuc','servicios.nombreservicio','pedicuristas.nombrecompletoped','citas.fechaservicio','citas.hora','citas.estatus'))->whereNull('citas.deleted_at');
 		$out = Datatables::of($values)->make();
 		$data = $out->getData();
 

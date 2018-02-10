@@ -1,14 +1,14 @@
 @extends("la.layouts.app")
 
 @section("contentheader_title")
-	<a href="{{ url(config('laraadmin.adminRoute') . '/incapacidads') }}">Incapacidad</a> :
+	<a href="{{ url(config('laraadmin.adminRoute') . '/incapacidads') }}">Incidencias</a> :
 @endsection
 @section("contentheader_description", $incapacidad->$view_col)
-@section("section", "Incapacidads")
+@section("section", "Incidencias")
 @section("section_url", url(config('laraadmin.adminRoute') . '/incapacidads'))
 @section("sub_section", "Edit")
 
-@section("htmlheader_title", "Incapacidads Edit : ".$incapacidad->$view_col)
+@section("htmlheader_title", "Incidencias Edit : ".$incapacidad->$view_col)
 
 @section("main-content")
 
@@ -36,10 +36,11 @@
 					@la_input($module, 'pedicurista_id')
 					@la_input($module, 'incapacidadinica')
 					@la_input($module, 'incapacidadtermina')
+					@la_input($module, 'tipo')
 					--}}
                     <br>
 					<div class="form-group">
-						{!! Form::submit( 'Actualizar', ['class'=>'btn btn-success']) !!} <button class="btn btn-default pull-right"><a href="{{ url(config('laraadmin.adminRoute') . '/incapacidads') }}">Cancel</a></button>
+						{!! Form::submit( 'Update', ['class'=>'btn btn-success']) !!} <button class="btn btn-default pull-right"><a href="{{ url(config('laraadmin.adminRoute') . '/incapacidads') }}">Cancel</a></button>
 					</div>
 				{!! Form::close() !!}
 			</div>

@@ -30,8 +30,10 @@
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
 				{!! Form::model($pedicurista, ['route' => [config('laraadmin.adminRoute') . '.pedicuristas.update', $pedicurista->id ], 'method'=>'PUT', 'id' => 'pedicurista-edit-form']) !!}
+					@la_form($module)
 					
-					@la_input($module, 'nombrecompleto')
+					{{--
+					@la_input($module, 'nombrecompletoped')
 					@la_input($module, 'sucursal_id')
 					@la_input($module, 'imagen')
 					@la_input($module, 'pediestandard')
@@ -42,14 +44,12 @@
 					@la_input($module, 'horario_entrada')
 					@la_input($module, 'horario_salida')
 					@la_input($module, 'comidainicia')
-				
+					@la_input($module, 'comidaduracion')
 					@la_input($module, 'comidatermina')
-					@la_input($module, 'vacacionesinicia')
-					@la_input($module, 'vacacionestermina')
-				
+					--}}
                     <br>
 					<div class="form-group">
-						{!! Form::submit( 'Actualizar', ['class'=>'btn btn-success']) !!} <button class="btn btn-default pull-right"><a href="{{ url(config('laraadmin.adminRoute') . '/pedicuristas') }}">Cancel</a></button>
+						{!! Form::submit( 'Update', ['class'=>'btn btn-success']) !!} <button class="btn btn-default pull-right"><a href="{{ url(config('laraadmin.adminRoute') . '/pedicuristas') }}">Cancel</a></button>
 					</div>
 				{!! Form::close() !!}
 			</div>

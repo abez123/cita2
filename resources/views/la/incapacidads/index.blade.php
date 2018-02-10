@@ -1,14 +1,14 @@
 @extends("la.layouts.app")
 
-@section("contentheader_title", "Incapacidads")
-@section("contentheader_description", "Incapacidads listing")
-@section("section", "Incapacidads")
-@section("sub_section", "Listing")
-@section("htmlheader_title", "Incapacidads Listing")
+@section("contentheader_title", "Incidencias")
+@section("contentheader_description", "Incidencias lista")
+@section("section", "Incidencias")
+@section("sub_section", "Lista")
+@section("htmlheader_title", "Incidencias Lista")
 
 @section("headerElems")
 @la_access("Incapacidads", "create")
-	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal"><i class="fa fa-plus"></i> Incapacidad</button>
+	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal"><i class="fa fa-plus"></i> Incidencia</button>
 @endla_access
 @endsection
 
@@ -27,7 +27,7 @@
 <div class="box box-success">
 	<!--<div class="box-header"></div>-->
 	<div class="box-body">
-		<table id="example1" class="table table-bordered">
+		<table id="example1" class="table table-bordered table-responsive table-striped">
 		<thead>
 		<tr class="success">
 			@foreach( $listing_cols as $col )
@@ -51,7 +51,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel"><i class="fa fa-plus"></i> Incapacidad</h4>
+				<h4 class="modal-title" id="myModalLabel"><i class="fa fa-plus"></i> Incidencia</h4>
 			</div>
 			{!! Form::open(['action' => 'LA\IncapacidadsController@store', 'id' => 'incapacidad-add-form']) !!}
 			<div class="modal-body">
@@ -62,11 +62,12 @@
 					@la_input($module, 'pedicurista_id')
 					@la_input($module, 'incapacidadinica')
 					@la_input($module, 'incapacidadtermina')
+					@la_input($module, 'tipo')
 					--}}
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
 				{!! Form::submit( 'Crear', ['class'=>'btn btn-success']) !!}
 			</div>
 			{!! Form::close() !!}
@@ -106,7 +107,7 @@ $(function () {
                     $(win.document.body)
                         .css( 'font-size', '10pt' )
                         .prepend(
-                            '<img src="http://www.grupoemco.com.mx/" />'
+                            '<img src="http://todoparasuspies.com/includes/templates/tpsp.catalog/images/tpsp_logo_blue.svg" />'
                         );
  
                     $(win.document.body).find( 'table' )
@@ -117,7 +118,7 @@ $(function () {
             {
                 extend: 'pdfHtml5',
                 
-                message: 'Autopartes Legazpi',
+                message: 'Todo para Sus Pies',
                 orientation: 'landscape',
                 pageSize: 'LEGAL',
                 download: 'open', 

@@ -1,7 +1,7 @@
 @extends('la.layouts.app')
 
 @section('htmlheader_title')
-	Incapacidad View
+	Incidencias Vista
 @endsection
 
 
@@ -110,6 +110,7 @@
 						@la_display($module, 'pedicurista_id')
 						@la_display($module, 'incapacidadinica')
 						@la_display($module, 'incapacidadtermina')
+						@la_display($module, 'tipo')
 					</div>
 				</div>
 			</div>

@@ -1,10 +1,10 @@
 @extends("la.layouts.app")
 
 @section("contentheader_title", "Pedicuristas")
-@section("contentheader_description", "Pedicuristas listing")
+@section("contentheader_description", "Pedicuristas lista")
 @section("section", "Pedicuristas")
-@section("sub_section", "Listing")
-@section("htmlheader_title", "Pedicuristas Listing")
+@section("sub_section", "Lista")
+@section("htmlheader_title", "Pedicuristas Lista")
 
 @section("headerElems")
 @la_access("Pedicuristas", "create")
@@ -27,7 +27,7 @@
 <div class="box box-success">
 	<!--<div class="box-header"></div>-->
 	<div class="box-body">
-		<table id="example1" class="table table-bordered">
+		<table id="example1" class="table table-bordered table-responsive table-striped">
 		<thead>
 		<tr class="success">
 			@foreach( $listing_cols as $col )
@@ -56,8 +56,10 @@
 			{!! Form::open(['action' => 'LA\PedicuristasController@store', 'id' => 'pedicurista-add-form']) !!}
 			<div class="modal-body">
 				<div class="box-body">
-                   
-					@la_input($module, 'nombrecompleto')
+                    @la_form($module)
+					
+					{{--
+					@la_input($module, 'nombrecompletoped')
 					@la_input($module, 'sucursal_id')
 					@la_input($module, 'imagen')
 					@la_input($module, 'pediestandard')
@@ -68,15 +70,13 @@
 					@la_input($module, 'horario_entrada')
 					@la_input($module, 'horario_salida')
 					@la_input($module, 'comidainicia')
-				
+					@la_input($module, 'comidaduracion')
 					@la_input($module, 'comidatermina')
-					@la_input($module, 'vacacionesinicia')
-					@la_input($module, 'vacacionestermina')
-					
+					--}}
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
 				{!! Form::submit( 'Crear', ['class'=>'btn btn-success']) !!}
 			</div>
 			{!! Form::close() !!}
@@ -116,7 +116,7 @@ $(function () {
                     $(win.document.body)
                         .css( 'font-size', '10pt' )
                         .prepend(
-                            '<img src="http://www.grupoemco.com.mx/" />'
+                            '<img src="http://todoparasuspies.com/includes/templates/tpsp.catalog/images/tpsp_logo_blue.svg" />'
                         );
  
                     $(win.document.body).find( 'table' )
@@ -127,7 +127,7 @@ $(function () {
             {
                 extend: 'pdfHtml5',
                 
-                message: 'Autopartes Legazpi',
+                message: 'Todo para Sus Pies',
                 orientation: 'landscape',
                 pageSize: 'LEGAL',
                 download: 'open', 

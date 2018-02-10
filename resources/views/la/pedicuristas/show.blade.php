@@ -118,7 +118,7 @@
 						@la_display($module, 'horario_entrada')
 						@la_display($module, 'horario_salida')
 						@la_display($module, 'comidainicia')
-						@la_display($module, 'comidaduracion')
+					
 						@la_display($module, 'comidatermina')
 						@la_display($module, 'vacacionesinicia')
 						@la_display($module, 'vacacionestermina')

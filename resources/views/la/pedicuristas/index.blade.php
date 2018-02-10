@@ -56,9 +56,7 @@
 			{!! Form::open(['action' => 'LA\PedicuristasController@store', 'id' => 'pedicurista-add-form']) !!}
 			<div class="modal-body">
 				<div class="box-body">
-                    @la_form($module)
-					
-					{{--
+                   
 					@la_input($module, 'nombrecompleto')
 					@la_input($module, 'sucursal_id')
 					@la_input($module, 'imagen')
@@ -70,11 +68,11 @@
 					@la_input($module, 'horario_entrada')
 					@la_input($module, 'horario_salida')
 					@la_input($module, 'comidainicia')
-					@la_input($module, 'comidaduracion')
+				
 					@la_input($module, 'comidatermina')
 					@la_input($module, 'vacacionesinicia')
 					@la_input($module, 'vacacionestermina')
-					--}}
+					
 				</div>
 			</div>
 			<div class="modal-footer">

@@ -154,6 +154,7 @@ class CitasController extends Controller
             $pedicurista_id = Input::get('pedicurista_id');
             $pedicurista=Pedicurista::find($pedicurista_id);
             $servicios = Input::get('servicio_id');
+            $sucursal = Input::get('sucursal_id');
             $duracion= Servicio::where('id',$servicios)->select(array('duracion'))->value('duracion');
             $fechas = Input::get('fechaservicio');
                             
@@ -174,7 +175,7 @@ class CitasController extends Controller
             // $endminute = strtotime($pedicurista->horario_salida);
             // $endmin= date('i', $endminute);
 
-            
+            if($pedicurista_id!='000'){
 
              $start = strtotime('today '.$pedicurista->horario_entrada);
              $finish = strtotime('today '.$pedicurista->horario_salida);
@@ -187,8 +188,13 @@ class CitasController extends Controller
                $horas[] = ['hora'=>$time];
             
         }
+        $comterm= new Carbon($pedicurista->comidatermina); 
+			
+			$timec = strtotime($pedicurista->comidatermina);
+			$timec = $timec - (60 * 60);
+		    $datec = date("H:i:s", $timec);
         	$pedihorariocome= array('hora' => $pedicurista->comidainicia);
-        	$pedihorariocomf= array('hora' => $pedicurista->comidatermina);
+        	$pedihorariocomf= array('hora' => $datec);
       		$horasmerge= $pedihorariocomf+$pedihorariocome;
            
             	 foreach($citahoras as $citashr)
@@ -227,7 +233,117 @@ class CitasController extends Controller
 				
                 
 
+         }else{
+         	//$pedicuristacount= Cita::where('fechaservicio','=',$fechas)->select(array('pedicurista_id'))->orderBy('pedicurista_id','ASC')->count('pedicurista_id');
+         //	$pedicuristaasignadas= Cita::where('fechaservicio','=',$fechas)->select(array('pedicurista_id'))->orderBy('pedicurista_id','ASC')->pluck('pedicurista_id');
+
+         	//$citasxpedicurista=Cita::whereIN('pedicurista_id',$pedicuristaasignadas)->select(array('pedicurista_id'))->pluck('pedicurista_id')->toArray();
+         	 
+         	//$count=array_count_values($citasxpedicurista);
+         	                          	
+           // $minpedicurista=array_keys($count, min($count)); 
+           // $pedicuristaasignada=Pedicurista::where('id',$minpedicurista)->select(array('hora'))->get();
+          //  $citahoras= Cita::where('pedicurista_id','=',$minpedicurista)->where('fechaservicio','=',$fechas)->select(array('hora'))->orderBy('hora','ASC')->get();
+
+         	switch ($servicios) {
+           	case '1':
+           		$campo='pedicuristas.pediestandard';
+           		break;
+           	case '2':
+           		$campo='pedicuristas.pediespecial';
+           		break;
+           	case '3':
+           		$campo='pedicuristas.masaje';
+           		break;	
+           	case '4':
+           		$campo='pedicuristas.manicure';
+           		break;
+           	case '5':
+           		$campo='pedicuristas.gelish';
+           		break;	
+           	default:
+           		$campo='';
+           		break;
+           }
+    
+         $pedicuristas = Pedicurista::where('sucursal_id','=',$sucursal)->where($campo,'=',1)->select(array('id'))->pluck('id');
+         $horario_entradas = Pedicurista::where('sucursal_id','=',$sucursal)->where($campo,'=',1)->select(array('horario_entrada'))->pluck('horario_entrada');
+         $horario_salidas = Pedicurista::where('sucursal_id','=',$sucursal)->where($campo,'=',1)->select(array('horario_salida'))->pluck('horario_salida');
+         $comidainicias = Pedicurista::where('sucursal_id','=',$sucursal)->where($campo,'=',1)->select(array('comidainicia'))->pluck('comidainicia');
+         $comidaterminas = Pedicurista::where('sucursal_id','=',$sucursal)->where($campo,'=',1)->select(array('comidatermina'))->pluck('comidatermina');
+         	
+
+        $citahoras= Cita::where('fechaservicio','=',$fechas)->whereIN('citas.pedicurista_id',$pedicuristas)->select(array('hora'))->orderBy('hora','ASC')->get();
+
+        	foreach($horario_entradas as $horentrada){
+        		 $start = strtotime('today '.$horentrada);
+        	}
+        	foreach($horario_salidas as $horsalida){
+        		 $finish = strtotime('today '.$horsalida);
+        	}
+        	 
+             
+             $interval = 60;
+             $horas = [];
+             $times=[];
+           for ($i = $start; $i < $finish; $i += $interval * 60) {
+               $time = date('H:i:s', $i);
+             
+               $horas[] = ['hora'=>$time];
+            
+        }
+      /*  foreach($comidaterminas as $comidatermina){
+        		 $comterm= new Carbon($comidatermina); 
+        		 $timec = strtotime($comidatermina);
+        	}
+        
+			
+			
+			$timec = $timec - (60 * 60);
+		    $datec = date("H:i:s", $timec);
+		     foreach($comidainicias as $comidainicia){
+        		$pedihorariocome= array('hora' => $comidainicia);
+        	}
+        	
+        	$pedihorariocomf= array('hora' => $datec);
+      		$horasmerge= $pedihorariocomf+$pedihorariocome;
+           */
+            	 foreach($citahoras as $citashr)
+				{
+				
+				    $horarios[]= ['hora'=>$citashr->hora];
+				   
+				} 
+           
+            /*
+				$newcome= array($pedihorariocome);
+				$newcomf= array($pedihorariocomf);
+				$comidacomp=array_merge($newcome,$newcomf);
+				
+         	$comidacomcol=array_column($comidacomp, 'hora');
+       */
+         if(!empty($horarios)){
+         	 $resulthorario=array_column($horarios, 'hora');
+         	// $resulthorarioycom=array_merge($resulthorario,$comidacomcol);
+         	 $resulthoras=array_column($horas, 'hora');
+         	 $diffs = array_diff($resulthoras,  $resulthorario);
+         	}else{
+    
+         	// $resulthorarioycom=array_merge($resulthorario,$comidacomcol);
          
+         	 $diffs =array_column($horas, 'hora');
+         	}
+                        
+       				 
+
+             foreach($diffs as $diff)
+				{
+				
+				    $diffs2[]= ['hora'=>$diff];
+				   
+				} 
+         	 //$diffs2[]= ['hora'=>'12:00:00'];
+         }
        
 
                //Obtener la hora de inicio y termino del dia de trabajo
@@ -267,7 +383,7 @@ class CitasController extends Controller
 		         
       	         return Response::json(
 
-            	$diffs2
+     $diffs2
             
             );           
       		
@@ -337,8 +453,7 @@ class CitasController extends Controller
 				$citas = Cita::find($insert_id);
 			
 			 	$citas->cliente_id = $cliente->id;
-			 	$citas->save();
-
+			 	$citas->save(); 
 			/* Nexmo::message()->send([
     'to'   => $request->celular,
     'from' => 'Nexmo',

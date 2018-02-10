@@ -33,11 +33,7 @@
 			<div class="modal-body">
 				<div class="box-body">
                    
-					
-				
-	<h4>Hola buen dia!</h4>
-	<h4>Le atiende id->nombre en que le puedo ayudar</h4>
-	<h5>¿En que sucursal le gustaría atenderse?</h5>
+	
 		<label class="control-label"  for="sucursal_id"><i class="glyphicon glyphicon-home"></i>  Sucursal *:</label> <select
 							style="width: 100%" rel="select2" name="sucursal_id" id="sucursal_id"
 							class="form-control select2"> 
@@ -187,32 +183,60 @@ $(function () {
     var cat_id = e.target.value; 
     var sucursal_id = $('#sucursal_id').val();
   
-   
-  
+ 
+ $( "#sucursal_id" ).on('change', function(e){
+               
+               $('#pedicurista_id').empty();
+      var sucursal_id = e.target.value; 
+    var cat_id = $('#servicio_id').val();
+       $.get('{{url('/pedicurista-ajax')}}?sucursal_id=' + sucursal_id+'&servicio_id=' +  cat_id, function(data){
+
+           //success data
+              
+
+
+           
+               $('#pedicurista_id').empty();
+                      $('#pedicurista_id').append('<option value ="000">Cualquiera</option');
+
+           $.each(data, function(index, subcatObj){
+        
+               $('#pedicurista_id').append('<option value ="'
+               + subcatObj.id +'">' + subcatObj.nombrecompleto  + '</option');
+                 
+
+      
+            
+
+       });
+
+});
+           });
 
        //ajax
 
        $.get('{{url('/pedicurista-ajax')}}?sucursal_id=' + sucursal_id+'&servicio_id=' +  cat_id, function(data){
 
            //success data
-           $('#pedicurista_id').empty();
+              
 
-           $('#pedicurista_id').append(' Seleccione Uno');
-            
+
+           
+               $('#pedicurista_id').empty();
+                      $('#pedicurista_id').append('<option value ="000">Cualquiera</option');
+
            $.each(data, function(index, subcatObj){
-
-               $('#pedicurista_id').append('<option value ="todos">Cualquiera</option').append('<option value ="'
+        
+               $('#pedicurista_id').append('<option value ="'
                + subcatObj.id +'">' + subcatObj.nombrecompleto  + '</option');
                  
 
-           });
       
-            $('#pedicurista_id').trigger('change');
             
 
        });
 
-
+});
    });
 
 
@@ -221,6 +245,7 @@ $(function () {
     var pedicurista_id  =  $('#pedicurista_id').val();
      var newfecha1=  $('#fechaservicio').val(); 
     var servicio_id = $('#servicio_id').val();
+     var sucursal_id = $('#sucursal_id').val();
     
     // var timedisable=["10:00:00","12:00:00"]
 
@@ -228,7 +253,7 @@ $(function () {
    var newfecha = newfecha1.split("/").reverse().join("-");
        //ajax 
 
-       $.get('{{url('/horario-ajax')}}?fechaservicio=' +newfecha+'&servicio_id=' + servicio_id+'&pedicurista_id=' + pedicurista_id, function(data){
+       $.get('{{url('/horario-ajax')}}?fechaservicio=' +newfecha+'&servicio_id=' + servicio_id+'&pedicurista_id=' + pedicurista_id+ '&sucursal_id=' + sucursal_id, function(data){
 
            //success data
            $('#hora').empty();

@@ -20,7 +20,8 @@
 
 <script src="{{ asset('la-assets/plugins/tinymce/js/tinymce/tinymce.min.js') }}" type="text/javascript"></script>
 
-<script src="{{ asset('la-assets/plugins/fullcalendar/fullcalendar.js') }}" type="text/javascript"></script>
+<script src="{{ asset('la-assets/plugins/fullcalendar-3.8.2/fullcalendar.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('la-assets/plugins/fullcalendar-3.8.2/locale/es.js') }}" type="text/javascript"></script>
 <script>
     tinymce.init({
         selector: 'form[id $= "-add-form"] textarea, form[id $= "-edit-form"] textarea'

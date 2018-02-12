@@ -21,7 +21,7 @@
     <link href="{{ asset('la-assets/plugins/iCheck/square/blue.css') }}" rel="stylesheet" type="text/css" />
 
      <!-- full-calendar -->
-    <link href="{{ asset('la-assets/plugins/fullcalendar/fullcalendar.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('la-assets/plugins/fullcalendar-3.8.2/fullcalendar.min.css') }}" rel="stylesheet" type="text/css" />
 
    
 

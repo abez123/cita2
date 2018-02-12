@@ -172,7 +172,7 @@
         
        $('#calendar').fullCalendar({
 eventMouseover: function(calEvent, jsEvent) {
-    var tooltip = '<div class="tooltipevent" style="width:250px;height:200px;background:#437D92;color:#ffffff;position:absolute;z-index:10001;">' + ' Pedicurista:'+'<br>' + calEvent.title + '<br>'+ 'Servicio:' +'<br>' + calEvent.nombreservicio +'<br>' +  'Nombre:' +'<br>' + calEvent.start +'</div>';
+    var tooltip = '<div class="tooltipevent" style="width:250px;height:200px;background:#437D92;color:#ffffff;position:absolute;z-index:10001;">' + ' Pedicurista:'+'<br>' + calEvent.title + '<br>'+ 'Servicio:' +'<br>' + calEvent.nombreservicio +'<br>' +  'Cliente:' +'<br>' + calEvent.description +'</div>';
     $("body").append(tooltip);
     $(this).mouseover(function(e) {
         $(this).css('z-index', 10000);
@@ -191,13 +191,13 @@ eventMouseout: function(calEvent, jsEvent) {
           header: {
            left: 'prev,next today',
         center: 'title',
-        right: 'month,agendaWeek,agendaDay'
+        right: 'month,agendaWeek,agendaDay,listDay'
           },
         views: {
-        month: { // name of view
-           columnFormat: 'ddd',
-            // other view-specific options here
-        }
+        listDay: {
+          buttonText: 'Lista día'
+        },
+      
     },
           lang: 'es',
           axisFormat: 'HH:mm',
@@ -211,12 +211,15 @@ eventMouseout: function(calEvent, jsEvent) {
           allDaySlot: false,
           editable: false, // Чи можна перетягувати
           eventLimit: true,
+
             // allow "more" link when too many events
           events:{
           url: '{{url('/calendario-ajax')}}',
+          
           },
      
-        eventColor: '#378006'
+        eventColor: '#00204B'
+
         });
        
   
@@ -304,7 +307,7 @@ $('#pedicurista_id').empty();
                  
 
       
-            
+             
 
        });
 
@@ -347,7 +350,7 @@ $( "#pedicurista_id" ).on('change', function(e){
 				//}
            });
      
-            
+         
 
        });
  });
@@ -385,15 +388,15 @@ $('#cliente_id').on('change', function(e){
            //success data
            $('#clientehistory').empty();
 
-           
+           $('#clientehistory').append('<div class="box-body"><table id="example1" class="table table-bordered"><thead><tr class="success"><th>id</th><th>Cliente</th><th>Sucursal</th><th>Servicio</th><th>Pedicurista</th><th>Fecha</th><th>Hora</th><th>Estaus</th></tr></thead></table></div>');
             
            $.each(data, function(index, subcatObj){
-                if(data && data !="")
-$('#clientehistory').append('<div class="box-body"><table id="example1" class="table table-bordered"><thead><tr class="success"><th>id</th><th>Cliente</th><th>Sucursal</th><th>Servicio</th><th>Pedicurista</th><th>Fecha</th><th>Hora</th><th>Estaus</th></tr></thead><tbody><tr><td>'+ subcatObj.id+ '</td><td>'+ subcatObj.nombrecompleto+ '</td><td>'+ subcatObj.nombresuc+ '</td><td>'+ subcatObj.nombreservicio+ '</td><td>'+ subcatObj.nombrecompletoped+ '</td><td>'+ subcatObj.fechaservicio+ '</td><td>'+ subcatObj.hora+ '</td><td>'+ subcatObj.estatus+ '</td></tr></tbody></table></div>');
-               else
+                if(data && data !=""){
+$('#clientehistory').append('<div class="box-body"><table id="example1" class="table table-bordered"><tr><td>'+ subcatObj.id+ '</td><td>'+ subcatObj.nombrecompleto+ '</td><td>'+ subcatObj.nombresuc+ '</td><td>'+ subcatObj.nombreservicio+ '</td><td>'+ subcatObj.nombrecompletoped+ '</td><td>'+ subcatObj.fechaservicio+ '</td><td>'+ subcatObj.hora+ '</td><td>'+ subcatObj.estatus+ '</td></tr></tbody></table></div>');
+               }else{
  $('#clientehistory').append('Sin Historial');
                 
-              
+              }
              
 				//for (index = 0; index < timedisable.length; ++index) {
 				      // $("#hora option[value='"+timedisable[index]+"']").remove();

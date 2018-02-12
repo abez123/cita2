@@ -113,6 +113,16 @@ class CitasController extends Controller
         }
 	}
 
+	public function jsonCalendar()
+  {
+    
+
+  $citapedis= Cita::join('pedicuristas','pedicuristas.id','=','citas.pedicurista_id')->join('servicios','servicios.id','=','citas.servicio_id')->join('sucursals','sucursals.id','=','citas.sucursal_id')->select(array('pedicuristas.nombrecompletoped as title','sucursals.nombresuc','servicios.nombreservicio',DB::raw('CONCAT(citas.fechaservicio, " ", citas.hora) AS start'),DB::raw('CONCAT(citas.fechaservicio, " ", citas.horafinal) AS end')))->orderBy('hora','ASC')->get();
+
+ return Response::json($citapedis);   
+    
+  }
+
 	  public function buscarCliente(){
             
 

@@ -29,6 +29,7 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	Route::get(config('laraadmin.adminRoute'), 'LA\DashboardController@index');
 	Route::get(config('laraadmin.adminRoute'). '/dashboard', 'LA\DashboardController@index');
 	/* ================== Ajax calls JSON ================== */
+	Route::get('/calendario-ajax', 'LA\CitasController@jsonCalendar');
 	Route::get('/cliente-ajax', 'LA\CitasController@buscarCliente');
 
 	Route::get('/pedicurista-ajax', 'LA\CitasController@buscarPedicurista');

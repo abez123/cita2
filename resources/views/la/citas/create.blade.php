@@ -27,6 +27,11 @@
 	<div class="box-body">
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
+				<div class="classesCallendar">
+        <div id='calendar'></div>
+
+      </div>
+      	
 				@la_access("Citas", "create")
 
 			{!! Form::open(['action' => 'LA\CitasController@store', 'id' => 'cita-add-form']) !!}
@@ -159,7 +164,68 @@
 @endsection
 
 @push('scripts')
+  <script type="text/javascript">
+     
+    var oTable;
+      $(document).ready(function() {
 
+        
+       $('#calendar').fullCalendar({
+eventMouseover: function(calEvent, jsEvent) {
+    var tooltip = '<div class="tooltipevent" style="width:250px;height:200px;background:#437D92;color:#ffffff;position:absolute;z-index:10001;">' + ' Pedicurista:'+'<br>' + calEvent.title + '<br>'+ 'Servicio:' +'<br>' + calEvent.nombreservicio +'<br>' +  'Nombre:' +'<br>' + calEvent.start +'</div>';
+    $("body").append(tooltip);
+    $(this).mouseover(function(e) {
+        $(this).css('z-index', 10000);
+        $('.tooltipevent').fadeIn('500');
+        $('.tooltipevent').fadeTo('10', 1.9);
+    }).mousemove(function(e) {
+        $('.tooltipevent').css('top', e.pageY + 10);
+        $('.tooltipevent').css('left', e.pageX + 20);
+    });
+},
+
+eventMouseout: function(calEvent, jsEvent) {
+    $(this).css('z-index', 8);
+    $('.tooltipevent').remove();
+},
+          header: {
+           left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay'
+          },
+        views: {
+        month: { // name of view
+           columnFormat: 'ddd',
+            // other view-specific options here
+        }
+    },
+          lang: 'es',
+          axisFormat: 'HH:mm',
+          minTime: '10:00:00',
+          maxTime: '21:00:00',
+          defaultView: 'agendaDay',
+          defaultDate: '{{date('Y-m-d')}}',
+          firstDay: 1,
+          slotDuration: '0:30:00',
+          columnFormat: 'ddd D',
+          allDaySlot: false,
+          editable: false, // Чи можна перетягувати
+          eventLimit: true,
+            // allow "more" link when too many events
+          events:{
+          url: '{{url('/calendario-ajax')}}',
+          },
+     
+        eventColor: '#378006'
+        });
+       
+  
+           
+           
+      });
+
+
+    </script>
 <script>
 
 

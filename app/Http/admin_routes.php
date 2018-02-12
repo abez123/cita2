@@ -117,4 +117,5 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== Incapacidads ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/incapacidads', 'LA\IncapacidadsController');
 	Route::get(config('laraadmin.adminRoute') . '/incapacidad_dt_ajax', 'LA\IncapacidadsController@dtajax');
+
 });

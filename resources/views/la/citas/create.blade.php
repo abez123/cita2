@@ -218,14 +218,17 @@ $(function () {
 
        //ajax
 
+
+
        $.get('{{url('/pedicurista-ajax')}}?sucursal_id=' + sucursal_id+'&servicio_id=' +  cat_id, function(data){
 
            //success data
               
-
+$('#pedicurista_id').empty();
+                      $('#pedicurista_id').append('<option value ="000">Cualquiera</option');
 
            
-               $('#pedicurista_id').empty();
+          
                      
 
            $.each(data, function(index, subcatObj){
@@ -252,10 +255,15 @@ $(function () {
     
     // var timedisable=["10:00:00","12:00:00"]
 
-
+ 
    var newfecha = newfecha1.split("/").reverse().join("-");
        //ajax 
-
+$( "#pedicurista_id" ).on('change', function(e){
+	 var pedicurista_id  =  $('#pedicurista_id').val();
+     var newfecha1=  $('#fechaservicio').val(); 
+    var servicio_id = $('#servicio_id').val();
+     var sucursal_id = $('#sucursal_id').val();
+      var newfecha = newfecha1.split("/").reverse().join("-");
        $.get('{{url('/horario-ajax')}}?fechaservicio=' +newfecha+'&servicio_id=' + servicio_id+'&pedicurista_id=' + pedicurista_id+ '&sucursal_id=' + sucursal_id, function(data){
 
            //success data
@@ -276,8 +284,27 @@ $(function () {
             
 
        });
+ });
+$.get('{{url('/horario-ajax')}}?fechaservicio=' +newfecha+'&servicio_id=' + servicio_id+'&pedicurista_id=' + pedicurista_id+ '&sucursal_id=' + sucursal_id, function(data){
 
+           //success data
+           $('#hora').empty();
 
+           $('#hora').append(' Seleccione Uno');
+            
+           $.each(data, function(index, subcatObj){
+
+               $('#hora').append('<option value ="'
+               + subcatObj.hora +'">' + subcatObj.hora  + '</option');
+             
+				//for (index = 0; index < timedisable.length; ++index) {
+				      // $("#hora option[value='"+timedisable[index]+"']").remove();
+				//}
+           });
+     
+            
+
+       });
    });
 $('#cliente_id').on('change', function(e){
  

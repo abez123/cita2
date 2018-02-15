@@ -61,7 +61,9 @@
 					@la_input($module, 'servicio_id')
 					@la_input($module, 'fechaservicio')
 					@la_input($module, 'estatus')
-					@la_input($module, 'cliente_id')
+					@la_input($module, 'cliente_id')                  
+					@la_input($module, 'cortesia')
+				  
 				
 				</div>
 			</div>

@@ -4,7 +4,7 @@
  * Help: http://laraadmin.com
  */
 
-namespace App\Http\Controllers\LA;
+namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -26,7 +26,7 @@ use App\Models\Horario;
 use Response;
 use Nexmo\Laravel\Facade\Nexmo;
 use Carbon\Carbon;
-class CitasController extends Controller
+class APICitaController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'cliente_id';
@@ -467,10 +467,6 @@ class CitasController extends Controller
 	$current= new Carbon($request->hora);
     
 	$cita->horafinal=$current->addMinutes($serviciomin);
-   if($request->cortesia==1){
-        $cita->user_id_cortesia = Auth::user()->id;
-        }
-  $cita->user_id = Auth::user()->id;
 	$cita->save();
 			 if($cita->cliente_id == '0'){
 			 	$cliente = new Cliente();
@@ -482,7 +478,6 @@ class CitasController extends Controller
 				$citas = Cita::find($insert_id);
 			
 			 	$citas->cliente_id = $cliente->id;
-     
 			 	$citas->save(); 
 			/* Nexmo::message()->send([
     'to'   => $request->celular,

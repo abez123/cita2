@@ -48,6 +48,21 @@
 					@la_input($module, 'date_left')
 					@la_input($module, 'salary_cur')
 					--}}
+					            <div class="form-group">
+						<label for="role">Rol* :</label>
+						<select class="form-control" required="1" data-placeholder="Select Role" rel="select2" name="role">
+							<?php $roles = App\Role::all(); ?>
+							@foreach($roles as $role)
+								@if($role->id != 1 || Entrust::hasRole("SUPER_ADMIN"))
+									@if($user->hasRole($role->name))
+										<option value="{{ $role->id }}" selected>{{ $role->name }}</option>
+									@else
+										<option value="{{ $role->id }}">{{ $role->name }}</option>
+									@endif
+								@endif
+							@endforeach
+						</select>
+					</div>
                     <br>
 					<div class="form-group">
 						{!! Form::submit( 'Actualizar', ['class'=>'btn btn-success']) !!} <button class="btn btn-default pull-right"><a href="{{ url(config('laraadmin.adminRoute') . '/employees') }}">Cancel</a></button>

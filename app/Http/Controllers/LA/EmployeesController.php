@@ -94,7 +94,7 @@ class EmployeesController extends Controller
 			
 			// generate password
 			$password = LAHelper::gen_password();
-			
+			$api_token = LAHelper::gen_password();
 			// Create Employee
 			$employee_id = Module::insert("Employees", $request);
 			// Create User
@@ -102,8 +102,10 @@ class EmployeesController extends Controller
 				'name' => $request->name,
 				'email' => $request->email,
 				'password' => bcrypt($password),
+				'api_token' => bcrypt($api_token),
 				'context_id' => $employee_id,
 				'type' => "Employee",
+				
 			]);
 	
 			// update user role

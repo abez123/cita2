@@ -23,9 +23,11 @@ class CreateCitasTable extends Migration
             ["fechaservicio", "Fecha", "Date", false, "", 0, 0, true],
             ["estatus", "Estatus", "Dropdown", false, "", 0, 0, false, ["Asignada","Confirmada","Cancelada","Pagada","No lleg\u00f3"]],
             ["cliente_id", "Cliente", "Dropdown", false, "", 0, 0, false, "@clientes"],
-            ["hora", "Hora", "Datetime", false, "", 0, 0, true],
+            ["hora", "Hora", "Integer", false, "", 0, 0, true],
             ["horafinal", "Hora final", "Datetime", false, "", 0, 0, false],
             ["pedicurista_id", "Pedicurista", "Dropdown", false, "", 0, 0, false, "@pedicuristas"],
+            ["cortesia", "Cortesia", "Checkbox", false, "0", 0, 0, false],
+            ["user_id_cortesia", "Usuario Cortesia", "Dropdown", false, "", 0, 0, false, "@employees"],
         ]);
 		
 		/*

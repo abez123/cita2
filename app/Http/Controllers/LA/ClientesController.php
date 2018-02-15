@@ -16,8 +16,16 @@ use Datatables;
 use Collective\Html\FormFacade as Form;
 use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
-
+use Dwij\Laraadmin\Models\LAConfigs;
+use Dwij\Laraadmin\Helpers\LAHelper;
+use App\Role;
+use Mail;
+use Log;
 use App\Models\Cliente;
+
+
+use App\User;
+
 
 class ClientesController extends Controller
 {
@@ -84,9 +92,38 @@ class ClientesController extends Controller
 			if ($validator->fails()) {
 				return redirect()->back()->withErrors($validator)->withInput();
 			}
-			
+
+			// generate password
+			$password = LAHelper::gen_password();
+			$api_token = LAHelper::gen_password();
+			// Create Client
 			$insert_id = Module::insert("Clientes", $request);
+			// Create User
+			$user = User::create([
+				'name' => $request->nombrecompleto,
+				'email' => $request->correo,
+				'password' => bcrypt($password),
+				'context_id' => $insert_id,
+				'api_token' => bcrypt($api_token),
+				'type' => "Cliente",
+			]);
+	
+			// update user role
+			$user->detachRoles();
+			$role = Role::find($request->role);
+			$user->attachRole($role);
 			
+			if(env('MAIL_USERNAME') != null && env('MAIL_USERNAME') != "null" && env('MAIL_USERNAME') != "") {
+				// Send mail to User his Password
+				Mail::send('emails.send_login_cred', ['user' => $user, 'password' => $password], function ($m) use ($user) {
+					$m->from('hello@laraadmin.com', 'LaraAdmin');
+					$m->to($user->email, $user->name)->subject('LaraAdmin - Your Login Credentials');
+				});
+			} else {
+				Log::info("User created: username: ".$user->email." Password: ".$password);
+			}
+		
+				
 			return redirect()->route(config('laraadmin.adminRoute') . '.clientes.index');
 			
 		} else {
@@ -140,10 +177,13 @@ class ClientesController extends Controller
 				$module = Module::get('Clientes');
 				
 				$module->row = $cliente;
+				// Get User Table Information
+				$user = User::where('context_id', '=', $id)->firstOrFail();
 				
 				return view('la.clientes.edit', [
 					'module' => $module,
 					'view_col' => $this->view_col,
+					'user' => $user,
 				])->with('cliente', $cliente);
 			} else {
 				return view('errors.404', [
@@ -176,6 +216,16 @@ class ClientesController extends Controller
 			}
 			
 			$insert_id = Module::updateRow("Clientes", $request, $id);
+				// Update User
+			$user = User::where('context_id', $insert_id)->where('type','Ciente')->first();
+			$user->name = $request->namecompleto;
+			$user->email = $request->correo;
+			$user->save();
+			
+			// update user role
+			$user->detachRoles();
+			$role = Role::find($request->role);
+			$user->attachRole($role);
 			
 			return redirect()->route(config('laraadmin.adminRoute') . '.clientes.index');
 			
@@ -194,6 +244,10 @@ class ClientesController extends Controller
 	{
 		if(Module::hasAccess("Clientes", "delete")) {
 			Cliente::find($id)->delete();
+			$userid = User::where('context_id',$id)->where('type','Cliente')->value('id');
+			$user = User::find($userid);
+			$user->delete();
+			$user->detachRoles();
 			
 			// Redirecting to index() method
 			return redirect()->route(config('laraadmin.adminRoute') . '.clientes.index');

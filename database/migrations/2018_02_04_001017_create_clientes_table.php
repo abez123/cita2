@@ -23,6 +23,9 @@ class CreateClientesTable extends Migration
             ["celular", "Celular", "Mobile", true, "", 0, 20, false],
             ["correo", "Correo Electrónico", "Email", false, "", 0, 256, false],
             ["nota", "Nota", "Textarea", false, "", 0, 0, false],
+            ["cortesia", "Cortesia", "Checkbox", false, "", 0, 0, false],
+            ["user_idcortesia", "Cortesia Usuario", "Dropdown", false, "", 0, 0, false, "@employees"],
+            ["user_id", "Usuario", "Dropdown", false, "", 0, 0, false, "@employees"],
         ]);
 		
 		/*

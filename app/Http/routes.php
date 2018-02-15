@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::group(['prefix' => 'api/v1', 'middleware' => 'auth:api'], function () {
+    	Route::post('/citaapp', 'API\APICitaController@store');
+    	Route::get('/cliente-ajaxapp', 'API\APICitaController@buscarCliente');
+	});
 /* ================== Homepage + Admin Routes ================== */
 
 require __DIR__.'/admin_routes.php';

@@ -150,6 +150,7 @@
 			</div>
 			<br>
 				@la_input($module, 'estatus')
+        @la_input($module, 'cortesia')
 				</div>
 			</div>
 			<div class="modal-footer">

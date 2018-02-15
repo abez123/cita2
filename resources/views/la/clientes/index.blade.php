@@ -65,6 +65,7 @@
 					@la_input($module, 'correo')
 					@la_input($module, 'nota')
 					--}}
+					<input type="hidden" name="role" value="4">
 				</div>
 			</div>
 			<div class="modal-footer">

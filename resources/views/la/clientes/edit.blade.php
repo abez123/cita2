@@ -39,6 +39,7 @@
 					@la_input($module, 'correo')
 					@la_input($module, 'nota')
 					--}}
+					<input type="hidden" name="role" value="4">
                     <br>
 					<div class="form-group">
 						{!! Form::submit( 'Actualizar', ['class'=>'btn btn-success']) !!} <button class="btn btn-default pull-right"><a href="{{ url(config('laraadmin.adminRoute') . '/clientes') }}">Cancel</a></button>

@@ -27,10 +27,12 @@
 	<div class="box-body">
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
+         @if(\Entrust::hasRole('GERENTE_TIENDA'))
 				<div class="classesCallendar">
         <div id='calendar'></div>
 
       </div>
+      @endif
       	
 				@la_access("Citas", "create")
 
@@ -38,21 +40,31 @@
 			<div class="modal-body">
 				<div class="box-body">
                    
-	
-		<label class="control-label"  for="sucursal_id"><i class="glyphicon glyphicon-home"></i>  Sucursal *:</label> <select
-							style="width: 100%" rel="select2" name="sucursal_id" id="sucursal_id"
-							class="form-control select2"> 
-							<option value=""></option>
-                         
-							@foreach($sucursales as $item)
-							<option value="{{$item->id}}"
-								@if(!empty($sucursales))
+	 @if(\Entrust::hasRole('GERENTE_TIENDA'))
+		 
+@foreach($sucursales as $item)
+<h3>Sucursal: {{$item->nombresuc}}</h3>
+<input type="hidden" name="sucursal_id" value="{{$item->id}}">
+@endforeach
+                          @else
+                            <label class="control-label"  for="sucursal_id"><i class="glyphicon glyphicon-home"></i>  Sucursal *:</label>  
+                           <select
+              style="width: 100%" rel="select2" name="sucursal_id" id="sucursal_id"
+              class="form-control select2"> 
+              <option value=""></option>
+
+              @foreach($sucursales as $item)
+              <option value="{{$item->id}}"
+                @if(!empty($sucursales))
                                         @if($item->id==$sucursal)
-								            selected="selected"
-								        @endif
-								@endif >{{$item->nombresuc}}</option>
-							@endforeach
-						</select>
+                            selected="selected"
+                        @endif
+                @endif >{{$item->nombresuc}}</option>
+              @endforeach
+            </select>
+                          @endif
+
+   
                             <br>
 					
 						
@@ -151,14 +163,67 @@
 			<br>
 				@la_input($module, 'estatus')
         @la_input($module, 'cortesia')
+        
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-				{!! Form::submit( 'Crear', ['class'=>'btn btn-success']) !!}
-			</div>
-			{!! Form::close() !!}
+				<button type="button" class="btn btn-default"  >Limpiar</button>
+        <button type="button"  class="btn btn-primary btn-lg"  data-toggle="modal" 
+   data-target="#favoritesModal" id="confirmbtn">Confirmar</button>
 
+
+    </div>
+ 
+			</div>
+
+ <div class="modal fade" id="favoritesModal" 
+     tabindex="-1" role="dialog" 
+     aria-labelledby="favoritesModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" 
+          data-dismiss="modal" 
+          aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+          <h3>Pedicurista:</h3>
+  
+        <h4 class="modal-title" 
+        id="favoritesModalLabel"></h4>
+              <img width="200px" id="imageped" src="" alt="">
+      </div>
+
+      <div class="modal-body">
+         <h3>Sucursal:</h3>
+       <p id="fav-sucursal"></p>
+        <h3>Fecha:</h3>
+        <p  id="favoritesModalfecha">
+        
+        
+        </p>
+        <h3>Hora:</h3>
+       <p id="fav-hora"></p>
+        <h3>Servicio:</h3>
+       <p id="fav-servicio"></p>
+        <h3>Precio:</h3>
+       <p id="fav-precio"></p>
+         <h3>Cliente:</h3>
+       <p id="fav-cliente"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" 
+           class="btn btn-default" 
+           data-dismiss="modal">Regresar</button>
+        <span class="pull-right">
+  {!! Form::submit( 'Confirmado', ['class'=>'btn btn-success']) !!}
+        
+          </button>
+        </span>
+      </div>
+            {!! Form::close() !!}
+</div>
+</div>
+</div>
 @endla_access
 
 
@@ -166,7 +231,9 @@
 
 @push('scripts')
   <script type="text/javascript">
-     
+  
+    
+
     var oTable;
       $(document).ready(function() {
 
@@ -213,14 +280,34 @@ eventMouseout: function(calEvent, jsEvent) {
           editable: false, // Чи можна перетягувати
           eventLimit: true,
 
+
             // allow "more" link when too many events
-          events:{
+          eventSources: [
+
+          {
           url: '{{url('/calendario-ajax')}}',
+          color: 'blue',    // an option!
+            textColor: 'white'  // an option!
+          
+          },
+            {
+          url: '{{url('/comidainicia-ajax')}}',
+          color: 'red',    // an option!
+            textColor: 'black'
+       
+          
+          },
+           {
+          url: '{{url('/comidatermina-ajax')}}',
+          color: 'red',    // an option!
+            textColor: 'black'  // an option!
           
           },
      
-        eventColor: '#00204B'
+   
+      
 
+]
         });
        
   
@@ -251,11 +338,77 @@ $(function () {
              $('#newclient').hide() &&  $('#newclientII').hide();
            }
     });
+  @if(\Entrust::hasRole('GERENTE_TIENDA'))
+ $('#servicio_id').on('change', function(e){
+    var cat_id = e.target.value; 
+    @foreach($sucursales as $item)
+var sucursal_id ={{$item->id}};
+@endforeach
+  
 
+               
+               $('#pedicurista_id').empty();
+    
+    var cat_id = $('#servicio_id').val();
+       $.get('{{url('/pedicurista-ajax')}}?sucursal_id=' + sucursal_id+'&servicio_id=' +  cat_id, function(data){
+
+           //success data
+              
+
+
+           
+               $('#pedicurista_id').empty();
+                      $('#pedicurista_id').append('<option value ="000">Cualquiera</option');
+
+           $.each(data, function(index, subcatObj){
+        
+               $('#pedicurista_id').append('<option value ="'
+               + subcatObj.id +'">' + subcatObj.nombrecompletoped  + '</option');
+                 
+
+      
+            
+
+       });
+
+});
+       
+
+       //ajax
+
+
+
+       $.get('{{url('/pedicurista-ajax')}}?sucursal_id=' + sucursal_id+'&servicio_id=' +  cat_id, function(data){
+
+           //success data
+              
+$('#pedicurista_id').empty();
+                      $('#pedicurista_id').append('<option value ="000">Cualquiera</option');
+
+           
+          
+                     
+
+           $.each(data, function(index, subcatObj){
+        
+               $('#pedicurista_id').append('<option value ="'
+               + subcatObj.id +'">' + subcatObj.nombrecompletoped  + '</option');
+                 
+
+      
+             
+
+       });
+
+});
+   });
+   @else
     $('#servicio_id').on('change', function(e){
     var cat_id = e.target.value; 
     var sucursal_id = $('#sucursal_id').val();
-  
+ 
+
+
  
  $( "#sucursal_id" ).on('change', function(e){
                
@@ -314,8 +467,73 @@ $('#pedicurista_id').empty();
 
 });
    });
+    @endif
+  @if(\Entrust::hasRole('GERENTE_TIENDA'))
+ $('.input-group.date').on('dp.hide', function(e){
+ 
+    var pedicurista_id  =  $('#pedicurista_id').val();
+     var newfecha1=  $('#fechaservicio').val(); 
+    var servicio_id = $('#servicio_id').val();
+        @foreach($sucursales as $item)
+var sucursal_id ={{$item->id}};
+@endforeach
+    
+    // var timedisable=["10:00:00","12:00:00"]
+
+ 
+   var newfecha = newfecha1.split("/").reverse().join("-");
+       //ajax 
+$( "#pedicurista_id" ).on('change', function(e){
+   var pedicurista_id  =  $('#pedicurista_id').val();
+     var newfecha1=  $('#fechaservicio').val(); 
+    var servicio_id = $('#servicio_id').val();
+     var sucursal_id = $('#sucursal_id').val();
+      var newfecha = newfecha1.split("/").reverse().join("-");
+       $.get('{{url('/horario-ajax')}}?fechaservicio=' +newfecha+'&servicio_id=' + servicio_id+'&pedicurista_id=' + pedicurista_id+ '&sucursal_id=' + sucursal_id, function(data){
+
+           //success data
+           $('#hora').empty();
+
+           $('#hora').append(' Seleccione Uno');
+            
+           $.each(data, function(index, subcatObj){
+
+               $('#hora').append('<option value ="'
+               + subcatObj.hora +'">' + subcatObj.hora  + '</option');
+             
+        //for (index = 0; index < timedisable.length; ++index) {
+              // $("#hora option[value='"+timedisable[index]+"']").remove();
+        //}
+           });
+     
+         
+
+       });
+ });
+$.get('{{url('/horario-ajax')}}?fechaservicio=' +newfecha+'&servicio_id=' + servicio_id+'&pedicurista_id=' + pedicurista_id+ '&sucursal_id=' + sucursal_id, function(data){
+
+           //success data
+           $('#hora').empty();
+
+           $('#hora').append(' Seleccione Uno');
+            
+           $.each(data, function(index, subcatObj){
+
+               $('#hora').append('<option value ="'
+               + subcatObj.hora +'">' + subcatObj.hora  + '</option');
+             
+        //for (index = 0; index < timedisable.length; ++index) {
+              // $("#hora option[value='"+timedisable[index]+"']").remove();
+        //}
+           });
+     
+            
+
+       });
+   });
 
 
+@else
  $('.input-group.date').on('dp.hide', function(e){
  
     var pedicurista_id  =  $('#pedicurista_id').val();
@@ -376,6 +594,7 @@ $.get('{{url('/horario-ajax')}}?fechaservicio=' +newfecha+'&servicio_id=' + serv
 
        });
    });
+ @endif
 $('#cliente_id').on('change', function(e){
  
     var cliente_id  = e.target.value; 
@@ -410,6 +629,65 @@ $('#clientehistory').append('<div class="box-body"><table id="example1" class="t
 
 
    });
+
+
+
+  $( "#confirmbtn" ).on('click', function(e){
+
+     
+
+
+    
+     var pedicurista_id  =  $('#pedicurista_id').val();
+     var newfecha1=  $('#fechaservicio').val(); 
+     var servicio_id= $('#servicio_id').val(); 
+
+     var hora = $('#hora').val();
+
+     var clienteids = $('#cliente_id').val();
+    if (clienteids<1){
+var cliente_id = $('#nombrecompleto').val();
+    }else{
+var cliente_id = $('#cliente_id').val();
+    }
+     var precio = $('#precio').val();
+
+ if (clienteids<1){
+       $.get('{{url('/citaconfirm-ajax')}}?cliente_id=0&servicio_id='+servicio_id+'&pedicurista_id='+pedicurista_id, function(data){
+
+         $.each(data, function(index, subcatObj){
+    
+    
+$('#favoritesModalLabel').append(subcatObj.nombrecompletoped);
+$('#favoritesModalfecha').text(newfecha1);
+$('#fav-sucursal').text(subcatObj.nombresuc);
+$('#fav-hora').text(hora);
+$('#fav-servicio').text(subcatObj.nombreservicio);
+$('#fav-precio').text(subcatObj.precio);
+$('#fav-cliente').text(cliente_id);
+           });
+      });
+     }else if(clienteids >= 1){
+   $.get('{{url('/citaconfirm-ajax')}}?cliente_id='+cliente_id+'&servicio_id='+servicio_id+'&pedicurista_id='+pedicurista_id, function(data){
+
+         $.each(data, function(index, subcatObj){
+    
+    
+$('#favoritesModalLabel').append(subcatObj.nombrecompletoped);
+$('#favoritesModalfecha').text(newfecha1);
+$('#fav-sucursal').text(subcatObj.nombresuc);
+$('#fav-hora').text(hora);
+$('#fav-servicio').text(subcatObj.nombreservicio);
+$('#fav-precio').text(subcatObj.precio);
+$('#fav-cliente').text(subcatObj.nombrecompleto);
+
+$( "#imageped" ).attr( "src", subcatObj.imagen);
+           });
+      });
+
+     }
+ });
+
 
 </script>
 

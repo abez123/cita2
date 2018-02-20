@@ -48,10 +48,13 @@
 					@la_input($module, 'domingohorariocer')
 					@la_input($module, 'telefono')
 					@la_input($module, 'sucursal_id')
+					@la_input($module, 'lat')
+					@la_input($module, 'lng')
+					@la_input($module, 'gerente_id')
 					--}}
                     <br>
 					<div class="form-group">
-						{!! Form::submit( 'Actualizar', ['class'=>'btn btn-success']) !!} <button class="btn btn-default pull-right"><a href="{{ url(config('laraadmin.adminRoute') . '/sucursals') }}">Cancel</a></button>
+						{!! Form::submit( 'Update', ['class'=>'btn btn-success']) !!} <button class="btn btn-default pull-right"><a href="{{ url(config('laraadmin.adminRoute') . '/sucursals') }}">Cancel</a></button>
 					</div>
 				{!! Form::close() !!}
 			</div>

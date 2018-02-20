@@ -1,14 +1,14 @@
 @extends("la.layouts.app")
 
-@section("contentheader_title", "Sucursals")
-@section("contentheader_description", "Sucursals lista")
-@section("section", "Sucursals")
+@section("contentheader_title", "Productos")
+@section("contentheader_description", "Productos lista")
+@section("section", "Productos")
 @section("sub_section", "Lista")
-@section("htmlheader_title", "Sucursals Lista")
+@section("htmlheader_title", "Productos Lista")
 
 @section("headerElems")
-@la_access("Sucursals", "create")
-	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal"><i class="fa fa-plus"></i> Sucursal</button>
+@la_access("Productos", "create")
+	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal"><i class="fa fa-plus"></i> Producto</button>
 @endla_access
 @endsection
 
@@ -45,38 +45,26 @@
 	</div>
 </div>
 
-@la_access("Sucursals", "create")
+@la_access("Productos", "create")
 <div class="modal fade" id="AddModal" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel"><i class="fa fa-plus"></i> Sucursal</h4>
+				<h4 class="modal-title" id="myModalLabel"><i class="fa fa-plus"></i> Producto</h4>
 			</div>
-			{!! Form::open(['action' => 'LA\SucursalsController@store', 'id' => 'sucursal-add-form']) !!}
+			{!! Form::open(['action' => 'LA\ProductosController@store', 'id' => 'producto-add-form']) !!}
 			<div class="modal-body">
 				<div class="box-body">
                     @la_form($module)
 					
 					{{--
-					@la_input($module, 'nombresuc')
-					@la_input($module, 'domicilio')
-					@la_input($module, 'lunes')
-					@la_input($module, 'martes')
-					@la_input($module, 'miercoles')
-					@la_input($module, 'jueves')
-					@la_input($module, 'viernes')
-					@la_input($module, 'sabado')
-					@la_input($module, 'domingo')
-					@la_input($module, 'horarioabierto')
-					@la_input($module, 'horariocerrado')
-					@la_input($module, 'domingohorarioab')
-					@la_input($module, 'domingohorariocer')
-					@la_input($module, 'telefono')
-					@la_input($module, 'sucursal_id')
-					@la_input($module, 'lat')
-					@la_input($module, 'lng')
-					@la_input($module, 'gerente_id')
+					@la_input($module, 'productoimage')
+					@la_input($module, 'nombreproducto')
+					@la_input($module, 'descripcion')
+					@la_input($module, 'precioproducto')
+					@la_input($module, 'inventario')
+					@la_input($module, 'contenido')
 					--}}
 				</div>
 			</div>
@@ -146,7 +134,7 @@ $(function () {
         ],
 		processing: true,
         serverSide: true,
-        ajax: "{{ url(config('laraadmin.adminRoute') . '/sucursal_dt_ajax') }}",
+        ajax: "{{ url(config('laraadmin.adminRoute') . '/producto_dt_ajax') }}",
 		language: {
 			"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
 		},
@@ -158,7 +146,7 @@ $(function () {
         scrollX: true,
         scrollCollapse: true,
 	});
-	$("#sucursal-add-form").validate({
+	$("#producto-add-form").validate({
 		
 	});
 });

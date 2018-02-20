@@ -26,11 +26,12 @@ use App\Models\Horario;
 use Response;
 use Nexmo\Laravel\Facade\Nexmo;
 use Carbon\Carbon;
+use App\Models\Upload;
 class CitasController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'cliente_id';
-	public $listing_cols = ['id', 'cliente_id', 'sucursal_id', 'servicio_id', 'pedicurista_id', 'fechaservicio','hora','estatus'];
+	public $listing_cols = ['id', 'cliente_id', 'sucursal_id', 'servicio_id', 'pedicurista_id', 'fechaservicio','hora','estatus','cortesia'];
 	
 	public function __construct() {
 		// Field Access of Listing Columns
@@ -89,8 +90,16 @@ class CitasController extends Controller
 		$module = Module::get('Citas');
 		$clientes= Cliente::all();
 		$cliente='';
-		$sucursales= Sucursal::all();
-		$sucursal = '';
+    if(\Entrust::hasRole('SUPER_ADMIN')||\Entrust::hasRole('CALLCENTER')){
+    $sucursales= Sucursal::all();
+    $sucursal = '';
+    }elseif(\Entrust::hasRole('GERENTE_TIENDA')){
+       $sucursales= Sucursal::where('gerente_id','=',Auth::user()->context_id)->select(array('sucursals.id','sucursals.nombresuc'))->get();
+      ;
+      $sucursal= '';
+    }
+
+		
 		$servicios= Servicio::all();
 		$servicio = '';
 		$horarios = Horario::all();
@@ -115,13 +124,49 @@ class CitasController extends Controller
 
 	public function jsonCalendar()
   {
-    
 
-  $citapedis= Cita::join('pedicuristas','pedicuristas.id','=','citas.pedicurista_id')->join('servicios','servicios.id','=','citas.servicio_id')->join('sucursals','sucursals.id','=','citas.sucursal_id')->join('clientes','clientes.id','=','citas.cliente_id')->select(array('pedicuristas.nombrecompletoped as title','clientes.nombrecompleto as description','sucursals.nombresuc','servicios.nombreservicio',DB::raw('CONCAT(citas.fechaservicio, " ", citas.hora) AS start'),DB::raw('CONCAT(citas.fechaservicio, " ", citas.horafinal) AS end')))->orderBy('hora','ASC')->get();
 
+
+  $citapedis= Cita::join('pedicuristas','pedicuristas.id','=','citas.pedicurista_id')->join('servicios','servicios.id','=','citas.servicio_id')->join('sucursals','sucursals.id','=','citas.sucursal_id')->join('clientes','clientes.id','=','citas.cliente_id')->where('sucursals.gerente_id','=',Auth::user()->context_id)->select(array('pedicuristas.nombrecompletoped as title','clientes.nombrecompleto as description','sucursals.nombresuc','servicios.nombreservicio',DB::raw('CONCAT(citas.fechaservicio, " ", citas.hora) AS start'),DB::raw('CONCAT(citas.fechaservicio, " ", citas.horafinal) AS end')))->orderBy('hora','ASC')->get();
+
+  foreach ($citapedis as $citapedi) {
+   $citapedi->title=' '.$citapedi->title. ' |'.'Servicio:'.$citapedi->nombreservicio;
+  }
  return Response::json($citapedis);   
     
   }
+    public function comidainiciaCalendar()
+  {
+
+
+  $comidainipedishora= Pedicurista::join('sucursals','sucursals.id','=','pedicuristas.sucursal_id')->where('sucursals.gerente_id','=',Auth::user()->context_id)->select(array('pedicuristas.nombrecompletoped as title','pedicuristas.comidainicia as start',DB::raw('DATE_ADD(pedicuristas.comidainicia, INTERVAL 60 MINUTE)AS end')))->get();
+  foreach ($comidainipedishora as $comidainipedishor) {
+   $comidainipedishor->title=' '.'Comida'.' '.$comidainipedishor->title;
+  }
+
+
+  return Response::json($comidainipedishora);
+
+}
+
+ public function comidaterminCalendar()
+  {
+
+
+  $comidaterpedishora= Pedicurista::join('sucursals','sucursals.id','=','pedicuristas.sucursal_id')->where('sucursals.gerente_id','=',Auth::user()->context_id)->select(array('pedicuristas.nombrecompletoped as title',DB::raw('DATE_SUB(pedicuristas.comidatermina, INTERVAL 60 MINUTE)AS start'),'pedicuristas.comidatermina as end'))->get();
+ 
+   foreach ($comidaterpedishora as $comidaterpedishor) {
+   $comidaterpedishor->title=' '.'Comida'.' '.$comidaterpedishor->title;
+  }
+
+
+
+  return Response::json($comidaterpedishora);
+ 
+       
+    
+  }
+
 
 	  public function buscarCliente(){
             
@@ -414,6 +459,35 @@ class CitasController extends Controller
       		
 
         }
+
+          public function clienteConfirm()
+  {
+
+          $servico_id= Input::get('servicio_id');
+          $cliente_id= Input::get('cliente_id');
+         
+          $pedicurista_id= Input::get('pedicurista_id');
+
+  $servicio=Servicio::where('id',$servico_id)->select(array('servicios.nombreservicio'))->value('nombreservicio');
+    $precio=Servicio::where('id',$servico_id)->select(array('servicios.precio'))->value('precio');
+
+  $pedicurista=Pedicurista::where('id',$pedicurista_id)->select(array('pedicuristas.nombrecompletoped'))->value('nombrecompletoped');
+  $pedicuristaimg=Pedicurista::where('id',$pedicurista_id)->select(array('pedicuristas.imagen'))->value('imagen');
+  $image= Upload::find($pedicuristaimg);
+   $sucursal=Sucursal::join('pedicuristas','pedicuristas.sucursal_id','=','sucursals.id')->where('pedicuristas.id',$pedicurista_id)->select(array('sucursals.nombresuc'))->value('nombresuc');
+  $cliente=Cliente::where('id',$cliente_id)->select(array('clientes.nombrecompleto'))->value('nombrecompleto');
+
+    return response()->json(array([
+            'nombrecompletoped'=>$pedicurista,
+            'nombreservicio'=> $servicio,
+            'nombrecompleto'=>$cliente,
+            'nombresuc'=>$sucursal,
+            'precio'=>$precio,
+            'imagen'=>$image->path(),
+           
+        ]), 200); 
+    
+  }
 /**
 	 * Show the form for creating a new cita.
 	 *
@@ -622,7 +696,16 @@ class CitasController extends Controller
 	 */
 	public function dtajax()
 	{
-		$values = DB::table('citas')->join('clientes','clientes.id','=','citas.cliente_id')->join('sucursals','sucursals.id','=','citas.sucursal_id')->join('servicios','servicios.id','=','citas.servicio_id')->join('pedicuristas','pedicuristas.id','=','citas.pedicurista_id')->select(array('citas.id','clientes.nombrecompleto','sucursals.nombresuc','servicios.nombreservicio','pedicuristas.nombrecompletoped','citas.fechaservicio','citas.hora','citas.estatus'))->whereNull('citas.deleted_at');
+
+    if(\Entrust::hasRole('SUPER_ADMIN')||\Entrust::hasRole('CALLCENTER'))
+    {
+		$values = DB::table('citas')->join('clientes','clientes.id','=','citas.cliente_id')->join('sucursals','sucursals.id','=','citas.sucursal_id')->join('servicios','servicios.id','=','citas.servicio_id')->join('pedicuristas','pedicuristas.id','=','citas.pedicurista_id')->select(array('citas.id','clientes.nombrecompleto','sucursals.nombresuc','servicios.nombreservicio','pedicuristas.nombrecompletoped','citas.fechaservicio','citas.hora','citas.estatus','citas.cortesia'))->whereNull('citas.deleted_at')->orderBy('citas.fechaservicio','DESC');
+  }
+  elseif(\Entrust::hasRole('GERENTE_TIENDA'))
+    {
+
+    $values = DB::table('citas')->join('clientes','clientes.id','=','citas.cliente_id')->join('sucursals','sucursals.id','=','citas.sucursal_id')->join('servicios','servicios.id','=','citas.servicio_id')->join('pedicuristas','pedicuristas.id','=','citas.pedicurista_id')->select(array('citas.id','clientes.nombrecompleto','sucursals.nombresuc','servicios.nombreservicio','pedicuristas.nombrecompletoped','citas.fechaservicio','citas.hora','citas.estatus','citas.cortesia'))->whereNull('citas.deleted_at')->where('sucursals.gerente_id','=',Auth::user()->context_id)->orderBy('citas.fechaservicio','DESC');
+  }
 		$out = Datatables::of($values)->make();
 		$data = $out->getData();
 

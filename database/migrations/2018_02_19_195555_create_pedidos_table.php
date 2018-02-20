@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Dwij\Laraadmin\Models\Module;
 
-class CreateSucursalsTable extends Migration
+class CreatePedidosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -17,25 +17,16 @@ class CreateSucursalsTable extends Migration
      */
     public function up()
     {
-        Module::generate("Sucursals", 'sucursals', 'nombresuc', 'fa-building-o', [
-            ["nombresuc", "Nombre", "Name", true, "", 0, 256, true],
+        Module::generate("Pedidos", 'pedidos', 'cliente_id', 'fa-suitcase', [
+            ["cliente_id", "Cliente", "Dropdown", false, "", 0, 0, false, "@clientes"],
+            ["producto", "Productos", "Dropdown", false, "", 0, 0, false, "@productos"],
+            ["cantidad", "Cantidad", "Integer", false, "", 0, 11, false],
+            ["tipopago", "Tipo de pago", "Dropdown", false, "", 0, 0, false, ["Efectivo","Transferencia","Cheque","En l\u00ednea","Tarjeta de credito"]],
+            ["entrega", "Entrega", "Dropdown", false, "", 0, 0, false, ["A domicilio","En tienda"]],
+            ["observacion", "Observaciones", "Textarea", false, "", 0, 0, false],
             ["domicilio", "Domicilio", "Address", false, "", 0, 256, false],
-            ["lunes", "Lunes", "Checkbox", false, "1", 0, 0, false],
-            ["martes", "Martes", "Checkbox", false, "1", 0, 0, false],
-            ["miercoles", "Miercoles", "Checkbox", false, "1", 0, 0, false],
-            ["jueves", "Jueves", "Checkbox", false, "1", 0, 0, false],
-            ["viernes", "Viernes", "Checkbox", false, "1", 0, 0, false],
-            ["sabado", "Sabado", "Checkbox", false, "1", 0, 0, false],
-            ["domingo", "Domingo", "Checkbox", false, "0", 0, 0, false],
-            ["horarioabierto", "Horario Abierto", "Datetime", false, "", 0, 0, false],
-            ["horariocerrado", "Horario Cerrado", "Datetime", false, "", 0, 0, false],
-            ["domingohorarioab", "Domingo Horario Ab", "Datetime", false, "", 0, 0, false],
-            ["domingohorariocer", "Domingo Horario Cer", "Datetime", false, "", 0, 0, false],
-            ["telefono", "Teléfono", "Mobile", false, "", 0, 20, false],
-            ["sucursal_id", "Sucursales Cercanas", "Multiselect", false, "", 0, 0, false, "@sucursals"],
-            ["lat", "LAT", "Decimal", false, "", 0, 11, false],
-            ["lng", "ING", "Decimal", false, "", 0, 11, false],
-            ["gerente_id", "Gerente", "Dropdown", false, "", 0, 0, false, "@employees"],
+            ["estatus", "Estatus", "Dropdown", false, "", 0, 0, false, ["Pedido","Pagado","Entregado","Cancelado"]],
+            ["factura", "Factura", "Checkbox", false, "", 0, 0, false],
         ]);
 		
 		/*
@@ -81,8 +72,8 @@ class CreateSucursalsTable extends Migration
      */
     public function down()
     {
-        if (Schema::hasTable('sucursals')) {
-            Schema::drop('sucursals');
+        if (Schema::hasTable('pedidos')) {
+            Schema::drop('pedidos');
         }
     }
 }

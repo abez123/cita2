@@ -36,6 +36,12 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 
 	
 	Route::get('/horario-ajax', 'LA\CitasController@buscarHorario');
+
+	Route::get('/comidainicia-ajax', 'LA\CitasController@comidainiciaCalendar');
+
+	Route::get('/comidatermina-ajax', 'LA\CitasController@comidaterminCalendar');
+
+		Route::get('/citaconfirm-ajax', 'LA\CitasController@clienteConfirm');
 	/* ================== Users ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/users', 'LA\UsersController');
 	Route::get(config('laraadmin.adminRoute') . '/user_dt_ajax', 'LA\UsersController@dtajax');
@@ -119,4 +125,12 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	Route::resource(config('laraadmin.adminRoute') . '/incapacidads', 'LA\IncapacidadsController');
 	Route::get(config('laraadmin.adminRoute') . '/incapacidad_dt_ajax', 'LA\IncapacidadsController@dtajax');
 
+
+	/* ================== Productos ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/productos', 'LA\ProductosController');
+	Route::get(config('laraadmin.adminRoute') . '/producto_dt_ajax', 'LA\ProductosController@dtajax');
+
+	/* ================== Pedidos ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/pedidos', 'LA\PedidosController');
+	Route::get(config('laraadmin.adminRoute') . '/pedido_dt_ajax', 'LA\PedidosController@dtajax');
 });

@@ -17,37 +17,37 @@ use Collective\Html\FormFacade as Form;
 use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
 
-use App\Models\Sucursal;
+use App\Models\Pedido;
 
-class SucursalsController extends Controller
+class PedidosController extends Controller
 {
 	public $show_action = true;
-	public $view_col = 'nombresuc';
-	public $listing_cols = ['id', 'nombresuc', 'domicilio', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo', 'horarioabierto', 'horariocerrado', 'domingohorarioab', 'domingohorariocer', 'telefono', 'sucursal_id', 'lat', 'lng', 'gerente_id'];
+	public $view_col = 'cliente_id';
+	public $listing_cols = ['id', 'cliente_id', 'producto', 'cantidad', 'tipopago', 'entrega', 'observacion', 'domicilio', 'estatus', 'factura'];
 	
 	public function __construct() {
 		// Field Access of Listing Columns
 		if(\Dwij\Laraadmin\Helpers\LAHelper::laravel_ver() == 5.3) {
 			$this->middleware(function ($request, $next) {
-				$this->listing_cols = ModuleFields::listingColumnAccessScan('Sucursals', $this->listing_cols);
+				$this->listing_cols = ModuleFields::listingColumnAccessScan('Pedidos', $this->listing_cols);
 				return $next($request);
 			});
 		} else {
-			$this->listing_cols = ModuleFields::listingColumnAccessScan('Sucursals', $this->listing_cols);
+			$this->listing_cols = ModuleFields::listingColumnAccessScan('Pedidos', $this->listing_cols);
 		}
 	}
 	
 	/**
-	 * Display a listing of the Sucursals.
+	 * Display a listing of the Pedidos.
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
 	public function index()
 	{
-		$module = Module::get('Sucursals');
+		$module = Module::get('Pedidos');
 		
 		if(Module::hasAccess($module->id)) {
-			return View('la.sucursals.index', [
+			return View('la.pedidos.index', [
 				'show_actions' => $this->show_action,
 				'listing_cols' => $this->listing_cols,
 				'module' => $module
@@ -58,7 +58,7 @@ class SucursalsController extends Controller
 	}
 
 	/**
-	 * Show the form for creating a new sucursal.
+	 * Show the form for creating a new pedido.
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
@@ -68,16 +68,16 @@ class SucursalsController extends Controller
 	}
 
 	/**
-	 * Store a newly created sucursal in database.
+	 * Store a newly created pedido in database.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\Response
 	 */
 	public function store(Request $request)
 	{
-		if(Module::hasAccess("Sucursals", "create")) {
+		if(Module::hasAccess("Pedidos", "create")) {
 		
-			$rules = Module::validateRules("Sucursals", $request);
+			$rules = Module::validateRules("Pedidos", $request);
 			
 			$validator = Validator::make($request->all(), $rules);
 			
@@ -85,9 +85,9 @@ class SucursalsController extends Controller
 				return redirect()->back()->withErrors($validator)->withInput();
 			}
 			
-			$insert_id = Module::insert("Sucursals", $request);
+			$insert_id = Module::insert("Pedidos", $request);
 			
-			return redirect()->route(config('laraadmin.adminRoute') . '.sucursals.index');
+			return redirect()->route(config('laraadmin.adminRoute') . '.pedidos.index');
 			
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
@@ -95,30 +95,30 @@ class SucursalsController extends Controller
 	}
 
 	/**
-	 * Display the specified sucursal.
+	 * Display the specified pedido.
 	 *
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
 	public function show($id)
 	{
-		if(Module::hasAccess("Sucursals", "view")) {
+		if(Module::hasAccess("Pedidos", "view")) {
 			
-			$sucursal = Sucursal::find($id);
-			if(isset($sucursal->id)) {
-				$module = Module::get('Sucursals');
-				$module->row = $sucursal;
+			$pedido = Pedido::find($id);
+			if(isset($pedido->id)) {
+				$module = Module::get('Pedidos');
+				$module->row = $pedido;
 				
-				return view('la.sucursals.show', [
+				return view('la.pedidos.show', [
 					'module' => $module,
 					'view_col' => $this->view_col,
 					'no_header' => true,
 					'no_padding' => "no-padding"
-				])->with('sucursal', $sucursal);
+				])->with('pedido', $pedido);
 			} else {
 				return view('errors.404', [
 					'record_id' => $id,
-					'record_name' => ucfirst("sucursal"),
+					'record_name' => ucfirst("pedido"),
 				]);
 			}
 		} else {
@@ -127,28 +127,28 @@ class SucursalsController extends Controller
 	}
 
 	/**
-	 * Show the form for editing the specified sucursal.
+	 * Show the form for editing the specified pedido.
 	 *
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
 	public function edit($id)
 	{
-		if(Module::hasAccess("Sucursals", "edit")) {			
-			$sucursal = Sucursal::find($id);
-			if(isset($sucursal->id)) {	
-				$module = Module::get('Sucursals');
+		if(Module::hasAccess("Pedidos", "edit")) {			
+			$pedido = Pedido::find($id);
+			if(isset($pedido->id)) {	
+				$module = Module::get('Pedidos');
 				
-				$module->row = $sucursal;
+				$module->row = $pedido;
 				
-				return view('la.sucursals.edit', [
+				return view('la.pedidos.edit', [
 					'module' => $module,
 					'view_col' => $this->view_col,
-				])->with('sucursal', $sucursal);
+				])->with('pedido', $pedido);
 			} else {
 				return view('errors.404', [
 					'record_id' => $id,
-					'record_name' => ucfirst("sucursal"),
+					'record_name' => ucfirst("pedido"),
 				]);
 			}
 		} else {
@@ -157,7 +157,7 @@ class SucursalsController extends Controller
 	}
 
 	/**
-	 * Update the specified sucursal in storage.
+	 * Update the specified pedido in storage.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
 	 * @param  int  $id
@@ -165,9 +165,9 @@ class SucursalsController extends Controller
 	 */
 	public function update(Request $request, $id)
 	{
-		if(Module::hasAccess("Sucursals", "edit")) {
+		if(Module::hasAccess("Pedidos", "edit")) {
 			
-			$rules = Module::validateRules("Sucursals", $request, true);
+			$rules = Module::validateRules("Pedidos", $request, true);
 			
 			$validator = Validator::make($request->all(), $rules);
 			
@@ -175,9 +175,9 @@ class SucursalsController extends Controller
 				return redirect()->back()->withErrors($validator)->withInput();;
 			}
 			
-			$insert_id = Module::updateRow("Sucursals", $request, $id);
+			$insert_id = Module::updateRow("Pedidos", $request, $id);
 			
-			return redirect()->route(config('laraadmin.adminRoute') . '.sucursals.index');
+			return redirect()->route(config('laraadmin.adminRoute') . '.pedidos.index');
 			
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
@@ -185,18 +185,18 @@ class SucursalsController extends Controller
 	}
 
 	/**
-	 * Remove the specified sucursal from storage.
+	 * Remove the specified pedido from storage.
 	 *
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
 	public function destroy($id)
 	{
-		if(Module::hasAccess("Sucursals", "delete")) {
-			Sucursal::find($id)->delete();
+		if(Module::hasAccess("Pedidos", "delete")) {
+			Pedido::find($id)->delete();
 			
 			// Redirecting to index() method
-			return redirect()->route(config('laraadmin.adminRoute') . '.sucursals.index');
+			return redirect()->route(config('laraadmin.adminRoute') . '.pedidos.index');
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
 		}
@@ -209,11 +209,11 @@ class SucursalsController extends Controller
 	 */
 	public function dtajax()
 	{
-		$values = DB::table('sucursals')->select($this->listing_cols)->whereNull('deleted_at');
+		$values = DB::table('pedidos')->select($this->listing_cols)->whereNull('deleted_at');
 		$out = Datatables::of($values)->make();
 		$data = $out->getData();
 
-		$fields_popup = ModuleFields::getModuleFields('Sucursals');
+		$fields_popup = ModuleFields::getModuleFields('Pedidos');
 		
 		for($i=0; $i < count($data->data); $i++) {
 			for ($j=0; $j < count($this->listing_cols); $j++) { 
@@ -222,7 +222,7 @@ class SucursalsController extends Controller
 					$data->data[$i][$j] = ModuleFields::getFieldValue($fields_popup[$col], $data->data[$i][$j]);
 				}
 				if($col == $this->view_col) {
-					$data->data[$i][$j] = '<a href="'.url(config('laraadmin.adminRoute') . '/sucursals/'.$data->data[$i][0]).'">'.$data->data[$i][$j].'</a>';
+					$data->data[$i][$j] = '<a href="'.url(config('laraadmin.adminRoute') . '/pedidos/'.$data->data[$i][0]).'">'.$data->data[$i][$j].'</a>';
 				}
 				// else if($col == "author") {
 				//    $data->data[$i][$j];
@@ -231,12 +231,12 @@ class SucursalsController extends Controller
 			
 			if($this->show_action) {
 				$output = '';
-				if(Module::hasAccess("Sucursals", "edit")) {
-					$output .= '<a href="'.url(config('laraadmin.adminRoute') . '/sucursals/'.$data->data[$i][0].'/edit').'" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>';
+				if(Module::hasAccess("Pedidos", "edit")) {
+					$output .= '<a href="'.url(config('laraadmin.adminRoute') . '/pedidos/'.$data->data[$i][0].'/edit').'" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>';
 				}
 				
-				if(Module::hasAccess("Sucursals", "delete")) {
-					$output .= Form::open(['route' => [config('laraadmin.adminRoute') . '.sucursals.destroy', $data->data[$i][0]], 'method' => 'delete', 'style'=>'display:inline']);
+				if(Module::hasAccess("Pedidos", "delete")) {
+					$output .= Form::open(['route' => [config('laraadmin.adminRoute') . '.pedidos.destroy', $data->data[$i][0]], 'method' => 'delete', 'style'=>'display:inline']);
 					$output .= ' <button class="btn btn-danger btn-xs" type="submit"><i class="fa fa-times"></i></button>';
 					$output .= Form::close();
 				}

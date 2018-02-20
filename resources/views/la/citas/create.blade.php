@@ -186,30 +186,35 @@
           data-dismiss="modal" 
           aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
-          <h3>Pedicurista:</h3>
+     
+          <h3><strong>Pedicurista:</strong></h3>
   
-        <h4 class="modal-title" 
-        id="favoritesModalLabel"></h4>
+        <h3 class="modal-title" 
+        id="favoritesModalLabel"></h3>
               <img width="200px" id="imageped" src="" alt="">
       </div>
 
       <div class="modal-body">
-         <h3>Sucursal:</h3>
-       <p id="fav-sucursal"></p>
-        <h3>Fecha:</h3>
-        <p  id="favoritesModalfecha">
+         <h3 style="display:inline" ><strong>Sucursal:</strong> <span id="fav-sucursal"></span></h3> &nbsp; &nbsp;
+      
+       <h3  style="display:inline"><strong>Fecha:</strong> <span id="favoritesModalfecha"></span></h3> &nbsp;
+         <br>
+        <h3  style="display:inline"><strong>Hora:</strong>  <span id="fav-hora"></span></h3>&nbsp;
         
-        
-        </p>
-        <h3>Hora:</h3>
-       <p id="fav-hora"></p>
-        <h3>Servicio:</h3>
-       <p id="fav-servicio"></p>
-        <h3>Precio:</h3>
-       <p id="fav-precio"></p>
-         <h3>Cliente:</h3>
-       <p id="fav-cliente"></p>
-      </div>
+        <h3  style="display:inline"><strong>Servicio:</strong>  <span id="fav-servicio"></span></h3>&nbsp;
+     <br>
+        <h3  style="display:inline"><strong>Precio:</strong> <span id="fav-precio"></span></h3>&nbsp;
+        <br>
+       <h3  style="display:inline"><strong>Cliente:</strong> <span id="fav-cliente"></span></h3>&nbsp;
+      
+      
+       <div class="form-group"><label for="pedido">¿Desea algun producto? :</label> {{ Form::checkbox('pedido', 0, null, ['id' => 'pedido','class' => 'field']) }}</div>
+        <div style="display: none" class="form-group" id="autoUpdate" >
+       <iframe width="550px" height="500px"  src="http://todoparasuspies.com/mx/productos-todos"></iframe>
+   
+     </div>
+   </div>
+ 
       <div class="modal-footer">
         <button type="button" 
            class="btn btn-default" 
@@ -232,7 +237,15 @@
 @push('scripts')
   <script type="text/javascript">
   
-    
+   
+    $('#pedido').change(function(){
+        if(this.checked)
+           $('#autoUpdate').show();
+       
+        else
+             $('#autoUpdate').hide();
+
+    });
 
     var oTable;
       $(document).ready(function() {

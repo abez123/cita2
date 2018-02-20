@@ -17,7 +17,7 @@ class CreatePedicuristasTable extends Migration
      */
     public function up()
     {
-        Module::generate("Pedicuristas", 'pedicuristas', 'nombrecompleto', 'fa-user-plus', [
+        Module::generate("Pedicuristas", 'pedicuristas', 'nombrecompletoped', 'fa-user-plus', [
             ["nombrecompletoped", "Nombre Completo", "Name", false, "", 0, 256, true],
             ["sucursal_id", "Sucursal", "Dropdown", false, "", 0, 0, false, "@sucursals"],
             ["imagen", "Imagen", "Image", false, "", 0, 0, false],

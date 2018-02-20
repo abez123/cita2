@@ -23,6 +23,7 @@ use App\Models\Pedicurista;
 use App\Models\Sucursal;
 use App\Models\Servicio;
 use App\Models\Horario;
+use App\Models\Incapacidad;
 use Response;
 use Nexmo\Laravel\Facade\Nexmo;
 use Carbon\Carbon;
@@ -223,11 +224,13 @@ class CitasController extends Controller
 
             $pedicurista_id = Input::get('pedicurista_id');
             $pedicurista=Pedicurista::find($pedicurista_id);
+            $vacaciones=Incapacidad::where('pedicurista_id',$pedicurista_id)->select(array('incapacidads.*'))->get();
+           
             $servicios = Input::get('servicio_id');
             $sucursal = Input::get('sucursal_id');
             $duracion= Servicio::where('id',$servicios)->select(array('duracion'))->value('duracion');
             $fechas = Input::get('fechaservicio');
-                            
+                     
             $citahoras= Cita::where('pedicurista_id','=',$pedicurista_id)->where('fechaservicio','=',$fechas)->select(array('hora'))->orderBy('hora','ASC')->get();
              $citahorasterm= Cita::where('pedicurista_id','=',$pedicurista_id)->where('fechaservicio','=',$fechas)->select(array('horafinal'))->orderBy('horafinal','ASC')->get();
             // $starttime = new \DateTime($pedicurista->horario_entrada);
@@ -244,20 +247,88 @@ class CitasController extends Controller
             // $startmin= date('i', $startminute);
             // $endminute = strtotime($pedicurista->horario_salida);
             // $endmin= date('i', $endminute);
+      
+                foreach ($vacaciones as $vaca )
+                 
+                {
+             $vacastart=$vaca->incapacidadinica;
+             $vacafin=$vaca->incapacidadtermina;
+             $vacatipo=$vaca->tipo;
+             }
+             if(!empty($vacastart)&&!empty($vacafin)){
+              $createDatevacastart = new \DateTime($vacastart);
 
-            if($pedicurista_id!='000'){
+             $vacastartdt = $createDatevacastart->format('Y-m-d');
+
+             $createDatevacafin = new \DateTime($vacafin);
+
+             $vacafindt = $createDatevacafin->format('Y-m-d');
+             }else{
+             $vacastartdt ='';
+             $vacafindt = '';
+             }
+             
+        
+           
+             
+/*          
+Horario de una pedicurista en especifico y sin incapacidad
+*/       
+            if($pedicurista_id!='000'  && $fechas > $vacastartdt && $fechas > $vacafindt ||$fechas < $vacastartdt && $fechas < $vacafindt){
+                    //$pedicuristacount= Cita::where('fechaservicio','=',$fechas)->select(array('pedicurista_id'))->orderBy('pedicurista_id','ASC')->count('pedicurista_id');
+         // $pedicuristaasignadas= Cita::where('fechaservicio','=',$fechas)->select(array('pedicurista_id'))->orderBy('pedicurista_id','ASC')->pluck('pedicurista_id');
+
+          //$citasxpedicurista=Cita::whereIN('pedicurista_id',$pedicuristaasignadas)->select(array('pedicurista_id'))->pluck('pedicurista_id')->toArray();
+           
+          //$count=array_count_values($citasxpedicurista);
+                                      
+           // $minpedicurista=array_keys($count, min($count)); 
+           // $pedicuristaasignada=Pedicurista::where('id',$minpedicurista)->select(array('hora'))->get();
+          //  $citahoras= Cita::where('pedicurista_id','=',$minpedicurista)->where('fechaservicio','=',$fechas)->select(array('hora'))->orderBy('hora','ASC')->get();
 
              $start = strtotime('today '.$pedicurista->horario_entrada);
              $finish = strtotime('today '.$pedicurista->horario_salida);
              $interval = 60;
              $horas = [];
-             $times=[];
-           for ($i = $start; $i < $finish; $i += $interval * 60) {
-               $time = date('H:i:s', $i);
+             $horas2 = [];
+             $horas3 = [];
+             $t=time();
+             $now=date("Y-m-d",$t);
+             $timenow=date('H:i:00',$t);
+             $tt= strtotime("+15 minutes".$timenow);
+
+             /*  $ttt=[];
+               $ttt[]=['hora'=>$tt];
+               $diffmerge = array_merge($diffs2,$ttt);
+              $timett=array_values($ttt);
+              $sorted=array_values($diffmerge);
+     */
+      
+             $interval = 60;
+            
+             $horas = [];
+            if($fechas == $now){
+     for ($i = $tt; $i < $finish; $i += $interval * 60) {
              
+               $time = date('H:00:s', $i);
+     
                $horas[] = ['hora'=>$time];
             
         }
+          }else{
+
+             for ($i = $start; $i < $finish; $i += $interval * 60) {
+             
+               $time = date('H:i:s', $i);
+     
+               $horas[] = ['hora'=>$time];
+            
+        }
+          }
+     
+          
+
+      
         $comterm= new Carbon($pedicurista->comidatermina); 
 			
 			$timec = strtotime($pedicurista->comidatermina);
@@ -303,17 +374,14 @@ class CitasController extends Controller
 				
                 
 
-         }else{
-         	//$pedicuristacount= Cita::where('fechaservicio','=',$fechas)->select(array('pedicurista_id'))->orderBy('pedicurista_id','ASC')->count('pedicurista_id');
-         //	$pedicuristaasignadas= Cita::where('fechaservicio','=',$fechas)->select(array('pedicurista_id'))->orderBy('pedicurista_id','ASC')->pluck('pedicurista_id');
-
-         	//$citasxpedicurista=Cita::whereIN('pedicurista_id',$pedicuristaasignadas)->select(array('pedicurista_id'))->pluck('pedicurista_id')->toArray();
-         	 
-         	//$count=array_count_values($citasxpedicurista);
-         	                          	
-           // $minpedicurista=array_keys($count, min($count)); 
-           // $pedicuristaasignada=Pedicurista::where('id',$minpedicurista)->select(array('hora'))->get();
-          //  $citahoras= Cita::where('pedicurista_id','=',$minpedicurista)->where('fechaservicio','=',$fechas)->select(array('hora'))->orderBy('hora','ASC')->get();
+         }
+         /*          
+Pedicurista en especifico y con incapacidad
+*/
+         elseif($pedicurista_id!='000' && $fechas >= $vacastartdt && $fechas <=  $vacafindt){
+          $diffs2=[];
+          $diffs2[]=['hora'=>$vacatipo.' del '.$vacastartdt.' al '.$vacafindt];
+     }else{
 
          	switch ($servicios) {
            	case '1':
@@ -346,22 +414,45 @@ class CitasController extends Controller
         $citahoras= Cita::where('fechaservicio','=',$fechas)->whereIN('citas.pedicurista_id',$pedicuristas)->select(array('hora'))->orderBy('hora','ASC')->get();
 
         	foreach($horario_entradas as $horentrada){
-        		 $start = strtotime('today '.$horentrada);
+        		 $start = strtotime($horentrada);
         	}
         	foreach($horario_salidas as $horsalida){
-        		 $finish = strtotime('today '.$horsalida);
+        		 $finish = strtotime($horsalida);
         	}
         	 
-             
+               $t=time();
+               $now=date("Y-m-d",$t);
+               $timenow=date('H:i:00',$t);
+               $tt= $timenow;
+             /*  $ttt=[];
+               $ttt[]=['hora'=>$tt];
+               $diffmerge = array_merge($diffs2,$ttt);
+              $timett=array_values($ttt);
+              $sorted=array_values($diffmerge);
+     */
+      
              $interval = 60;
+            
              $horas = [];
-             $times=[];
-           for ($i = $start; $i < $finish; $i += $interval * 60) {
-               $time = date('H:i:s', $i);
+            if($fechas == $now){
+     for ($i = $timenow; $i < $finish; $i += $interval * 60) {
              
+               $time = date('H:i:s', $i);
+     
                $horas[] = ['hora'=>$time];
             
         }
+          }else{
+
+             for ($i = $start; $i < $finish; $i += $interval * 60) {
+             
+               $time = date('H:i:s', $i);
+     
+               $horas[] = ['hora'=>$time];
+            
+        }
+          }
+ 
       /*  foreach($comidaterminas as $comidatermina){
         		 $comterm= new Carbon($comidatermina); 
         		 $timec = strtotime($comidatermina);
@@ -410,9 +501,10 @@ class CitasController extends Controller
 				{
 				
 				    $diffs2[]= ['hora'=>$diff];
-				   
+				  
 				} 
          	 //$diffs2[]= ['hora'=>'12:00:00'];
+
          }
        
 
@@ -450,12 +542,20 @@ class CitasController extends Controller
              }
          }
 */
-		         
-      	         return Response::json(
+		
+             
+ 
+          
+            return Response::json(
 
-     $diffs2
+
+            $diffs2
+
+            ); 
+        
+   
             
-            );           
+                      
       		
 
         }

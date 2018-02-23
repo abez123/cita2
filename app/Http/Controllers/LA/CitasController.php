@@ -24,6 +24,7 @@ use App\Models\Sucursal;
 use App\Models\Servicio;
 use App\Models\Horario;
 use App\Models\Incapacidad;
+use App\Models\Franquiciatario;
 use Response;
 use Nexmo\Laravel\Facade\Nexmo;
 use Carbon\Carbon;
@@ -98,7 +99,12 @@ class CitasController extends Controller
        $sucursales= Sucursal::where('gerente_id','=',Auth::user()->context_id)->select(array('sucursals.id','sucursals.nombresuc'))->get();
       ;
       $sucursal= '';
+    }elseif(\Entrust::hasRole('FRANQUICIATARIO')){
+       $sucursales= Sucursal::where('gerente_id','=',Auth::user()->context_id)->select(array('sucursals.id','sucursals.nombresuc'))->get();
+      ;
+      $sucursal= '';
     }
+
 
 		
 		$servicios= Servicio::all();
@@ -295,7 +301,7 @@ Horario de una pedicurista en especifico y sin incapacidad
              $t=time();
              $now=date("Y-m-d",$t);
              $timenow=date('H:i:00',$t);
-             $tt= strtotime("+15 minutes".$timenow);
+             $tt= strtotime("-15 minutes",strtotime ( $timenow));
 
              /*  $ttt=[];
                $ttt[]=['hora'=>$tt];
@@ -307,7 +313,7 @@ Horario de una pedicurista en especifico y sin incapacidad
              $interval = 60;
             
              $horas = [];
-            if($fechas == $now){
+            if($fechas == $now && $tt > $start &&  $tt < $finish){
      for ($i = $tt; $i < $finish; $i += $interval * 60) {
              
                $time = date('H:00:s', $i);
@@ -315,16 +321,21 @@ Horario de una pedicurista en especifico y sin incapacidad
                $horas[] = ['hora'=>$time];
             
         }
-          }else{
+      }elseif($fechas == $now && $tt >$finish){
+    $diffs2[]=['hora'=>'Ya no hay horarios para el día de hoy'];
+
+
+     }else{
 
              for ($i = $start; $i < $finish; $i += $interval * 60) {
              
                $time = date('H:i:s', $i);
      
                $horas[] = ['hora'=>$time];
+              }
             
         }
-          }
+          
      
           
 

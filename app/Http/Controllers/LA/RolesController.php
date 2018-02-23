@@ -98,7 +98,14 @@ class RolesController extends Controller
 			
 			$role = Role::find($insert_id);
 			$perm = Permission::where("name", "ADMIN_PANEL")->first();
-			$role->attachPermission($perm);
+			$perm2 = Permission::where("name", "FRANQUICIATARIO_PANEL")->first();
+			if($role->name =='FRANQUICIATARIO'){
+				$role->attachPermission($perm2);
+			}else{
+				$role->attachPermission($perm);
+			}
+			
+
 			
 			return redirect()->route(config('laraadmin.adminRoute') . '.roles.index');
 			

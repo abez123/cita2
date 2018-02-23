@@ -120,6 +120,7 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== Clientes ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/clientes', 'LA\ClientesController');
 	Route::get(config('laraadmin.adminRoute') . '/cliente_dt_ajax', 'LA\ClientesController@dtajax');
+		Route::post(config('laraadmin.adminRoute') . '/change_passwordcliente/{id}', 'LA\ClientesController@change_password');
 
 	/* ================== Incapacidads ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/incapacidads', 'LA\IncapacidadsController');
@@ -133,4 +134,14 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== Pedidos ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/pedidos', 'LA\PedidosController');
 	Route::get(config('laraadmin.adminRoute') . '/pedido_dt_ajax', 'LA\PedidosController@dtajax');
+
+	/* ================== Franquiciatarios ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/franquiciatarios', 'LA\FranquiciatariosController');
+	Route::get(config('laraadmin.adminRoute') . '/franquiciatario_dt_ajax', 'LA\FranquiciatariosController@dtajax');
+
+	Route::post(config('laraadmin.adminRoute') . '/change_passwordfran/{id}', 'LA\FranquiciatariosController@change_password');
+
+	/* ================== Cuentas ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/cuentas', 'LA\CuentasController');
+	Route::get(config('laraadmin.adminRoute') . '/cuenta_dt_ajax', 'LA\CuentasController@dtajax');
 });

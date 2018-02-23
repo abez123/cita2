@@ -300,4 +300,41 @@ class ClientesController extends Controller
 		$out->setData($data);
 		return $out;
 	}
+
+	/**
+     * Change Employee Password
+     *
+     * @return
+     */
+	public function change_password($id, Request $request) {
+		
+		$validator = Validator::make($request->all(), [
+            'password' => 'required|min:6',
+			'password_confirmation' => 'required|min:6|same:password'
+        ]);
+		
+		if ($validator->fails()) {
+			return \Redirect::to(config('laraadmin.adminRoute') . '/clientes/'.$id)->withErrors($validator);
+		}
+		
+		$cliente = Cliente::find($id);
+		$user = User::where("context_id", $cliente->id)->where('type', 'Cliente')->first();
+		$user->password = bcrypt($request->password);
+		$user->save();
+		
+		\Session::flash('success_message', 'Password is successfully changed');
+		
+		// Send mail to User his new Password
+		if(env('MAIL_USERNAME') != null && env('MAIL_USERNAME') != "null" && env('MAIL_USERNAME') != "") {
+			// Send mail to User his new Password
+			Mail::send('emails.send_login_cred_change', ['user' => $user, 'password' => $request->password], function ($m) use ($user) {
+				$m->from(LAConfigs::getByKey('default_email'), LAConfigs::getByKey('sitename'));
+				$m->to($user->email, $user->name)->subject('LaraAdmin - Login Credentials chnaged');
+			});
+		} else {
+			Log::info("User change_password: username: ".$user->email." Password: ".$request->password);
+		}
+		
+		return redirect(config('laraadmin.adminRoute') . '/clientes/'.$id.'#tab-account-settings');
+	}
 }

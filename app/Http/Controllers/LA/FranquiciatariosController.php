@@ -3,9 +3,7 @@
  * Controller genrated using LaraAdmin
  * Help: http://laraadmin.com
  */
-
 namespace App\Http\Controllers\LA;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -16,21 +14,19 @@ use Datatables;
 use Collective\Html\FormFacade as Form;
 use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
-
 use App\Models\Franquiciatario;
 use Dwij\Laraadmin\Models\LAConfigs;
 use Dwij\Laraadmin\Helpers\LAHelper;
-
 use App\User;
 use App\Permission;
 use App\Role;
 use Mail;
 use Log;
 class FranquiciatariosController extends Controller
-{
+{	
 	public $show_action = true;
 	public $view_col = 'nombrecompletofran';
-	public $listing_cols = ['id', 'nombrecompletofran', 'telefonocasa', 'celularfran', 'correofran', 'franquicias_id', 'domiciliofran'];
+	public $listing_cols = ['id', 'imagenfran', 'nombrecompletofran', 'telefonocasa', 'celularfran', 'correofran', 'domiciliofran','rfc','domiciliofiscal','sucursal'];
 	
 	public function __construct() {
 		// Field Access of Listing Columns
@@ -63,7 +59,6 @@ class FranquiciatariosController extends Controller
             return redirect(config('laraadmin.adminRoute')."/");
         }
 	}
-
 	/**
 	 * Show the form for creating a new franquiciatario.
 	 *
@@ -73,7 +68,6 @@ class FranquiciatariosController extends Controller
 	{
 		//
 	}
-
 	/**
 	 * Store a newly created franquiciatario in database.
 	 *
@@ -134,7 +128,6 @@ class FranquiciatariosController extends Controller
 			return redirect(config('laraadmin.adminRoute')."/");
 		}
 	}
-
 	/**
 	 * Display the specified franquiciatario.
 	 *
@@ -166,7 +159,6 @@ class FranquiciatariosController extends Controller
 			return redirect(config('laraadmin.adminRoute')."/");
 		}
 	}
-
 	/**
 	 * Show the form for editing the specified franquiciatario.
 	 *
@@ -196,7 +188,6 @@ class FranquiciatariosController extends Controller
 			return redirect(config('laraadmin.adminRoute')."/");
 		}
 	}
-
 	/**
 	 * Update the specified franquiciatario in storage.
 	 *
@@ -217,7 +208,6 @@ class FranquiciatariosController extends Controller
 			}
 			
 			$insert_id = Module::updateRow("Franquiciatarios", $request, $id);
-
 			// Update User
 			$user = User::where('context_id', $insert_id)->where('type','FRANQUICIATARIO')->first();
 			$user->name = $request->nombrecompletofran;
@@ -235,7 +225,6 @@ class FranquiciatariosController extends Controller
 			return redirect(config('laraadmin.adminRoute')."/");
 		}
 	}
-
 	/**
 	 * Remove the specified franquiciatario from storage.
 	 *
@@ -264,7 +253,6 @@ class FranquiciatariosController extends Controller
 		$values = DB::table('franquiciatarios')->select($this->listing_cols)->whereNull('deleted_at');
 		$out = Datatables::of($values)->make();
 		$data = $out->getData();
-
 		$fields_popup = ModuleFields::getModuleFields('Franquiciatarios');
 		
 		for($i=0; $i < count($data->data); $i++) {

@@ -14,15 +14,33 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
+Route::get('files/{hash}/{name}', 'UploadsController@get_file');
 Route::group(['prefix' => 'api/v1', 'middleware' => 'auth:api'], function () {
     	Route::post('/citaapp', 'API\APICitaController@store');
     	Route::get('/cliente-ajaxapp', 'API\APICitaController@buscarCliente');
 	});
 Route::auth();
+/* ================== Access Uploaded Files ================== */
+
 $as = "";
 /* ================== Socio Routes ================== */
 Route::group(['as' => $as, 'middleware' => ['auth', 'permission:FRANQUICIATARIO_PANEL']], function () {
+
+	/* ================== Ajax calls JSON ================== */
+	Route::get('/calendariofran-ajax', 'CitasController@jsonCalendar');
+	Route::get('/clientefran-ajax', 'CitasController@buscarCliente');
+
+	Route::get('/pedicuristafran-ajax', 'CitasController@buscarPedicurista');
+
+	
+	Route::get('/horariofran-ajax', 'CitasController@buscarHorario');
+
+	Route::get('/comidainiciafran-ajax', 'CitasController@comidainiciaCalendar');
+
+	Route::get('/comidaterminafran-ajax', 'CitasController@comidaterminCalendar');
+
+		Route::get('/citaconfirmfran-ajax', 'CitasController@clienteConfirm');
+
 
 
 	Route::get('blog/{id}', 'BlogController@detail');
@@ -42,6 +60,12 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:FRANQUICIATARIO_
 	Route::post('/encuestas/storeencuesta/{id}', 'ComiteController@store_encuesta');
 	
 
+
+	/* ================== Citas ================== */
+	Route::resource('/citas', 'CitasController');
+	Route::get('/cita_dt_ajax', 'CitasController@dtajax');
+
+	Route::get('/crear_cita', 'CitasController@createcita');
 
 });
 

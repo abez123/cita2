@@ -3,9 +3,10 @@
 <div class="uou-block-4e">
   <div class="container">
     <div class="row">
-      <div class="col-md-3 col-sm-6"> <a href="#" class="logo"><img src="http://localhost/ancham/public/socio-assets/images/logo.png" alt=""></a>
-        <ul class="contact-info has-bg-image contain" data-bg-image="images/footer-map-bg.png">
+      <div class="col-md-3 col-sm-6"> <a href="#" class="logo"><img src="http://todoparasuspies.com/includes/templates/tpsp.catalog/images/tpsp_logo_blue.svg" alt=""></a>
+        <ul class="contact-info has-bg-image contain" data-bg-image="#">
           <li> <i class="fa fa-map-marker"></i>
+           <img src="http://todoparasuspies.com/includes/templates/tpsp.catalog/images/qr.jpg"> 
             <address>
             795 Folsom Ave, Suite 600, San Francisco, CA 94107
             </address>

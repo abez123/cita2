@@ -32,6 +32,12 @@
 <link rel="stylesheet" href="{{ asset('socio-assets/css/main-style.css') }}">
 <link rel="stylesheet" href="{{ asset('socio-assets/css/style.css') }}">
 
+    <!-- iCheck -->
+    <link href="{{ asset('la-assets/plugins/iCheck/square/blue.css') }}" rel="stylesheet" type="text/css" />
+
+     <!-- full-calendar -->
+    <link href="{{ asset('la-assets/plugins/fullcalendar-3.8.2/fullcalendar.min.css') }}" rel="stylesheet" type="text/css" />
+
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -39,6 +45,10 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
   
+        <link rel="stylesheet"
+          href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css" type="text/css"/>
+<link rel="stylesheet"
+          href="https://cdn.datatables.net/buttons/1.1.2/css/buttons.dataTables.min.css" type="text/css"/>
     @stack('styles')
 </head>
 

@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Dwij\Laraadmin\Models\Module;
 
-class CreateFranquiciatariosTable extends Migration
+class CreateFacturaxmlsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -17,18 +17,25 @@ class CreateFranquiciatariosTable extends Migration
      */
     public function up()
     {
-        Module::generate("Franquiciatarios", 'franquiciatarios', 'nombrecompletofran', 'fa-user-plus', [
-            ["imagenfran", "Imagen", "Image", false, "", 0, 0, false],
-            ["nombrecompletofran", "Nombre Completo", "Name", false, "", 0, 256, false],
-            ["rfcfisica", "RFC Persona Fisica", "TextField", false, "", 0, 256, false],
-            ["telefonocasa", "Telefono de casa", "Mobile", false, "", 0, 20, false],
-            ["celularfran", "Celular", "Mobile", false, "", 0, 20, false],
-            ["correofran", "Correo Electrónico", "Email", true, "", 0, 256, false],
-            ["domiciliofran", "Domicilio", "Address", false, "", 0, 256, false],
-            ["razonsocial", "Razon Social", "TextField", false, "", 0, 256, false],
-            ["rfcmoral", "RFC Moral", "TextField", false, "", 0, 256, false],
-            ["domiciliofiscal", "Domicilio Fiscal", "Address", false, "", 0, 256, false],
-            ["sucursal", "Sucursales", "Multiselect", false, "", 0, 0, false, "@sucursals"],
+        Module::generate("Facturaxmls", 'facturaxmls', 'nombre', 'fa-file-code-o', [
+            ["subimporte", "Sub Total", "Currency", false, "", 0, 11, false],
+            ["xml", "XML", "File", false, "", 0, 0, false],
+            ["pdf", "PDF", "File", false, "", 0, 0, false],
+            ["conceptofac", "Concepto", "TextField", false, "", 0, 256, false],
+            ["nombre", "Nombre", "TextField", false, "", 0, 256, false],
+            ["rfc", "RFC", "TextField", false, "", 0, 256, false],
+            ["usocfdi", "USO CFDI", "TextField", false, "", 0, 256, false],
+            ["clave", "Clave", "TextField", false, "", 0, 256, false],
+            ["cantidad", "Cantidad", "Integer", false, "", 0, 11, false],
+            ["claveunidad", "Clave Unidad", "TextField", false, "", 0, 256, false],
+            ["descripcion", "Descrpción", "Textarea", false, "", 0, 0, false],
+            ["valorunitario", "Valor Unitario", "Integer", false, "", 0, 11, false],
+            ["importe", "Importe", "Currency", false, "", 0, 11, false],
+            ["impuesto", "Impuesto", "Currency", false, "", 0, 11, false],
+            ["fecha", "Fecha", "Datetime", false, "", 0, 0, false],
+            ["formapago", "Forma de pago", "TextField", false, "", 0, 256, false],
+            ["folio", "Folio", "TextField", false, "", 0, 256, false],
+            ["moneda", "Moneda", "TextField", false, "", 0, 256, false],
         ]);
 		
 		/*
@@ -74,8 +81,8 @@ class CreateFranquiciatariosTable extends Migration
      */
     public function down()
     {
-        if (Schema::hasTable('franquiciatarios')) {
-            Schema::drop('franquiciatarios');
+        if (Schema::hasTable('facturaxmls')) {
+            Schema::drop('facturaxmls');
         }
     }
 }

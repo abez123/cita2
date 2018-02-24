@@ -125,6 +125,7 @@
 						@la_display($module, 'lat')
 						@la_display($module, 'lng')
 						@la_display($module, 'gerente_id')
+				
 					</div>
 				</div>
 			</div>

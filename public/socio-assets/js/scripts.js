@@ -28,8 +28,7 @@ $(share).on('click', function(e){
   $(this).find(shareWindow).toggle();
   e.preventDefault();
 });
-
-
+ 
 $('.slider-range-container').each(function(){
     if ( $.fn.slider ) {
 

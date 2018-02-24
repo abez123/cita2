@@ -30,9 +30,8 @@
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
 				{!! Form::model($sucursal, ['route' => [config('laraadmin.adminRoute') . '.sucursals.update', $sucursal->id ], 'method'=>'PUT', 'id' => 'sucursal-edit-form']) !!}
-					@la_form($module)
+				
 					
-					{{--
 					@la_input($module, 'nombresuc')
 					@la_input($module, 'domicilio')
 					@la_input($module, 'lunes')
@@ -51,7 +50,7 @@
 					@la_input($module, 'lat')
 					@la_input($module, 'lng')
 					@la_input($module, 'gerente_id')
-					--}}
+				
                     <br>
 					<div class="form-group">
 						{!! Form::submit( 'Update', ['class'=>'btn btn-success']) !!} <button class="btn btn-default pull-right"><a href="{{ url(config('laraadmin.adminRoute') . '/sucursals') }}">Cancel</a></button>

@@ -13,9 +13,9 @@
     <div class="profile-bnr user-profile-bnr">
       <div class="container">
         <div class="pull-left">
-          @foreach($socios as $socio)
-          <h2>{{$socio->nombre}}</h2>
-          <h5>{{$socio->puesto}}</h5>
+          @foreach($franquiciatarios as $franquiciatario)
+          <h2>{{$franquiciatario->nombrecompletofran}}</h2>
+          <h5>{{$franquiciatario->correofran}}</h5>
           @endforeach
         </div>
         
@@ -71,18 +71,18 @@
           <!-- Nav Tabs -->
           <div class="col-md-12">
             <ul class="nav nav-tabs">
-              <li class="active"><a data-toggle="tab" href="#profile">Profile</a></li>
-              <li><a data-toggle="tab" href="#comitemiem">Comités</a> </li>
+              <li class="active"><a data-toggle="tab" href="#profile">Perfil</a></li>
+              <li><a data-toggle="tab" href="#factura">Facturas</a> </li>
            
              
-                  <li><a data-toggle="tab" href="#eventos">Eventos</a></li>
+                  <li><a data-toggle="tab" href="#citas">Citas</a></li>
                   <li><a data-toggle="tab" href="#blog-tab">Noticias</a></li>
-                  <li><a data-toggle="tab" href="#portfolio">Galeria</a></li>
-               <li><a data-toggle="tab" href="#Con-tab">Member 2 Member</a></li>
-              <li><a data-toggle="tab" href="#contact">Contact</a></li>
-              
+                  <li><a data-toggle="tab" href="#estado">Estado de cuenta</a></li>
+               <li><a data-toggle="tab" href="#docus">Documentos</a></li>
+              <li><a data-toggle="tab" href="#contacto">Contacto</a></li>
+              <li><a data-toggle="tab" href="#tareas">Tareas</a></li>         
              
-              <li><a data-toggle="tab" href="#flowrs-tabs">Directorio (241)</a></li>
+              <li><a data-toggle="tab" href="#encuesta">Encuestas</a></li>
              
             </ul>
           </div>
@@ -90,7 +90,7 @@
           <!-- Tab Content -->
           <div class="col-md-12">
             <div class="tab-content"> 
-              
+                
               <!-- PROFILE -->
               <div id="profile" class="tab-pane fade in active">
                 <div class="row">
@@ -99,7 +99,10 @@
                       <h3>About</h3>
                       <div class="profile-in">
                         <div class="media-left">
-                          <div class="img-profile"> <img class="media-object" src="../public/socio-assets/images/avatar-1.jpg" alt=""> </div>
+                          @foreach($franquiciatarios as $franquiciatario)
+                   <?php $imgs = \App\Models\Upload::find($franquiciatario->imagenfran); ?>
+                          <div class="img-profile"> <img class="media-object" src="{{$imgs->path()}}" alt=""> </div>
+                          @endforeach
                         </div>
                         <div class="media-body">
                           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit, maxime, excepturi, mollitia, voluptatibus similique aliquidautem 
@@ -240,9 +243,9 @@
                       <div class="sidebar-information">
                         <ul class="single-category">
                           <li class="row">
-                             @foreach($socios as $socio)
+                             @foreach($franquiciatarios as $franquiciatario)
                             <h6 class="title col-xs-6">Nombre</h6>
-                            <span class="subtitle col-xs-6">{{$socio->nombre}}</span></li>
+                            <span class="subtitle col-xs-6">{{$franquiciatario->nombrecompletofran}}</span></li>
                             @endforeach
                           <li class="row">
                             <h6 class="title col-xs-6">Age</h6>
@@ -314,8 +317,8 @@
               </div>
               
 
-                 <!-- Comites Miembro -->
-              <div id="comitemiem" class="tab-pane fade">
+                 <!-- Facturación -->
+              <div id="factura" class="tab-pane fade">
                 <div class="header-listing">
                   <h6>Sort by</h6>
                   <div class="custom-select-box">
@@ -333,10 +336,10 @@
                 </div>
                 <div class="listing listing-1">
                   <div class="listing-section">
-                    @foreach($comites as $comite)
+                    @foreach($facturasxmls as $facturasxml)
                     <div class="listing-ver-3">
                       <div class="listing-heading">
-                        <h5>Comité: {{$comite->nombre}}</h5>
+                        <h5>Fecha: {{$facturasxml->fecha}}</h5>
                         <ul class="bookmark list-inline">
                           <li><a href="#"><i class="fa fa-bookmark"></i></a></li>
                           <li><a href="#"><i class="fa fa-eye"></i></a></li>
@@ -345,70 +348,53 @@
                       </div>
                       <div class="listing-inner">
                         <div class="listing-content">
-                          <h6 class="title-company">Descripción: {{$comite->descripcion}}</h6>
-                         <p>Objetivos: {!!$comite->objetivos!!}</p>
-                          <p>Temas: {!!$comite->temas!!} <a href="#"></a></p>
-                           <p>Fechas de sesión: {!!$comite->fechassesion!!} <a href="#"></a></p>
-                          <h6 class="title-tags">Convocatorias:</h6>
+                    <h6 class="title-company">Folio: {{$facturasxml->folio}}</h6>
+                          <h6 class="title-company">Descripción: {{$facturasxml->descripcion}}</h6>
+                         <p>Subtotal: ${{$facturasxml->subimporte}}</p>
+                          <p>Impuesto: {{$facturasxml->impuesto}} <a href="#"></a></p>
+                           <p>Total: {{$facturasxml->importe}} <a href="#"></a></p>
+                          <h6 class="title-tags">Descargar Facturas:</h6>
                           <ul >
-                           
-                            <li><a href="{{url('/front_comite/'.$comite->idcon)}}">{{$comite->tituloconvactoria}} | Fecha: {!!$comite->horario!!} Ver-></a></li>
-                        
-                           
-                         
-                          </ul>
-                                                <?php 
-                              
-            $proper1 = $comite->miembros;
-             
-
-          $prop2 = str_replace('"', ' ', $proper1);
-          $miems = json_decode($prop2); 
-    
-        $miembros = \App\Models\Contacto::whereIN('contactos.id',$miems)->join('organizations','organizations.id','=','contactos.empresa')->select(array('contactos.nombre','organizations.name'))->get();
-            ?> 
-        <h6 class="title-tags">Miembros:</h6>
-                          <ul >
-                           @foreach($miembros as $miembro)
-                                <li><a href="#">{{$miembro->nombre}}
-                                 | {{$miembro->name}}@endforeach</a></li>
-                                
-                        
-                           
-                         
+              
+                            <li><a href="{{$xmls->path()}}">descargar xml </a></li>
+                             <li><a href="{{$pdfs->path()}}">descargar pdf </a></li>
+              
                           </ul>
                         </div>
                       </div>
                       <div class="listing-tabs">
                         <ul>
-     <?php $pres = \App\User::find($comite->presidente); ?>
+ 
 
-                          <li><a href="#"><i class="fa fa-globe"></i> Presidente:  {{$pres->name}}</a></li>
-                           <li><a href="#"><i class="fa fa-globe"></i> Vice Presidente:  {{$comite->name}}</a></li>
-    <?php $coors = \App\User::where('context_id',$comite->coordinador)->where('type','employee')->select(array('users.name'))->get(); ?>
-                          @foreach($coors as $coor)
-                            <li><a href="#"><i class="fa fa-globe"></i> Coordindor:  {{$coor->name}}</a></li>
-                            @endforeach
-                                        <?php 
-                              
-            $proper1 = $comite->miembros;
-             
 
-          $prop2 = str_replace('"', ' ', $proper1);
-          $miems = json_decode($prop2); 
-    
-        $miembros = \App\Models\Contacto::whereIN('contactos.id',$miems)->where('contactos.id',Auth::user()->context_id)->select(array('contactos.id'))->get();
-            ?>            @foreach($miembros as $miembro)
-                          @if($miembro->id)
+                          <li><a href="#"><i class="fa fa-globe"></i> Moneda:{{$facturasxml->moneda}}  </a></li>
+                           <li><a href="#"><i class="fa fa-globe"></i> Vice Presidente:  </a></li>
+  
+                         
+                            <li><a href="#"><i class="fa fa-globe"></i> Coordindor: </a></li>
+                        
+                                      
+
+                
+
                             <li><a href="#"><i class="fa fa-star"></i> Eres Miembro</a></li>
-                            @endif
+                    
+
                      
-                          @endforeach
+                     
+
                         </ul>
                       </div>
                     </div>
-                    @endforeach
-                  
+               @endforeach
+                         <div class="text-center pt20">
+                          <ul class="uou-paginatin list-unstyled">
+                        <li>{{ $facturasxmls->fragment('factura')->links() }}</li>
+
+
+                          </ul>
+                        </div>
+                 
                   </div>
                 </div>
               </div>
@@ -417,8 +403,8 @@
                
 
            
-              <!-- Contact -->
-              <div id="contact" class="tab-pane fade">
+              <!-- Contacto -->
+              <div id="contacto" class="tab-pane fade">
                 <div class="profile-main">
                   <h3>Contact the Company</h3>
                   <div class="profile-in">
@@ -436,6 +422,70 @@
                 </div>
               </div>
               
+              <!-- Tares -->
+              <div id="tareas" class="tab-pane fade">
+                <div class="profile-main">
+                  <h3>Datos del/proyecto/tarea/actividad</h3>
+                  <div class="profile-in">
+                    <p>Puedes enviar una solicitud de tarea al departamento de Franquicias de TPSP.</p>
+                    <form action="#">
+                         <div class='col-sm-6'>
+            <div class="form-group">
+              <label>Fecha y hora Inicio:
+                <div class='input-group datetime' id='datetimepicker1'>
+                    <input type='text' class="form-control" placeholder="Fecha de inicio*" required> </label>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                 <label>Fecha y hora de Entrega:
+                 <div class='input-group datetime' id='datetimepicker2'>
+                    <input type='text' class="form-control" placeholder="Fecha de entrega*" required> </label>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+ <label>Prioridad *:
+        <select style="width: 100%" class="form-control select2" name="prioridad" required>
+         
+          <option value="">Seleccione</option>
+          <option value="Normal">Normal</option>
+           <option value="Urgente">Urgente</option>
+            <option value="Critico">Critico</option>
+         
+        </select> </label>
+ <label>Tipo * :
+          <select style="width: 100%" class="form-control select2" name="tipo" required>
+           
+          <option value="">Seleccione</option>
+          <option value="Ventas">Ventas</option>
+           <option value="Proceso">Proceso</option>
+            <option value="Actividad">Actividad</option>
+         
+        </select> </label>
+      </div>
+      <br>
+
+      <br>
+      <br>
+       <div class="form-group">
+          <label>Nombre del proyecto: *</label>
+                      <input type="text" placeholder="Nombre del proyecto/tarea/actividad" required="true">
+                      <label>Descripción: *</label>
+                      <textarea name="descripcion" placeholder="Descripción del proyecto/tarea/actividad" rows="4" cols="50"></textarea>
+                      <label>¿Qué se requiere?: *</label>
+                      <textarea name="descripcion" placeholder="¿Qué se requiere para realizarr el proyecto/tarea/actividad?" rows="4" cols="50"></textarea>
+                      <button class="btn btn-primary">Send message</button>
+                    </div>
+                    </form>
+                   <a href="https://calendar.google.com/calendar/embed?src=abelzmx%40gmail.com&ctz=America%2FMexico_City">aqui</a>
+                 
+                  </div>
+                </div>
+              </div>
               <!-- Portfolio -->
               <div id="portfolio" class="tab-pane fade">
                 <div class="profile-main">
@@ -471,28 +521,52 @@
                 </div>
               </div>
            <!-- Evento Post -->
-              <div id="eventos" class="tab-pane fade">
+              <div id="docus" class="tab-pane fade">
+              <h2>Documentos </h2>
+<h3>selecciona la caja para ver los docuemntos</h3>
                 <div class="profile-main">
-                  <h2 class="text-center">Eventos</h2>
+                  <h2 class="text-center">Adecuación de Sucursal: Interior {{ Form::checkbox('interior', 0, null, ['id' => 'interior','class' => 'field']) }}</h2>
                   <div class="profile-in">
                     <div class="row">
-                      <div class="col-md-12">
-                        @foreach($eventos as $evento)
-              <?php $imgs = \App\Models\Upload::find($evento->logo); ?>
-                        <article class="uou-block-7f"> <img src="{{$imgs->path()}}" alt="" class="thumb">
-                          <div class="meta"> <span class="time-ago">{{$evento->fecha}}</span> <span class="category">Categoria: <a href="#">{{$evento->tiulo}}</a></span> <a href="#" class="comments">12 Comments</a> </div>
-                          <h1><a href="#">{{$evento->titulo}}</a></h1>
-                          <p> {!!$evento->fecha!!}...</p>
-                          <a href="{{url('/evento/'.$evento->id)}}" class="btn btn-small btn-primary">Ver evento</a> </article>
+                      <div style="display: none"  id="autoUpdate" class="col-md-12">
+                        @foreach( $adecuacionsucursalinteriors as  $adecuacionsucursalinterior)
+          
+                       
+                          <h1><a href="{{$adecuacionsucursalinterior->urldocu}}">{{$adecuacionsucursalinterior->nombredocu}}</a></h1>
+                       
+                          <a href="{{$adecuacionsucursalinterior->urldocu}}" class="btn btn-small btn-primary">Ir a Google Drive</a> </article>
                         <!-- end .uou-block-7f -->
 
                         @endforeach
            
                         <div class="text-center pt20">
-                          <ul class="uou-paginatin list-unstyled">
-                        <li>{{$eventos->links()}}</li>
+                        
+                        </div>
+                      </div>
+                    </div>
+                    <!-- end row --> 
+                    
+                    <!-- end blog-content --> 
+                    
+                  </div>
+                </div>
+ <div class="profile-main">
+                  <h2 class="text-center">Adecuación de Sucursal: Exterior {{ Form::checkbox('exterior', 0, null, ['id' => 'exterior','class' => 'field']) }}</h2>
+                  <div class="profile-in">
+                    <div class="row">
+                      <div style="display: none" id="autoUpdate2" class="col-md-12">
+                        @foreach( $adecuacionsucursalexteriors as  $adecuacionsucursalexterior)
+          
+                       
+                          <h1><a href="{{$adecuacionsucursalexterior->urldocu}}">{{$adecuacionsucursalexterior->nombredocu}}</a></h1>
+                       
+                          <a href="{{$adecuacionsucursalexterior->urldocu}}" class="btn btn-small btn-primary">Ir a Google Drive</a> </article>
+                        <!-- end .uou-block-7f -->
 
-                          </ul>
+                        @endforeach
+           
+                        <div class="text-center pt20">
+                        
                         </div>
                       </div>
                     </div>
@@ -504,26 +578,22 @@
                 </div>
 
                 <div class="profile-main">
-                  <h2 class="text-center">Eventos Externos</h2>
+                  <h2 class="text-center">Impresos {{ Form::checkbox('impresos', 0, null, ['id' => 'impresos','class' => 'field']) }}</h2>
                   <div class="profile-in">
                     <div class="row">
-                      <div class="col-md-12">
-                        @foreach($eventos as $evento)
-              <?php $imgs = \App\Models\Upload::find($evento->logo); ?>
-                        <article class="uou-block-7f"> <img src="{{$imgs->path()}}" alt="" class="thumb">
-                          <div class="meta"> <span class="time-ago">{{$evento->fecha}}</span> <span class="category">Categoria: <a href="#">{{$evento->tiulo}}</a></span> <a href="#" class="comments">12 Comments</a> </div>
-                          <h1><a href="#">{{$evento->titulo}}</a></h1>
-                          <p> {!!$evento->fecha!!}...</p>
-                          <a href="{{url('/evento/'.$evento->id)}}" class="btn btn-small btn-primary">Ver evento</a> </article>
+                      <div style="display: none" id="autoUpdate3"  class="col-md-12">
+                        @foreach( $impresos as  $impreso)
+          
+                       
+                          <h1><a href="{{$impreso->urldocu}}">{{$impreso->nombredocu}}</a></h1>
+                       
+                          <a href="{{$impreso->urldocu}}" class="btn btn-small btn-primary">Ir a Google Drive</a> </article>
                         <!-- end .uou-block-7f -->
 
                         @endforeach
            
                         <div class="text-center pt20">
-                          <ul class="uou-paginatin list-unstyled">
-                        <li>{{$eventos->links()}}</li>
-
-                          </ul>
+                        
                         </div>
                       </div>
                     </div>
@@ -533,486 +603,78 @@
                     
                   </div>
                 </div>
+
+                <div class="profile-main">
+                  <h2 class="text-center">Video para Pantallas {{ Form::checkbox('video', 0, null, ['id' => 'video','class' => 'field']) }}</h2>
+                  <div class="profile-in">
+                    <div class="row">
+                      <div style="display: none" id="autoUpdate4" class="col-md-12">
+                        @foreach( $videopantallas as  $videopantalla)
+          
+                       
+                          <h1><a href="{{$videopantalla->urldocu}}">{{$videopantalla->nombredocu}}</a></h1>
+                       
+                          <a href="{{$videopantalla->urldocu}}" class="btn btn-small btn-primary">Ir a Google Drive</a> </article>
+                        <!-- end .uou-block-7f -->
+
+                        @endforeach
+           
+                        <div class="text-center pt20">
+                        
+                        </div>
+                      </div>
+                    </div>
+                    <!-- end row --> 
+                    
+                    <!-- end blog-content --> 
+                    
+                  </div>
+                </div>
+
+
+
+
 
               </div>
-         
-              <!-- Event Post -->
+       
+             
               <!-- Blog Post -->
-              <div id="blog-tab" class="tab-pane fade">
+              <div id="citas" class="tab-pane fade">
                 <div class="profile-main">
-                  <h2 class="text-center">Noticias</h2>
-                  <br>
-                  <div class="profile-in">
-                    <div class="row">
-                      <div class="col-md-12">
-                        @foreach($noticias as $blog)
-              <?php $imgs = \App\Models\Upload::find($blog->blogimg); ?>
-                        <article class="uou-block-7f"> <img src="{{$imgs->path()}}" alt="" class="thumb">
-                          <div class="meta"> <span class="time-ago">{{$blog->created_at}}</span> <span class="category">Categoria: <a href="#">{{$blog->nombrecat}}</a></span> <a href="#" class="comments">12 Comments</a> </div>
-                          <h1><a href="#">{{$blog->titulo}}</a></h1>
-                          <p> {!!substr($blog->text, 0, 200)!!}...</p>
-                          <a href="{{url('/blog/'.$blog->id)}}" class="btn btn-small btn-primary">Leer más</a> </article>
-                        <!-- end .uou-block-7f -->
+                 <button type="button"><a href="{{url('crear_cita')}}">Crear una cita</a></button> 
 
-                        @endforeach
-           
-                        <div class="text-center pt20">
-                          <ul class="uou-paginatin list-unstyled">
-                        <li>{{$noticias->links()}}</li>
-
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- end row --> 
-                    
-                    <!-- end blog-content --> 
-                    
-                  </div>
-                </div>
-              
-                 <div class="profile-main">
-                  <h2 class="text-center">¡Que no se te pase!</h2>
-                  <br>
-                  <div class="profile-in">
-                    <div class="row">
-                      <div class="col-md-12">
-                        @foreach($capsulas as $blog)
-              <?php $imgs = \App\Models\Upload::find($blog->blogimg); ?>
-                        <article class="uou-block-7f"> <video class="thumb" controls>
-  <source src="{{$blog->url}}" type="video/mp4">
- 
-Your browser does not support the video tag.
-</video>
-                          <div class="meta"> <span class="time-ago">{{$blog->created_at}}</span> <span class="category">Categoria: <a href="#">{{$blog->nombrecat}}</a></span> <a href="#" class="comments">12 Comments</a> </div>
-                          <h1><a href="#">{{$blog->titulo}}</a></h1>
-                          <p> {!!substr($blog->text, 0, 200)!!}...</p>
-                          <a href="{{url('/blog/'.$blog->id)}}" class="btn btn-small btn-primary">Leer más</a> </article>
-                        <!-- end .uou-block-7f -->
-
-                        @endforeach
-           
-                        <div class="text-center pt20">
-                          <ul class="uou-paginatin list-unstyled">
-                        <li>{{$capsulas->links()}}</li>
-
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- end row --> 
-                    
-                    <!-- end blog-content --> 
-                    
-                  </div>
-                </div>
-     <div class="profile-main">
-                  <h2 class="text-center">Inteligencia de Negocios</h2>
-                    <br>
-                  <div class="profile-in">
-                    <div class="row">
-                      <div class="col-md-12">
-                        @foreach($infografias as $blog)
-              <?php $imgs = \App\Models\Upload::find($blog->blogimg); ?>
-                        <article class="uou-block-7f"> <img src="{{$imgs->path()}}" alt="" class="thumb">
-                          <div class="meta"> <span class="time-ago">{{$blog->created_at}}</span> <span class="category">Categoria: <a href="#">{{$blog->nombrecat}}</a></span> <a href="#" class="comments">12 Comments</a> </div>
-                          <h1><a href="#">{{$blog->titulo}}</a></h1>
-                          <p> {!!substr($blog->text, 0, 200)!!}...</p>
-                          <a href="{{url('/blog/'.$blog->id)}}" class="btn btn-small btn-primary">Leer más</a> </article>
-                        <!-- end .uou-block-7f -->
-
-                        @endforeach
-           
-                        <div class="text-center pt20">
-                          <ul class="uou-paginatin list-unstyled">
-                        <li>{{$infografias->links()}}</li>
-
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- end row --> 
-                    
-                    <!-- end blog-content --> 
-                    
-                  </div>
-                </div>
-
-              </div>
-         
-              <!-- Blog Post -->
-              <div id="Con-tab" class="tab-pane fade">
-                <div class="profile-main">
-                  <h3>People in Connections</h3>
                   <div class="profile-in">
                     <div class="folow-persons">
-                      <ul>
-                        
-                        <!-- MEMBER -->
-                        <li>
-                          <div class="row">
-                            <div class="col-xs-4"> 
-                              <!-- Check Box -->
-                              <div class="checkbox">
-                                <input id="checkbox1-1" class="styled" type="checkbox">
-                                <label for="checkbox1-1"></label>
-                              </div>
-                              <!-- Name -->
-                              <div class="fol-name">
-                                <div class="avatar"> <img src="../public/socio-assets/images/sm-avatar.jpg" alt=""> </div>
-                                <h6>Collin Weiland</h6>
-                                <span>Web Developer</span> </div>
-                            </div>
-                            <!-- Location -->
-                            <div class="col-xs-3 n-p-r n-p-l"> <span>San Francisco, USA</span> </div>
-                            <!-- Network -->
-                            <div class="col-xs-3 n-p-r"> <span>21 Followers</span> <span>10 Following</span> </div>
-                            <!-- Connections -->
-                            <div class="col-xs-2 n-p-r n-p-l"> <span>31 Connections</span> </div>
-                          </div>
-                        </li>
-                        
-                        <!-- MEMBER -->
-                        <li>
-                          <div class="row"> 
-                            <!-- Title -->
-                            <div class="col-xs-4"> 
-                              <!-- Check Box -->
-                              <div class="checkbox">
-                                <input id="checkbox1-2" class="styled" type="checkbox">
-                                <label for="checkbox1-2"></label>
-                              </div>
-                              <!-- Name -->
-                              <div class="fol-name">
-                                <div class="avatar"> <img src="../public/socio-assets/images/sm-avatar.jpg" alt=""> </div>
-                                <h6>Collin Weiland</h6>
-                                <span>Web Developer</span> </div>
-                            </div>
-                            <!-- Location -->
-                            <div class="col-xs-3 n-p-r n-p-l"> <span>San Francisco, USA</span> </div>
-                            <!-- Network -->
-                            <div class="col-xs-3 n-p-r"> <span>21 Followers</span> <span>10 Following</span> </div>
-                            <!-- Connections -->
-                            <div class="col-xs-2 n-p-r n-p-l"> <span>31 Connections</span> </div>
-                          </div>
-                        </li>
-                        
-                        <!-- MEMBER -->
-                        <li>
-                          <div class="row"> 
-                            <!-- Title -->
-                            <div class="col-xs-4"> 
-                              <!-- Check Box -->
-                              <div class="checkbox">
-                                <input id="checkbox1-3" class="styled" type="checkbox">
-                                <label for="checkbox1-3"></label>
-                              </div>
-                              <!-- Name -->
-                              <div class="fol-name">
-                                <div class="avatar"> <img src="../public/socio-assets/images/sm-avatar.jpg" alt=""> </div>
-                                <h6>Collin Weiland</h6>
-                                <span>Web Developer</span> </div>
-                            </div>
-                            <!-- Location -->
-                            <div class="col-xs-3 n-p-r n-p-l"> <span>San Francisco, USA</span> </div>
-                            <!-- Network -->
-                            <div class="col-xs-3 n-p-r"> <span>21 Followers</span> <span>10 Following</span> </div>
-                            <!-- Connections -->
-                            <div class="col-xs-2 n-p-r n-p-l"> <span>31 Connections</span> </div>
-                          </div>
-                        </li>
-                        
-                        <!-- MEMBER -->
-                        <li>
-                          <div class="row"> 
-                            <!-- Title -->
-                            <div class="col-xs-4"> 
-                              <!-- Check Box -->
-                              <div class="checkbox">
-                                <input id="checkbox1-4" class="styled" type="checkbox">
-                                <label for="checkbox1-4"></label>
-                              </div>
-                              <!-- Name -->
-                              <div class="fol-name">
-                                <div class="avatar"> <img src="../public/socio-assets/images/sm-avatar.jpg" alt=""> </div>
-                                <h6>Collin Weiland</h6>
-                                <span>Web Developer</span> </div>
-                            </div>
-                            <!-- Location -->
-                            <div class="col-xs-3 n-p-r n-p-l"> <span>San Francisco, USA</span> </div>
-                            <!-- Network -->
-                            <div class="col-xs-3 n-p-r"> <span>21 Followers</span> <span>10 Following</span> </div>
-                            <!-- Connections -->
-                            <div class="col-xs-2 n-p-r n-p-l"> <span>31 Connections</span> </div>
-                          </div>
-                        </li>
-                        
-                        <!-- MEMBER -->
-                        <li>
-                          <div class="row"> 
-                            <!-- Title -->
-                            <div class="col-xs-4"> 
-                              <!-- Check Box -->
-                              <div class="checkbox">
-                                <input id="checkbox1-5" class="styled" type="checkbox">
-                                <label for="checkbox1-5"></label>
-                              </div>
-                              <!-- Name -->
-                              <div class="fol-name">
-                                <div class="avatar"> <img src="../public/socio-assets/images/sm-avatar.jpg" alt=""> </div>
-                                <h6>Collin Weiland</h6>
-                                <span>Web Developer</span> </div>
-                            </div>
-                            <!-- Location -->
-                            <div class="col-xs-3 n-p-r n-p-l"> <span>San Francisco, USA</span> </div>
-                            <!-- Network -->
-                            <div class="col-xs-3 n-p-r"> <span>21 Followers</span> <span>10 Following</span> </div>
-                            <!-- Connections -->
-                            <div class="col-xs-2 n-p-r n-p-l"> <span>31 Connections</span> </div>
-                          </div>
-                        </li>
-                        
-                        <!-- MEMBER -->
-                        <li>
-                          <div class="row"> 
-                            <!-- Title -->
-                            <div class="col-xs-4"> 
-                              <!-- Check Box -->
-                              <div class="checkbox">
-                                <input id="checkbox1-6" class="styled" type="checkbox">
-                                <label for="checkbox1-6"></label>
-                              </div>
-                              <!-- Name -->
-                              <div class="fol-name">
-                                <div class="avatar"> <img src="../public/socio-assets/images/sm-avatar.jpg" alt=""> </div>
-                                <h6>Collin Weiland</h6>
-                                <span>Web Developer</span> </div>
-                            </div>
-                            <!-- Location -->
-                            <div class="col-xs-3 n-p-r n-p-l"> <span>San Francisco, USA</span> </div>
-                            <!-- Network -->
-                            <div class="col-xs-3 n-p-r"> <span>21 Followers</span> <span>10 Following</span> </div>
-                            <!-- Connections -->
-                            <div class="col-xs-2 n-p-r n-p-l"> <span>31 Connections</span> </div>
-                          </div>
-                        </li>
-                        
-                        <!-- MEMBER -->
-                        <li>
-                          <div class="row"> 
-                            <!-- Title -->
-                            <div class="col-xs-4"> 
-                              <!-- Check Box -->
-                              <div class="checkbox">
-                                <input id="checkbox1-7" class="styled" type="checkbox">
-                                <label for="checkbox1-7"></label>
-                              </div>
-                              <!-- Name -->
-                              <div class="fol-name">
-                                <div class="avatar"> <img src="../public/socio-assets/images/sm-avatar.jpg" alt=""> </div>
-                                <h6>Collin Weiland</h6>
-                                <span>Web Developer</span> </div>
-                            </div>
-                            <!-- Location -->
-                            <div class="col-xs-3 n-p-r n-p-l"> <span>San Francisco, USA</span> </div>
-                            <!-- Network -->
-                            <div class="col-xs-3 n-p-r"> <span>21 Followers</span> <span>10 Following</span> </div>
-                            <!-- Connections -->
-                            <div class="col-xs-2 n-p-r n-p-l"> <span>31 Connections</span> </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                        <br>
+                          <br>
+                      <div class="box box-success">
+  <!--<div class="box-header"></div>-->
+  <div class="box-body">
+    <table id="example1" class="table table-bordered">
+    <thead>
+    <tr class="success">
+      @foreach( $listing_cols as $col )
+      <th>{{ $module->fields[$col]['label'] or ucfirst($col) }}</th>
+      @endforeach
+      @if($show_actions)
+      <th>Actions</th>
+      @endif
+    </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+    </table>
+  </div>
+</div>
+     
+               
               
-              <!-- Blog Post -->
-              <div id="flowrs-tabs" class="tab-pane fade">
-                <div class="profile-main">
-                  <h3>Followers</h3>
-                  <div class="profile-in">
-                    <div class="folow-persons">
-                      <ul>
-                        
-                        <!-- MEMBER -->
-                        <li>
-                          <div class="row">
-                            <div class="col-xs-4"> 
-                              <!-- Check Box -->
-                              <div class="checkbox">
-                                <input id="checkbox2-1" class="styled" type="checkbox">
-                                <label for="checkbox2-1"></label>
-                              </div>
-                              <!-- Name -->
-                              <div class="fol-name">
-                                <div class="avatar"> <img src="../public/socio-assets/images/sm-avatar.jpg" alt=""> </div>
-                                <h6>Collin Weiland</h6>
-                                <span>Web Developer</span> </div>
-                            </div>
-                            <!-- Location -->
-                            <div class="col-xs-3 n-p-r n-p-l"> <span>San Francisco, USA</span> </div>
-                            <!-- Network -->
-                            <div class="col-xs-3 n-p-r"> <span>21 Followers</span> <span>10 Following</span> </div>
-                            <!-- Connections -->
-                            <div class="col-xs-2 n-p-r n-p-l"> <span>31 Connections</span> </div>
-                          </div>
-                        </li>
-                        
-                        <!-- MEMBER -->
-                        <li>
-                          <div class="row"> 
-                            <!-- Title -->
-                            <div class="col-xs-4"> 
-                              <!-- Check Box -->
-                              <div class="checkbox">
-                                <input id="checkbox2-2" class="styled" type="checkbox">
-                                <label for="checkbox2-2"></label>
-                              </div>
-                              <!-- Name -->
-                              <div class="fol-name">
-                                <div class="avatar"> <img src="../public/socio-assets/images/sm-avatar.jpg" alt=""> </div>
-                                <h6>Collin Weiland</h6>
-                                <span>Web Developer</span> </div>
-                            </div>
-                            <!-- Location -->
-                            <div class="col-xs-3 n-p-r n-p-l"> <span>San Francisco, USA</span> </div>
-                            <!-- Network -->
-                            <div class="col-xs-3 n-p-r"> <span>21 Followers</span> <span>10 Following</span> </div>
-                            <!-- Connections -->
-                            <div class="col-xs-2 n-p-r n-p-l"> <span>31 Connections</span> </div>
-                          </div>
-                        </li>
-                        
-                        <!-- MEMBER -->
-                        <li>
-                          <div class="row"> 
-                            <!-- Title -->
-                            <div class="col-xs-4"> 
-                              <!-- Check Box -->
-                              <div class="checkbox">
-                                <input id="checkbox2-3" class="styled" type="checkbox">
-                                <label for="checkbox2-3"></label>
-                              </div>
-                              <!-- Name -->
-                              <div class="fol-name">
-                                <div class="avatar"> <img src="../public/socio-assets/images/sm-avatar.jpg" alt=""> </div>
-                                <h6>Collin Weiland</h6>
-                                <span>Web Developer</span> </div>
-                            </div>
-                            <!-- Location -->
-                            <div class="col-xs-3 n-p-r n-p-l"> <span>San Francisco, USA</span> </div>
-                            <!-- Network -->
-                            <div class="col-xs-3 n-p-r"> <span>21 Followers</span> <span>10 Following</span> </div>
-                            <!-- Connections -->
-                            <div class="col-xs-2 n-p-r n-p-l"> <span>31 Connections</span> </div>
-                          </div>
-                        </li>
-                        
-                        <!-- MEMBER -->
-                        <li>
-                          <div class="row"> 
-                            <!-- Title -->
-                            <div class="col-xs-4"> 
-                              <!-- Check Box -->
-                              <div class="checkbox">
-                                <input id="checkbox2-4" class="styled" type="checkbox">
-                                <label for="checkbox2-4"></label>
-                              </div>
-                              <!-- Name -->
-                              <div class="fol-name">
-                                <div class="avatar"> <img src="../public/socio-assets/images/sm-avatar.jpg" alt=""> </div>
-                                <h6>Collin Weiland</h6>
-                                <span>Web Developer</span> </div>
-                            </div>
-                            <!-- Location -->
-                            <div class="col-xs-3 n-p-r n-p-l"> <span>San Francisco, USA</span> </div>
-                            <!-- Network -->
-                            <div class="col-xs-3 n-p-r"> <span>21 Followers</span> <span>10 Following</span> </div>
-                            <!-- Connections -->
-                            <div class="col-xs-2 n-p-r n-p-l"> <span>31 Connections</span> </div>
-                          </div>
-                        </li>
-                        
-                        <!-- MEMBER -->
-                        <li>
-                          <div class="row"> 
-                            <!-- Title -->
-                            <div class="col-xs-4"> 
-                              <!-- Check Box -->
-                              <div class="checkbox">
-                                <input id="checkbox2-5" class="styled" type="checkbox">
-                                <label for="checkbox2-5"></label>
-                              </div>
-                              <!-- Name -->
-                              <div class="fol-name">
-                                <div class="avatar"> <img src="../public/socio-assets/images/sm-avatar.jpg" alt=""> </div>
-                                <h6>Collin Weiland</h6>
-                                <span>Web Developer</span> </div>
-                            </div>
-                            <!-- Location -->
-                            <div class="col-xs-3 n-p-r n-p-l"> <span>San Francisco, USA</span> </div>
-                            <!-- Network -->
-                            <div class="col-xs-3 n-p-r"> <span>21 Followers</span> <span>10 Following</span> </div>
-                            <!-- Connections -->
-                            <div class="col-xs-2 n-p-r n-p-l"> <span>31 Connections</span> </div>
-                          </div>
-                        </li>
-                        
-                        <!-- MEMBER -->
-                        <li>
-                          <div class="row"> 
-                            <!-- Title -->
-                            <div class="col-xs-4"> 
-                              <!-- Check Box -->
-                              <div class="checkbox">
-                                <input id="checkbox2-6" class="styled" type="checkbox">
-                                <label for="checkbox2-6"></label>
-                              </div>
-                              <!-- Name -->
-                              <div class="fol-name">
-                                <div class="avatar"> <img src="../public/socio-assets/images/sm-avatar.jpg" alt=""> </div>
-                                <h6>Collin Weiland</h6>
-                                <span>Web Developer</span> </div>
-                            </div>
-                            <!-- Location -->
-                            <div class="col-xs-3 n-p-r n-p-l"> <span>San Francisco, USA</span> </div>
-                            <!-- Network -->
-                            <div class="col-xs-3 n-p-r"> <span>21 Followers</span> <span>10 Following</span> </div>
-                            <!-- Connections -->
-                            <div class="col-xs-2 n-p-r n-p-l"> <span>31 Connections</span> </div>
-                          </div>
-                        </li>
-                        
-                        <!-- MEMBER -->
-                        <li>
-                          <div class="row"> 
-                            <!-- Title -->
-                            <div class="col-xs-4"> 
-                              <!-- Check Box -->
-                              <div class="checkbox">
-                                <input id="checkbox2-7" class="styled" type="checkbox">
-                                <label for="checkbox2-7"></label>
-                              </div>
-                              <!-- Name -->
-                              <div class="fol-name">
-                                <div class="avatar"> <img src="../public/socio-assets/images/sm-avatar.jpg" alt=""> </div>
-                                <h6>Collin Weiland</h6>
-                                <span>Web Developer</span> </div>
-                            </div>
-                            <!-- Location -->
-                            <div class="col-xs-3 n-p-r n-p-l"> <span>San Francisco, USA</span> </div>
-                            <!-- Network -->
-                            <div class="col-xs-3 n-p-r"> <span>21 Followers</span> <span>10 Following</span> </div>
-                            <!-- Connections -->
-                            <div class="col-xs-2 n-p-r n-p-l"> <span>31 Connections</span> </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
               </div>
+            </div>
+          </div>
+        </div>
+
               
               <!-- Blog Post -->
               <div id="foll-tabs" class="tab-pane fade">
@@ -1208,18 +870,52 @@ Your browser does not support the video tag.
   </div>
 </div>
 
-
+@include('layouts.partials.file_manager')
 @include('layouts.partials.footer')
 @include('layouts.partials.scripts')
+
 <script type="text/javascript">
+
 $(document).ready(function(){
+    $('#interior').change(function(){
+        if(this.checked)
+           $('#autoUpdate').show();
+       
+        else
+             $('#autoUpdate').hide();
+
+    });
+      $('#exterior').change(function(){
+        if(this.checked)
+           $('#autoUpdate2').show();
+       
+        else
+             $('#autoUpdate2').hide();
+
+    });
+        $('#impresos').change(function(){
+        if(this.checked)
+           $('#autoUpdate3').show();
+       
+        else
+             $('#autoUpdate3').hide();
+
+    });
+          $('#video').change(function(){
+        if(this.checked)
+           $('#autoUpdate4').show();
+       
+        else
+             $('#autoUpdate4').hide();
+
+    });
     $(document).on('click','.show_more',function(){
         var ID = $(this).attr('id');
         $('.show_more').hide();
         $('.loding').show();
         $.ajax({
             type:'POST',
-            url:'http://localhost/ancham/public/user_profile',
+            url:'http://localhost/tpspplataforma/public/user_profile',
             data:'id='+ID,
             success:function(html){
                 $('#show_more_main'+ID).remove();
@@ -1228,6 +924,8 @@ $(document).ready(function(){
         }); 
     });
 });
+
+
 </script>
 <!--Start of Tawk.to Script-->
 <script type="text/javascript">
@@ -1242,6 +940,76 @@ s0.parentNode.insertBefore(s1,s0);
 })();
 </script>
 <!--End of Tawk.to Script-->
+
+<link rel="stylesheet" type="text/css" href="{{ asset('la-assets/plugins/datatables/datatables.min.css') }}"/>
+
+<script src="{{ asset('la-assets/plugins/datatables/datatables.min.js') }}"></script>
+<script src="https://cdn.datatables.net/buttons/1.1.2/js/dataTables.buttons.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+ <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+ <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+ <script src="https://cdn.datatables.net/buttons/1.1.2/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.1.2/js/buttons.print.min.js"></script>
+<script>
+$(function () {
+  $("#example1").DataTable({
+  
+    dom: 'Bfrtip',
+    buttons: [
+          
+            'excelHtml5',{
+              extend: 'print',
+               message: 'Autopartes Legazpi',
+               exportOptions: {
+                    columns: ':visible'
+                },
+                customize: function ( win ) {
+                    $(win.document.body)
+                        .css( 'font-size', '10pt' )
+                        .prepend(
+                            '<img src="http://www.grupoemco.com.mx/" />'
+                        );
+ 
+                    $(win.document.body).find( 'table' )
+                        .addClass( 'compact' )
+                        .css( 'font-size', 'inherit' );
+                    }
+                },
+            {
+                extend: 'pdfHtml5',
+                
+                message: 'Autopartes Legazpi',
+                orientation: 'landscape',
+                pageSize: 'LEGAL',
+                download: 'open', 
+                exportOptions: { columns: ':visible' },
+                 
+            }
+        
+           
+           
+            
+        ],
+    processing: true,
+        serverSide: true,
+        ajax: "{{ url('/cita_dt_ajax') }}",
+    language: {
+      "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+    },
+    @if($show_actions)
+    columnDefs: [ { orderable: false, targets: [-1] }],
+    @endif
+    autoWidth: false,
+    scrollY: true,
+        scrollX: true,
+        scrollCollapse: true,
+  });
+  $("#cita-add-form").validate({
+    
+  });
+});
+</script>
+
 </body>
 
 

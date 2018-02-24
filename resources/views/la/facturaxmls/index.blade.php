@@ -1,14 +1,14 @@
 @extends("la.layouts.app")
 
-@section("contentheader_title", "Sucursals")
-@section("contentheader_description", "Sucursals lista")
-@section("section", "Sucursals")
+@section("contentheader_title", "FacturaXMLs")
+@section("contentheader_description", "FacturaXMLs lista")
+@section("section", "FacturaXMLs")
 @section("sub_section", "Lista")
-@section("htmlheader_title", "Sucursals Lista")
+@section("htmlheader_title", "FacturaXMLs Lista")
 
 @section("headerElems")
-@la_access("Sucursals", "create")
-	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal"><i class="fa fa-plus"></i> Sucursal</button>
+@la_access("FacturaXMLs", "create")
+	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal"><i class="fa fa-plus"></i> FacturaXML</button>
 @endla_access
 @endsection
 
@@ -38,43 +38,36 @@
 			@endif
 		</tr>
 		</thead>
+
 		<tbody>
 			
 		</tbody>
+		  <tfoot>
+            <tr>
+                <th colspan="4" style="text-align:right">Total:</th>
+                <th></th>
+            </tr>
+        </tfoot>
 		</table>
 	</div>
 </div>
 
-@la_access("Sucursals", "create")
+     
+    
+@la_access("FacturaXMLs", "create")
 <div class="modal fade" id="AddModal" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel"><i class="fa fa-plus"></i> Sucursal</h4>
+				<h4 class="modal-title" id="myModalLabel"><i class="fa fa-plus"></i> FacturaXML</h4>
 			</div>
-			{!! Form::open(['action' => 'LA\SucursalsController@store', 'id' => 'sucursal-add-form']) !!}
+			{!! Form::open(['action' => 'LA\FacturaXMLsController@store', 'id' => 'facturaxml-add-form']) !!}
 			<div class="modal-body">
 				<div class="box-body">
-                 
-					@la_input($module, 'nombresuc')
-					@la_input($module, 'domicilio')
-					@la_input($module, 'lunes')
-					@la_input($module, 'martes')
-					@la_input($module, 'miercoles')
-					@la_input($module, 'jueves')
-					@la_input($module, 'viernes')
-					@la_input($module, 'sabado')
-					@la_input($module, 'domingo')
-					@la_input($module, 'horarioabierto')
-					@la_input($module, 'horariocerrado')
-					@la_input($module, 'domingohorarioab')
-					@la_input($module, 'domingohorariocer')
-					@la_input($module, 'telefono')
-					@la_input($module, 'sucursal_id')
-					@la_input($module, 'lat')
-					@la_input($module, 'lng')
-					@la_input($module, 'gerente_id')
+                  
+					@la_input($module, 'xml')
+					@la_input($module, 'pdf')
 				
 				</div>
 			</div>
@@ -105,7 +98,7 @@
 <script>
 $(function () {
 	$("#example1").DataTable({
-	
+
 		dom: 'Bfrtip',
 		buttons: [
           
@@ -144,7 +137,7 @@ $(function () {
         ],
 		processing: true,
         serverSide: true,
-        ajax: "{{ url(config('laraadmin.adminRoute') . '/sucursal_dt_ajax') }}",
+        ajax: "{{ url(config('laraadmin.adminRoute') . '/facturaxml_dt_ajax') }}",
 		language: {
 			"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
 		},
@@ -155,8 +148,50 @@ $(function () {
 		scrollY: true,
         scrollX: true,
         scrollCollapse: true,
+         "footerCallback": function ( row, data, start, end, display ) {
+            var api = this.api(), data;
+ 
+            // Remove the formatting to get integer data for summation
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                    i.replace(/[\$,]/g, '')*1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            };
+ 
+            // Total over all pages
+            total = api
+                .column(13)
+                .data()
+                .reduce( function (a, b) {
+                    return  intVal(a) + intVal(b);
+                }, 0 );
+ 
+            // Total over this page
+            pageTotal = api
+                .column(11, { page: 'current'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+
+                  // Total over this page
+            ivaTotal = api
+                .column(12, { page: 'current'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+ 
+            // Update footer
+            $( api.column(0).footer() ).html(
+                'Sub total $'+pageTotal +' + I.V.A $'+ivaTotal +' = $'+ total +' total'
+            );
+        }
+  
 	});
-	$("#sucursal-add-form").validate({
+
+	$("#facturaxml-add-form").validate({
 		
 	});
 });

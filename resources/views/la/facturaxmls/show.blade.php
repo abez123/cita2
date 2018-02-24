@@ -1,7 +1,7 @@
 @extends('la.layouts.app')
 
 @section('htmlheader_title')
-	Franquiciatario View
+	FacturaXML View
 @endsection
 
 
@@ -15,7 +15,7 @@
 					<div class="profile-icon text-primary"><i class="fa {{ $module->fa_icon }}"></i></div>
 				</div>
 				<div class="col-md-9">
-					<h4 class="name">{{ $franquiciatario->$view_col }}</h4>
+					<h4 class="name">{{ $facturaxml->$view_col }}</h4>
 					<div class="row stats">
 						<div class="col-md-4"><i class="fa fa-facebook"></i> 234</div>
 						<div class="col-md-4"><i class="fa fa-twitter"></i> 12</div>
@@ -81,12 +81,12 @@
 			</div>
 		</div>
 		<div class="col-md-1 actions">
-			@la_access("Franquiciatarios", "edit")
-				<a href="{{ url(config('laraadmin.adminRoute') . '/franquiciatarios/'.$franquiciatario->id.'/edit') }}" class="btn btn-xs btn-edit btn-default"><i class="fa fa-pencil"></i></a><br>
+			@la_access("FacturaXMLs", "edit")
+				<a href="{{ url(config('laraadmin.adminRoute') . '/facturaxmls/'.$facturaxml->id.'/edit') }}" class="btn btn-xs btn-edit btn-default"><i class="fa fa-pencil"></i></a><br>
 			@endla_access
 			
-			@la_access("Franquiciatarios", "delete")
-				{{ Form::open(['route' => [config('laraadmin.adminRoute') . '.franquiciatarios.destroy', $franquiciatario->id], 'method' => 'delete', 'style'=>'display:inline']) }}
+			@la_access("FacturaXMLs", "delete")
+				{{ Form::open(['route' => [config('laraadmin.adminRoute') . '.facturaxmls.destroy', $facturaxml->id], 'method' => 'delete', 'style'=>'display:inline']) }}
 					<button class="btn btn-default btn-delete btn-xs" type="submit"><i class="fa fa-times"></i></button>
 				{{ Form::close() }}
 			@endla_access
@@ -94,12 +94,9 @@
 	</div>
 
 	<ul data-toggle="ajax-tab" class="nav nav-tabs profile" role="tablist">
-		<li class=""><a href="{{ url(config('laraadmin.adminRoute') . '/franquiciatarios') }}" data-toggle="tooltip" data-placement="right" title="Back to Franquiciatarios"><i class="fa fa-chevron-left"></i></a></li>
+		<li class=""><a href="{{ url(config('laraadmin.adminRoute') . '/facturaxmls') }}" data-toggle="tooltip" data-placement="right" title="Back to FacturaXMLs"><i class="fa fa-chevron-left"></i></a></li>
 		<li class="active"><a role="tab" data-toggle="tab" class="active" href="#tab-general-info" data-target="#tab-info"><i class="fa fa-bars"></i> General Info</a></li>
 		<li class=""><a role="tab" data-toggle="tab" href="#tab-timeline" data-target="#tab-timeline"><i class="fa fa-clock-o"></i> Timeline</a></li>
-			@if($franquiciatario->id == Auth::user()->id || Entrust::hasRole("SUPER_ADMIN"))
-			<li class=""><a role="tab" data-toggle="tab" href="#tab-account-settings" data-target="#tab-account-settings"><i class="fa fa-key"></i> Cambio de Contraseña</a></li>
-		@endif
 	</ul>
 
 	<div class="tab-content">
@@ -110,17 +107,25 @@
 						<h4>General Info</h4>
 					</div>
 					<div class="panel-body">
-						@la_display($module, 'imagenfran')
-						@la_display($module, 'nombrecompletofran')
-						@la_display($module, 'telefonocasa')
-						@la_display($module, 'celularfran')
-						@la_display($module, 'correofran')
-					
-						@la_display($module, 'domiciliofran')
+						@la_display($module, 'xml')
+						@la_display($module, 'pdf')
+						@la_display($module, 'conceptofac')
+						@la_display($module, 'nombre')
 						@la_display($module, 'rfc')
-						
-						@la_display($module, 'domiciliofiscal')
-						@la_display($module, 'sucursal')
+						@la_display($module, 'usocfdi')
+						@la_display($module, 'clave')
+						@la_display($module, 'cantidad')
+						@la_display($module, 'claveunidad')
+						@la_display($module, 'descripcion')
+						@la_display($module, 'valorunitario')
+						@la_display($module, 'importe')
+						@la_display($module, 'impuesto')
+						@la_display($module, 'fecha')
+						@la_display($module, 'formapago')
+						@la_display($module, 'folio')
+						@la_display($module, 'moneda')
+						@la_display($module, 'mes')
+						@la_display($module, 'year')
 					</div>
 				</div>
 			</div>
@@ -219,49 +224,7 @@
 			</ul>
 			<!--<div class="text-center p30"><i class="fa fa-list-alt" style="font-size: 100px;"></i> <br> No posts to show</div>-->
 		</div>
-		@if($franquiciatario->id == Auth::user()->id || Entrust::hasRole("SUPER_ADMIN"))
-		<div role="tabpanel" class="tab-pane fade" id="tab-account-settings">
-			<div class="tab-content">
-				<form action="{{ url(config('laraadmin.adminRoute') . '/change_passwordfran/'.$franquiciatario->id) }}" id="password-reset-form" class="general-form dashed-row white" method="post" accept-charset="utf-8">
-					{{ csrf_field() }}
-					<div class="panel">
-						<div class="panel-default panel-heading">
-							<h4>Account settings</h4>
-						</div>
-						<div class="panel-body">
-							@if (count($errors) > 0)
-								<div class="alert alert-danger">
-									<ul>
-										@foreach ($errors->all() as $error)
-											<li>{{ $error }}</li>
-										@endforeach
-									</ul>
-								</div>
-							@endif
-							@if(Session::has('success_message'))
-								<p class="alert {{ Session::get('alert-class', 'alert-success') }}">{{ Session::get('success_message') }}</p>
-							@endif
-							<div class="form-group">
-								<label for="password" class=" col-md-2">Password</label>
-								<div class=" col-md-10">
-									<input type="password" name="password" value="" id="password" class="form-control" placeholder="Password" autocomplete="off" required="required" data-rule-minlength="6" data-msg-minlength="Please enter at least 6 characters.">
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="password_confirmation" class=" col-md-2">Retype password</label>
-								<div class=" col-md-10">
-									<input type="password" name="password_confirmation" value="" id="password_confirmation" class="form-control" placeholder="Retype password" autocomplete="off" required="required" data-rule-equalto="#password" data-msg-equalto="Please enter the same value again.">
-								</div>
-							</div>
-						</div>
-						<div class="panel-footer">
-							<button type="submit" class="btn btn-primary"><span class="fa fa-check-circle"></span> Change Password</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-		@endif
+		
 	</div>
 	</div>
 	</div>

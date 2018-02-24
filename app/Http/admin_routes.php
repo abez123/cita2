@@ -144,4 +144,12 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== Cuentas ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/cuentas', 'LA\CuentasController');
 	Route::get(config('laraadmin.adminRoute') . '/cuenta_dt_ajax', 'LA\CuentasController@dtajax');
+
+	/* ================== Documentos ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/documentos', 'LA\DocumentosController');
+	Route::get(config('laraadmin.adminRoute') . '/documento_dt_ajax', 'LA\DocumentosController@dtajax');
+
+	/* ================== FacturaXMLs ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/facturaxmls', 'LA\FacturaXMLsController');
+	Route::get(config('laraadmin.adminRoute') . '/facturaxml_dt_ajax', 'LA\FacturaXMLsController@dtajax');
 });

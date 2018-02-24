@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Dwij\Laraadmin\Models\Module;
 
-class CreateFranquiciatariosTable extends Migration
+class CreateDocumentosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -17,18 +17,10 @@ class CreateFranquiciatariosTable extends Migration
      */
     public function up()
     {
-        Module::generate("Franquiciatarios", 'franquiciatarios', 'nombrecompletofran', 'fa-user-plus', [
-            ["imagenfran", "Imagen", "Image", false, "", 0, 0, false],
-            ["nombrecompletofran", "Nombre Completo", "Name", false, "", 0, 256, false],
-            ["rfcfisica", "RFC Persona Fisica", "TextField", false, "", 0, 256, false],
-            ["telefonocasa", "Telefono de casa", "Mobile", false, "", 0, 20, false],
-            ["celularfran", "Celular", "Mobile", false, "", 0, 20, false],
-            ["correofran", "Correo Electrónico", "Email", true, "", 0, 256, false],
-            ["domiciliofran", "Domicilio", "Address", false, "", 0, 256, false],
-            ["razonsocial", "Razon Social", "TextField", false, "", 0, 256, false],
-            ["rfcmoral", "RFC Moral", "TextField", false, "", 0, 256, false],
-            ["domiciliofiscal", "Domicilio Fiscal", "Address", false, "", 0, 256, false],
-            ["sucursal", "Sucursales", "Multiselect", false, "", 0, 0, false, "@sucursals"],
+        Module::generate("Documentos", 'documentos', 'nombredocu', 'fa-file-archive-o', [
+            ["nombredocu", "Nombre del documento", "Name", false, "", 0, 256, false],
+            ["conceptodocu", "Concepto", "Dropdown", false, "", 0, 0, false, ["Adecuaci\u00f3n de Sucursal: Interior","Adecuaci\u00f3n de Sucursal: Exterior","Impresos:","Videos para Pantallas"]],
+            ["urldocu", "URL", "URL", false, "", 0, 256, false],
         ]);
 		
 		/*
@@ -74,8 +66,8 @@ class CreateFranquiciatariosTable extends Migration
      */
     public function down()
     {
-        if (Schema::hasTable('franquiciatarios')) {
-            Schema::drop('franquiciatarios');
+        if (Schema::hasTable('documentos')) {
+            Schema::drop('documentos');
         }
     }
 }

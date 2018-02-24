@@ -1,16 +1,23 @@
-@extends("la.layouts.app")
+@include('layouts.partials.htmlheader')
 
-@section("contentheader_title")
-	<a href="{{ url(config('laraadmin.adminRoute') . '/createcita') }}">Cita</a> :
-@endsection
-@section("contentheader_description", "Crear Cita")
-@section("section", "Citas")
-@section("section_url", url(config('laraadmin.adminRoute') . '/createcita'))
-@section("sub_section", "Crear")
+<body>
+<div id="main-wrapper">
+@include('layouts.partials.top_toolbar')  
+@include('layouts.partials.navmenu')  
+ 
+
+  <!-- SUB Banner -->
+  <div class="profile-bnr sub-bnr user-profile-bnr">
+    <div class="position-center-center">
+      <div class="container">
+
+        <h2>Crear una Cita</h2>
+      </div>
+    </div>
+  </div>
 
 
 
-@section("main-content")
 
 @if (count($errors) > 0)
     <div class="alert alert-danger">
@@ -23,25 +30,27 @@
 @endif
 
 <div class="box">
-	
-	<div class="box-body">
-		<div class="row">
-			<div class="col-md-8 col-md-offset-2">
+ 
+  <div class="box-body">
+    <div class="row">
+
+      <div class="col-md-8 col-md-offset-2">
+        <h3><a href="{{url('user_profile')}}">Regrasar a Incio</a></h3>
          @if(\Entrust::hasRole('GERENTE_TIENDA'))
-				<div class="classesCallendar">
+        <div class="classesCallendar">
         <div id='calendar'></div>
 
       </div>
       @endif
-      	
-				@la_access("Citas", "create")
+        
+        @la_access("Citas", "create")
 
-			{!! Form::open(['action' => 'LA\CitasController@store', 'id' => 'cita-add-form']) !!}
-			<div class="modal-body">
-				<div class="box-body">
+      {!! Form::open(['action' => 'CitasController@store', 'id' => 'cita-add-form']) !!}
+      <div class="modal-body">
+        <div class="box-body">
                    
-	 @if(\Entrust::hasRole('GERENTE_TIENDA'))
-		 
+   @if(\Entrust::hasRole('GERENTE_TIENDA'))
+     
 @foreach($sucursales as $item)
 <h3>Sucursal: {{$item->nombresuc}}</h3>
 <input type="hidden" name="sucursal_id" value="{{$item->id}}">
@@ -66,31 +75,31 @@
 
    
                             <br>
-					
-						
-						<label class="control-label"  for="servicio_id"><i class="glyphicon glyphicon-heart"></i> Servicio *:</label> <select
-							style="width: 100%" rel="select2" name="servicio_id" id="servicio_id"
-							class="form-control select2"> 
-							<option value=""></option>
+          
+            
+            <label class="control-label"  for="servicio_id"><i class="glyphicon glyphicon-heart"></i> Servicio *:</label> <select
+              style="width: 100%" rel="select2" name="servicio_id" id="servicio_id"
+              class="form-control select2"> 
+              <option value=""></option>
                          
-							@foreach($servicios as $item)
-							<option value="{{$item->id}}"
-								@if(!empty($servicios))
+              @foreach($servicios as $item)
+              <option value="{{$item->id}}"
+                @if(!empty($servicios))
                                         @if($item->id==$servicio)
-								            selected="selected"
-								        @endif
-								@endif >{{$item->nombreservicio}}</option>
-							@endforeach
-						</select>
-						
-					
-		        	<br>
-	
+                            selected="selected"
+                        @endif
+                @endif >{{$item->nombreservicio}}</option>
+              @endforeach
+            </select>
+            
+          
+              <br>
+  
 
-						
-			
-						
-					 <label class="control-label" for="pedicurista_id"> <i class="glyphicon glyphicon-user"></i>  Pedicurista</label>
+            
+      
+            
+           <label class="control-label" for="pedicurista_id"> <i class="glyphicon glyphicon-user"></i>  Pedicurista</label>
                       <select style="width: 100%" name="pedicurista_id" id="pedicurista_id" class="form-control" rel="select2">
                        
                         
@@ -100,7 +109,7 @@
                       </select>                                    
            
                     <br>
-             	@la_input($module, 'fechaservicio')
+              @la_input($module, 'fechaservicio')
 
                      <div class="form-group ">
                    <label class="control-label" for="hora"> <i class="glyphicon glyphicon-user"></i>  Horario</label>
@@ -113,68 +122,68 @@
                       </select>                                    
                    
                  
-					
-				</div>
-				
-			<label class="control-label"  for="cliente_id"> <i class="glyphicon glyphicon-user"></i> Cliente *:</label> <select
-							style="width: 100%" rel="select2" name="cliente_id" id="cliente_id"
-							class="form-control select2"> 
-							<option value=""></option>
+          
+        </div>
+        
+      <label class="control-label"  for="cliente_id"> <i class="glyphicon glyphicon-user"></i> Cliente *:</label> <select
+              style="width: 100%" rel="select2" name="cliente_id" id="cliente_id"
+              class="form-control select2"> 
+              <option value=""></option>
                           <option value="0">Nuevo Cliente</option>
-							@foreach($clientes as $item)
-							<option value="{{$item->id}}"
-								@if(!empty($clientes))
+              @foreach($clientes as $item)
+              <option value="{{$item->id}}"
+                @if(!empty($clientes))
                                         @if($item->id==$cliente)
-								            selected="selected"
-								        @endif
-								@endif >{{$item->nombrecompleto}} | Celular: {{$item->celular}} | Tel casa: {{$item->telcasa}} | {{$item->correo}}</option>
-							@endforeach
-						</select>
-					<div class="box box-success" id="clientehistory">
-	<!--<div class="box-header"></div>-->
-	
+                            selected="selected"
+                        @endif
+                @endif >{{$item->nombrecompleto}} | Celular: {{$item->celular}} | Tel casa: {{$item->telcasa}} | {{$item->correo}}</option>
+              @endforeach
+            </select>
+          <div class="box box-success" id="clientehistory">
+  <!--<div class="box-header"></div>-->
+  
 </div>
 
-			<div style="display: none" class="modal-header" id="newclient">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel"><i class="fa fa-plus"></i> <i class="glyphicon glyphicon-user"></i>  Nuevo Cliente</h4>
-			</div>
-			
-			<div style="display: none" class="modal-body" id="newclientII">
-				<div class="box-body">
+      <div style="display: none" class="modal-header" id="newclient">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-plus"></i> <i class="glyphicon glyphicon-user"></i>  Nuevo Cliente</h4>
+      </div>
+      
+      <div style="display: none" class="modal-body" id="newclientII">
+        <div class="box-body">
                    
-					<div class="form-group">
-						<label>Nombre Completo: <input class="form-control" type="text" name="nombrecompleto" value="" id="nombrecompleto"></label>
-					</div>
-					<div class="form-group">
-					<label>Telefono de Casa: <input class="form-control" type="tel" name="telcasa" value="" id="telcasa"></label>
-					</div>
-					<div class="form-group">
-					<label>Celular: <input class="form-control" type="tel" name="celular" value="" id="celular"></label>
-					</div>
-					<div class="form-group">
-					<label>Correo: <input class="form-control" type="email" name="correo" value="" id="correo"></label>
-				</div>
+          <div class="form-group">
+            <label>Nombre Completo: <input class="form-control" type="text" name="nombrecompleto" value="" id="nombrecompleto"></label>
+          </div>
+          <div class="form-group">
+          <label>Telefono de Casa: <input class="form-control" type="tel" name="telcasa" value="" id="telcasa"></label>
+          </div>
+          <div class="form-group">
+          <label>Celular: <input class="form-control" type="tel" name="celular" value="" id="celular"></label>
+          </div>
+          <div class="form-group">
+          <label>Correo: <input class="form-control" type="email" name="correo" value="" id="correo"></label>
+        </div>
 
-					
-					
-				</div>
-			</div>
-			<br>
-				@la_input($module, 'estatus')
+          
+          
+        </div>
+      </div>
+      <br>
+        @la_input($module, 'estatus')
         @la_input($module, 'cortesia')
         
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="reset"  class="btn btn-default"  >Limpiar</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="reset"  class="btn btn-default"  >Limpiar</button>
         <button type="button"  class="btn btn-primary btn-lg"  data-toggle="modal" 
    data-target="#favoritesModal" id="confirmbtn">Confirmar</button>
 
 
     </div>
  
-			</div>
+      </div>
 
  <div class="modal fade" id="favoritesModal" 
      tabindex="-1" role="dialog" 
@@ -210,7 +219,7 @@
       
        <div class="form-group"><label for="pedido">¿Desea algun producto? :</label> {{ Form::checkbox('pedido', 0, null, ['id' => 'pedido','class' => 'field']) }}</div>
         <div style="display: none" class="form-group" id="autoUpdate" >
-       <iframe width="550px" height="500px"  src="http://todoparasuspies.com/mx/productos-todos"></iframe>
+       <iframe width="800px" height="500px"  src="http://todoparasuspies.com/mx/productos-todos"></iframe>
    
      </div>
    </div>
@@ -232,9 +241,142 @@
 @endla_access
 
 
-@endsection
 
-@push('scripts')
+
+
+
+
+
+       
+
+</div>
+</div>
+</div>
+</div>
+
+
+        <div class="col-md-3">
+          <div class="uou-sidebar">
+
+            <div class="search-widget">
+              <form class="search-form-widget" action="#">
+                <input type="text" class="search-input" placeholder="Search ...">
+                <input type="submit" value="">
+              </form>
+            </div> <!-- end search-widget -->
+
+            <h5 class="sidebar-title">Categories</h5>
+
+            <div class="list-widget">
+              <ul>
+                <li><a href="#">Creative</a></li>
+                <li><a href="#">Design</a></li>
+                <li><a href="#">Development</a></li>
+                <li><a href="#">Mulitmedia</a></li>
+                <li><a href="#">Offtopic</a></li>
+
+              </ul>
+            </div>
+
+
+            <h5 class="sidebar-title">About Us</h5>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi.</p>
+
+
+            <h5 class="sidebar-title">Connect With Us</h5>
+
+            <div class="social-widget">
+              <div class="uou-block-4b">
+
+                <ul class="social-icons">
+                  <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                  <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                  <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                  <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+                  <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+                </ul>
+
+              </div> <!-- end .uou-block-4b -->
+            </div> <!-- end social widget -->
+
+            <h5 class="sidebar-title">Popular Posts</h5>
+
+            <div class="latest-post-widget">
+              <div class="post-single">
+                <img src="../public/socio-assets/img/p-post-1.png" alt="">
+                <p class="meta">January 12, 2015</p>
+                <p class="meta">Design</p>
+                <h6 class="post-title"><a href="#">Pariatur Vellit Corrupti Goes Into 2 Lines</a></h6>
+
+              </div>
+
+              <div class="post-single">
+                <img src="../public/socio-assets/img/p-post-2.png" alt="">
+                <p class="meta">January 12, 2015</p>
+                <p class="meta">Design</p>
+                <h6 class="post-title"><a href="#">Pariatur Vellit Corrupti Goes Into 2 Lines</a></h6>
+
+              </div>
+
+              <div class="post-single">
+                <img src="../public/socio-assets/img/p-post-3.png" alt="">
+                <p class="meta">January 12, 2015</p>
+                <p class="meta">Design</p>
+                <h6 class="post-title"><a href="#">Pariatur Vellit Corrupti Goes Into 2 Lines</a></h6>
+
+              </div>
+            </div> <!-- end latest-post-widget -->
+
+
+            <h5 class="sidebar-title">Tag Cloud</h5>
+
+            <div class="widget-tag">
+              <div class="tag-cloud">
+                <a class="btn btn-primary" href="#">User Experience</a>
+                <a class="btn btn-primary" href="#">HTML 5</a>
+                <a class="btn btn-primary" href="#">Css 3</a>
+                <a class="btn btn-primary" href="#">web design</a>
+                <a class="btn btn-primary" href="#">social media</a>
+                <a class="btn btn-primary" href="#">web development</a>
+                <a class="btn btn-primary" href="#">print design</a>
+                <a class="btn btn-primary" href="#">e-commerce</a>
+                <a class="btn btn-primary" href="#">java script</a>
+              </div>
+
+            </div>
+
+            <h5 class="sidebar-title">Archive</h5>
+
+            <div class="list-widget">
+              <ul>
+                <li><a href="#">May 2015</a></li>
+                <li><a href="#">April 2015</a></li>
+                <li><a href="#">July 2015</a></li>
+                <li><a href="#">Frbruary 2015</a></li>
+                <li><a href="#">January 2015</a></li>
+
+              </ul>
+            </div>
+
+
+          </div> <!-- end uou-sidebar -->
+        </div>
+
+      </div> <!-- end row -->
+
+    </div> <!-- edn cotainer -->
+
+  </div> <!-- end blog-content -->
+
+
+
+</div>
+<!-- end #main-wrapper -->
+@include('layouts.partials.footer')
+
+@include('layouts.partials.scripts')
+
   <script type="text/javascript">
   
    
@@ -298,20 +440,20 @@ eventMouseout: function(calEvent, jsEvent) {
           eventSources: [
 
           {
-          url: '{{url('/calendario-ajax')}}',
+          url: '{{url('/calendariofran-ajax')}}',
           color: 'blue',    // an option!
             textColor: 'white'  // an option!
           
           },
             {
-          url: '{{url('/comidainicia-ajax')}}',
+          url: '{{url('/comidainiciafran-ajax')}}',
           color: 'red',    // an option!
             textColor: 'black'
        
           
           },
            {
-          url: '{{url('/comidatermina-ajax')}}',
+          url: '{{url('/comidaterminafran-ajax')}}',
           color: 'red',    // an option!
             textColor: 'black'  // an option!
           
@@ -336,9 +478,9 @@ eventMouseout: function(calEvent, jsEvent) {
 
          
 $(function () {
-	$("#cita-add-form").validate({
-		
-	});
+  $("#cita-add-form").validate({
+    
+  });
 });
  $('#cliente_id').change(function(){
         if ($(this).val() == '0'){
@@ -363,7 +505,7 @@ var sucursal_id ={{$item->id}};
                $('#pedicurista_id').empty();
     
     var cat_id = $('#servicio_id').val();
-       $.get('{{url('/pedicurista-ajax')}}?sucursal_id=' + sucursal_id+'&servicio_id=' +  cat_id, function(data){
+       $.get('{{url('/pedicuristafran-ajax')}}?sucursal_id=' + sucursal_id+'&servicio_id=' +  cat_id, function(data){
 
            //success data
               
@@ -391,7 +533,7 @@ var sucursal_id ={{$item->id}};
 
 
 
-       $.get('{{url('/pedicurista-ajax')}}?sucursal_id=' + sucursal_id+'&servicio_id=' +  cat_id, function(data){
+       $.get('{{url('/pedicuristafran-ajax')}}?sucursal_id=' + sucursal_id+'&servicio_id=' +  cat_id, function(data){
 
            //success data
               
@@ -428,7 +570,7 @@ $('#pedicurista_id').empty();
                $('#pedicurista_id').empty();
       var sucursal_id = e.target.value; 
     var cat_id = $('#servicio_id').val();
-       $.get('{{url('/pedicurista-ajax')}}?sucursal_id=' + sucursal_id+'&servicio_id=' +  cat_id, function(data){
+       $.get('{{url('/pedicuristafran-ajax')}}?sucursal_id=' + sucursal_id+'&servicio_id=' +  cat_id, function(data){
 
            //success data
               
@@ -456,7 +598,7 @@ $('#pedicurista_id').empty();
 
 
 
-       $.get('{{url('/pedicurista-ajax')}}?sucursal_id=' + sucursal_id+'&servicio_id=' +  cat_id, function(data){
+       $.get('{{url('/pedicuristafran-ajax')}}?sucursal_id=' + sucursal_id+'&servicio_id=' +  cat_id, function(data){
 
            //success data
               
@@ -502,7 +644,7 @@ $( "#pedicurista_id" ).on('change', function(e){
     var servicio_id = $('#servicio_id').val();
      var sucursal_id = $('#sucursal_id').val();
       var newfecha = newfecha1.split("/").reverse().join("-");
-       $.get('{{url('/horario-ajax')}}?fechaservicio=' +newfecha+'&servicio_id=' + servicio_id+'&pedicurista_id=' + pedicurista_id+ '&sucursal_id=' + sucursal_id, function(data){
+       $.get('{{url('/horariofran-ajax')}}?fechaservicio=' +newfecha+'&servicio_id=' + servicio_id+'&pedicurista_id=' + pedicurista_id+ '&sucursal_id=' + sucursal_id, function(data){
 
            //success data
            $('#hora').empty();
@@ -523,7 +665,7 @@ $( "#pedicurista_id" ).on('change', function(e){
 
        });
  });
-$.get('{{url('/horario-ajax')}}?fechaservicio=' +newfecha+'&servicio_id=' + servicio_id+'&pedicurista_id=' + pedicurista_id+ '&sucursal_id=' + sucursal_id, function(data){
+$.get('{{url('/horariofran-ajax')}}?fechaservicio=' +newfecha+'&servicio_id=' + servicio_id+'&pedicurista_id=' + pedicurista_id+ '&sucursal_id=' + sucursal_id, function(data){
 
            //success data
            $('#hora').empty();
@@ -560,12 +702,12 @@ $.get('{{url('/horario-ajax')}}?fechaservicio=' +newfecha+'&servicio_id=' + serv
    var newfecha = newfecha1.split("/").reverse().join("-");
        //ajax 
 $( "#pedicurista_id" ).on('change', function(e){
-	 var pedicurista_id  =  $('#pedicurista_id').val();
+   var pedicurista_id  =  $('#pedicurista_id').val();
      var newfecha1=  $('#fechaservicio').val(); 
     var servicio_id = $('#servicio_id').val();
      var sucursal_id = $('#sucursal_id').val();
       var newfecha = newfecha1.split("/").reverse().join("-");
-       $.get('{{url('/horario-ajax')}}?fechaservicio=' +newfecha+'&servicio_id=' + servicio_id+'&pedicurista_id=' + pedicurista_id+ '&sucursal_id=' + sucursal_id, function(data){
+       $.get('{{url('/horariofran-ajax')}}?fechaservicio=' +newfecha+'&servicio_id=' + servicio_id+'&pedicurista_id=' + pedicurista_id+ '&sucursal_id=' + sucursal_id, function(data){
 
            //success data
            $('#hora').empty();
@@ -577,16 +719,16 @@ $( "#pedicurista_id" ).on('change', function(e){
                $('#hora').append('<option value ="'
                + subcatObj.hora +'">' + subcatObj.hora  + '</option');
              
-				//for (index = 0; index < timedisable.length; ++index) {
-				      // $("#hora option[value='"+timedisable[index]+"']").remove();
-				//}
+        //for (index = 0; index < timedisable.length; ++index) {
+              // $("#hora option[value='"+timedisable[index]+"']").remove();
+        //}
            });
      
          
 
        });
  });
-$.get('{{url('/horario-ajax')}}?fechaservicio=' +newfecha+'&servicio_id=' + servicio_id+'&pedicurista_id=' + pedicurista_id+ '&sucursal_id=' + sucursal_id, function(data){
+$.get('{{url('/horariofran-ajax')}}?fechaservicio=' +newfecha+'&servicio_id=' + servicio_id+'&pedicurista_id=' + pedicurista_id+ '&sucursal_id=' + sucursal_id, function(data){
 
            //success data
            $('#hora').empty();
@@ -598,9 +740,9 @@ $.get('{{url('/horario-ajax')}}?fechaservicio=' +newfecha+'&servicio_id=' + serv
                $('#hora').append('<option value ="'
                + subcatObj.hora +'">' + subcatObj.hora  + '</option');
              
-				//for (index = 0; index < timedisable.length; ++index) {
-				      // $("#hora option[value='"+timedisable[index]+"']").remove();
-				//}
+        //for (index = 0; index < timedisable.length; ++index) {
+              // $("#hora option[value='"+timedisable[index]+"']").remove();
+        //}
            });
      
             
@@ -616,7 +758,7 @@ $('#cliente_id').on('change', function(e){
   
        //ajax 
 
-       $.get('{{url('/cliente-ajax')}}?cliente_id=' +cliente_id, function(data){
+       $.get('{{url('/clientefran-ajax')}}?cliente_id=' +cliente_id, function(data){
 
            //success data
            $('#clientehistory').empty();
@@ -631,9 +773,9 @@ $('#clientehistory').append('<div class="box-body"><table id="example1" class="t
                 
               }
              
-				//for (index = 0; index < timedisable.length; ++index) {
-				      // $("#hora option[value='"+timedisable[index]+"']").remove();
-				//}
+        //for (index = 0; index < timedisable.length; ++index) {
+              // $("#hora option[value='"+timedisable[index]+"']").remove();
+        //}
            });
      
             
@@ -666,7 +808,7 @@ var cliente_id = $('#cliente_id').val();
      var precio = $('#precio').val();
 
  if (clienteids<1){
-       $.get('{{url('/citaconfirm-ajax')}}?cliente_id=0&servicio_id='+servicio_id+'&pedicurista_id='+pedicurista_id, function(data){
+       $.get('{{url('/citaconfirmfran-ajax')}}?cliente_id=0&servicio_id='+servicio_id+'&pedicurista_id='+pedicurista_id, function(data){
 
          $.each(data, function(index, subcatObj){
     
@@ -681,7 +823,7 @@ $('#fav-cliente').text(cliente_id);
            });
       });
      }else if(clienteids >= 1){
-   $.get('{{url('/citaconfirm-ajax')}}?cliente_id='+cliente_id+'&servicio_id='+servicio_id+'&pedicurista_id='+pedicurista_id, function(data){
+   $.get('{{url('/citaconfirmfran-ajax')}}?cliente_id='+cliente_id+'&servicio_id='+servicio_id+'&pedicurista_id='+pedicurista_id, function(data){
 
          $.each(data, function(index, subcatObj){
     
@@ -703,5 +845,7 @@ $( "#imageped" ).attr( "src", subcatObj.imagen);
 
 
 </script>
+</body>
 
-@endpush
+
+</html>

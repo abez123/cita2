@@ -42,8 +42,8 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:FRANQUICIATARIO_
 		Route::get('/citaconfirmfran-ajax', 'CitasController@clienteConfirm');
 
 
-
-	Route::get('blog/{id}', 'BlogController@detail');
+    Route::get('noticias', 'NoticiaController@index');
+	Route::get('noticia/{id}', 'NoticiaController@detail');
 	Route::get('evento/{id}', 'EventoController@detail');
 	Route::get('empresa/{id}', 'EmpresaController@detail');
 	/* ================== User Profile Routes ================== */

@@ -160,4 +160,16 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== EncuestaISFs ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/encuestaisfs', 'LA\EncuestaISFsController');
 	Route::get(config('laraadmin.adminRoute') . '/encuestaisf_dt_ajax', 'LA\EncuestaISFsController@dtajax');
+
+	/* ================== Empresas ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/empresas', 'LA\EmpresasController');
+	Route::get(config('laraadmin.adminRoute') . '/empresa_dt_ajax', 'LA\EmpresasController@dtajax');
+
+	/* ================== Enlaces ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/enlaces', 'LA\EnlacesController');
+	Route::get(config('laraadmin.adminRoute') . '/enlace_dt_ajax', 'LA\EnlacesController@dtajax');
+
+	/* ================== Noticias ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/noticias', 'LA\NoticiasController');
+	Route::get(config('laraadmin.adminRoute') . '/noticia_dt_ajax', 'LA\NoticiasController@dtajax');
 });

@@ -93,24 +93,13 @@ class CitasController extends Controller
 		$clientes= Cliente::all();
 		$cliente='';
 
-    $franquiciatarios=Franquiciatario::join('users','users.context_id','=','franquiciatarios.id')->where('franquiciatarios.id','=',Auth::user()->context_id)->where('users.type','=','FRANQUICIATARIO')->select(array('franquiciatarios.sucursal'))->get();
-    foreach($franquiciatarios as $franquiciatario){
-        $proper1 = $franquiciatario->sucursal;          
 
-          
-    }
-          $prop2 = str_replace('"', ' ', $proper1);
-          $miems = json_decode($prop2); 
         
     if(\Entrust::hasRole('SUPER_ADMIN')||\Entrust::hasRole('CALLCENTER')||\Entrust::hasRole('FRANQUICIATARIO_ADMIN')){
     $sucursales= Sucursal::all();
     $sucursal = '';
     }elseif(\Entrust::hasRole('GERENTE_TIENDA')){
-       $sucursales= Sucursal::where('gerente_id','=',Auth::user()->context_id)->select(array('sucursals.id','sucursals.nombresuc'))->get();
-      ;
-      $sucursal= '';
-    }elseif(\Entrust::hasRole('FRANQUICIATARIO')){
-      $sucursales= Sucursal::whereIN('sucursals.id',$miems)->select(array('sucursals.id','sucursals.nombresuc'))->get();
+       $sucursales= Sucursal::join('users','users.context_id','=','sucursals.gerente_id')->where('sucursals.gerente_id','=',Auth::user()->context_id)->where('users.type','=','employee')->whereNull('users.deleted_at')->select(array('sucursals.id','sucursals.nombresuc'))->get();
       ;
       $sucursal= '';
     }
@@ -822,7 +811,7 @@ Pedicurista en especifico y con incapacidad
     {
 		$values = DB::table('citas')->join('clientes','clientes.id','=','citas.cliente_id')->join('sucursals','sucursals.id','=','citas.sucursal_id')->join('servicios','servicios.id','=','citas.servicio_id')->join('pedicuristas','pedicuristas.id','=','citas.pedicurista_id')->select(array('citas.id','clientes.nombrecompleto','sucursals.nombresuc','servicios.nombreservicio','pedicuristas.nombrecompletoped','citas.fechaservicio','citas.hora','citas.estatus','citas.cortesia'))->whereNull('citas.deleted_at')->orderBy('citas.fechaservicio','DESC');
   }
-   elseif(\Entrust::hasRole('GERENTE_TIENDA')
+   elseif(\Entrust::hasRole('GERENTE_TIENDA')){
 
     $values = DB::table('citas')->join('clientes','clientes.id','=','citas.cliente_id')->join('sucursals','sucursals.id','=','citas.sucursal_id')->join('servicios','servicios.id','=','citas.servicio_id')->join('pedicuristas','pedicuristas.id','=','citas.pedicurista_id')->join('users','users.context_id','=','sucursals.gerente_id')->select(array('citas.id','clientes.nombrecompleto','sucursals.nombresuc','servicios.nombreservicio','pedicuristas.nombrecompletoped','citas.fechaservicio','citas.hora','citas.estatus','citas.cortesia'))->whereNull('citas.deleted_at')->where('sucursals.gerente_id','=',Auth::user()->context_id)->where('users.type','=','Employee')->orderBy('citas.fechaservicio','DESC');
   }

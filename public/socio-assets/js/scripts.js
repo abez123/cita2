@@ -263,6 +263,16 @@ var markers = [
     title: 'Marker 6'
   }
 ];
+// Mediaqueries
+// ---------------------------------------------------------
+// var XS = window.matchMedia('(max-width:767px)');
+// var SM = window.matchMedia('(min-width:768px) and (max-width:991px)');
+// var MD = window.matchMedia('(min-width:992px) and (max-width:1199px)');
+// var LG = window.matchMedia('(min-width:1200px)');
+// var XXS = window.matchMedia('(max-width:480px)');
+// var SM_XS = window.matchMedia('(max-width:991px)');
+// var LG_MD = window.matchMedia('(min-width:992px)');
+
 
 
 
@@ -654,94 +664,10 @@ $('.uou-block-11a').each(function () {
 
 
 
-// .uou-block-12a
-// ---------------------------------------------------------
-$('.uou-block-12a').each(function () {
-  var $block = $(this),
-      $map = $block.find('.map-container .map');
-
-  // Map
-  var map,
-      height = $map.data('height'),
-      centerLat = $map.data('center-lat'),
-      centerLng = $map.data('center-lng');
-
-  $map.css('height', height + 'px');
-
-  function initialize () {
-    var mapOptions = {
-      scrollwheel: false,
-      zoom: 14,
-      center: new google.maps.LatLng(centerLat, centerLng)
-    };
-
-    map = new google.maps.Map($map[0], mapOptions);
-
-    for (var i = 0; i < markers.length; i++) {
-      var marker = markers[i];
-
-      new google.maps.Marker({
-        position: new google.maps.LatLng(marker.lat, marker.lng),
-        map: map,
-        title: marker.title
-      });
-    }
-  }
-
-  google.maps.event.addDomListener(window, 'load', initialize);
-
-  google.maps.event.addDomListener(window, 'resize', function () {
-    var center = map.getCenter();
-    google.maps.event.trigger(map, 'resize');
-    map.setCenter(center);
-  });
-});
 
 
 
-// .uou-block-12b
-// ---------------------------------------------------------
-$('.uou-block-12b').each(function () {
-  var $block = $(this),
-      $map = $block.find('.map-container .map');
 
-  // Map
-  var map,
-      height = $map.data('height'),
-      centerLat = $map.data('center-lat'),
-      centerLng = $map.data('center-lng');
-
-  $map.css('height', height + 'px');
-
-  function initialize () {
-    var mapOptions = {
-      scrollwheel: false,
-      zoom: 14,
-      center: new google.maps.LatLng(centerLat, centerLng)
-    };
-
-    map = new google.maps.Map($map[0], mapOptions);
-
-    for (var i = 0; i < markers.length; i++) {
-      var marker = markers[i];
-
-      new google.maps.Marker({
-        position: new google.maps.LatLng(marker.lat, marker.lng),
-        map: map,
-        title: marker.title
-      });
-    }
-
-  }
-
-  google.maps.event.addDomListener(window, 'load', initialize);
-
-  google.maps.event.addDomListener(window, 'resize', function () {
-    var center = map.getCenter();
-    google.maps.event.trigger(map, 'resize');
-    map.setCenter(center);
-  });
-});
 
 
 

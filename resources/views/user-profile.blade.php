@@ -23,7 +23,7 @@
         
         <!-- Top Riht Button -->
         <div class="right-top-bnr">
-          <div class="connect"> <a href="#." data-toggle="modal" data-target="#myModal"><i class="fa fa-user-plus"></i> Connect</a> <a href="#."><i class="fa fa-share-alt"></i> Share</a>
+          <div class="connect"> <a href="#." data-toggle="modal" data-target="#myModal"><i class="fa fa-user-plus"></i> Contacto</a> 
             <div class="bt-ns"> <a href="#."><i class="fa fa-bookmark-o"></i> </a> <a href="#."><i class="fa fa-envelope-o"></i> </a> <a href="#."><i class="fa fa-exclamation"></i> </a> </div>
           </div>
         </div>
@@ -34,29 +34,30 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="container">
-              <h6><a class="close" href="#." data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a> Send Message</h6>
+              <h6><a class="close" href="#." data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a> Envíanos un mensaje</h6>
               
               <!-- Forms -->
               <form action="#">
                 <ul class="row">
+                    @foreach($franquiciatarios as $franquiciatario)
                   <li class="col-xs-6">
-                    <input type="text" placeholder="First Name ">
+             <label>Nombre:</label>
+                    <input type="text" value="{{$franquiciatario->nombrecompletofran}}" readonly>
                   </li>
+              
                   <li class="col-xs-6">
-                    <input type="text" placeholder="Last Name">
-                  </li>
-                  <li class="col-xs-6">
-                    <input type="text" placeholder="Country">
-                  </li>
-                  <li class="col-xs-6">
-                    <input type="text" placeholder="Email">
+                      <label>Correo:</label>
+                    <input type="text" value="{{$franquiciatario->correofran}}" readonly>
                   </li>
                   <li class="col-xs-12">
-                    <textarea placeholder="Your Message"></textarea>
+                      <label>Mensaje:</label>
+                    <textarea placeholder="Su mensaje"></textarea>
                   </li>
                   <li class="col-xs-12">
-                    <button class="btn btn-primary">Send message</button>
+
+                    <button class="btn btn-primary">Enviar mensaje</button>
                   </li>
+                  @endforeach
                 </ul>
               </form>
             </div>
@@ -78,12 +79,12 @@
                <li><a data-toggle="tab" href="#reportes">Reportes</a></li>
              
                   <li><a data-toggle="tab" href="#citas">Citas</a></li>
-                  <li><a data-toggle="tab" href="#blog-tab">Noticias</a></li>
+                  <li><a  href="{{url('/noticias')}}">Noticias</a></li>
               
                <li><a data-toggle="tab" href="#docus">Documentos</a></li>
-              <li><a data-toggle="tab" href="#contacto">Contacto</a></li>
+             <!-- <li><a data-toggle="tab" href="#contacto">Contacto</a></li>-->
               <li><a data-toggle="tab" href="#tareas">Tareas</a></li>         
-             
+              <li><a data-toggle="tab" href="#enlaces">Enlaces</a></li>    
               <li><a data-toggle="tab" href="#encuesta">Encuestas</a></li>
              
             </ul>
@@ -98,7 +99,11 @@
                 <div class="row">
                   <div class="col-md-12">
                     <div class="profile-main">
-                      <h3>About</h3>
+                        @foreach($franquiciatarios as $franquiciatario)
+          <h3>{{$franquiciatario->nombrecompletofran}}</h3>
+       
+          @endforeach
+                     
                       <div class="profile-in">
                         <div class="media-left">
                           @foreach($franquiciatarios as $franquiciatario)
@@ -107,14 +112,16 @@
                           @endforeach
                         </div>
                         <div class="media-body">
-                          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit, maxime, excepturi, mollitia, voluptatibus similique aliquidautem 
-                            laudantium sapiente ad enim ipsa modi labo rum accusantium deleniti neque architecto vitae.<br>
-                            <br>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea, nihil, dolores, culpa ullam vero ipsum placeat accusamus nemo
-                            itate id molestiae consectetur quae pariatur repudi andae vel ex quaerat nam iusto aliquid laborum quia adipisci aut ut imcati 
-                            nisi deleniti tempore maxime sequi fugit reiciendis libero quo. Rerum, assumenda. <br>
-                            <br>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Exercitationem, at nemo inventore temporibus corporis suscipit.</p>
+                          <h3>Sucursales</h3>
+                           <ul class="row">
+            
+                          @foreach($sucursales as $sucursal)
+                         <li class="col-sm-3">
+                         <h6>Todo Para Sus Pies<img width="30px" src="{{asset('socio-assets/images/trademark.png')}}" alt="R"> {{$sucursal->nombresuc}}</h6> 
+                        </li>
+                         @endforeach
+                         </ul>
+                     
                         </div>
                       </div>
                     </div>
@@ -123,13 +130,13 @@
                     
                     <!-- Skills -->
                     <div class="sidebar">
-                      <h5 class="main-title">Skills</h5>
+                      <h5 class="main-title">Pendientes</h5>
                       <div class="job-skills"> 
                         
                         <!-- Logo Design -->
                         <ul class="row">
                           <li class="col-sm-3">
-                            <h6><i class="fa fa-plus"></i> HTML5 and Css3</h6>
+                            <h6><i class="fa fa-plus"></i> Contrato</h6>
                           </li>
                           <li class="col-sm-9">
                             <div class="progress">
@@ -141,7 +148,7 @@
                         <!-- Logo Design -->
                         <ul class="row">
                           <li class="col-sm-3">
-                            <h6><i class="fa fa-plus"></i> Logo Design</h6>
+                            <h6><i class="fa fa-plus"></i> SAE</h6>
                           </li>
                           <li class="col-sm-9">
                             <div class="progress">
@@ -153,7 +160,7 @@
                         <!-- Logo Design -->
                         <ul class="row">
                           <li class="col-sm-3">
-                            <h6><i class="fa fa-plus"></i> Web Design</h6>
+                            <h6><i class="fa fa-plus"></i> Capacitación</h6>
                           </li>
                           <li class="col-sm-9">
                             <div class="progress">
@@ -161,77 +168,28 @@
                             </div>
                           </li>
                         </ul>
-                        
-                        <!-- UI / UX -->
-                        <ul class="row">
-                          <li class="col-sm-3">
-                            <h6><i class="fa fa-plus"></i> UI/UX</h6>
-                          </li>
-                          <li class="col-sm-9">
-                            <div class="progress">
-                              <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 80%;"> </div>
-                            </div>
-                            <p>Preferred languages are Arabic, French & Italian. Proin nibh augue, suscipit asce lerisque sed, lacinia in, mi.</p>
-                          </li>
-                        </ul>
+               
                       </div>
                     </div>
                     
                     <!-- Professional Details -->
                     <div class="sidebar">
-                      <h5 class="main-title">Similar Professionals</h5>
+                      <h5 class="main-title">Citas</h5>
                       
                       <!-- Similar -->
                       <div class="similar">
                         <div class="media">
                           <div class="media-left">
-                            <div class="inn-simi"> <img class="media-object" src="../public/socio-assets/images/med-avatar.jpg" alt=""> <a href="#">Profile </a> </div>
+                            <div class="inn-simi"> <img class="media-object" src="{{$imgs->path()}}" alt=""> <a href="{{url('/crear_cita')}}">Crear Cita </a> </div>
                           </div>
                           <div class="media-body">
-                            <h5>Media heading</h5>
-                            <p>SEO Specialist - New York, USA</p>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit, maxime, excepturi, mollitia, 
-                              voluptatibus similique aliquid a dolores autem laudantium sapiente ad enim ipsa modi laborum 
-                              accusantium deleniti neque architecto vitae.</p>
-                            
-                            <!-- Share -->
-                            <div class="share-w"><a href="#."><i class="fa fa-bookmark-o"></i></a> <a href="#."><i class="fa fa-envelope-o"></i></a> <a href="#."><i class="fa fa-eye"></i></a></div>
+                           <canvas id="myChart" ></canvas>
+                      
                           </div>
                         </div>
                         
-                        <!-- Similar -->
-                        <div class="media">
-                          <div class="media-left">
-                            <div class="inn-simi"> <img class="media-object" src="../public/socio-assets/images/med-avatar.jpg" alt=""> <a href="#">Profile </a> </div>
-                          </div>
-                          <div class="media-body">
-                            <h5>Denise Walsh</h5>
-                            <p>SEO Specialist - New York, USA</p>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit, maxime, excepturi, mollitia, 
-                              voluptatibus similique aliquid a dolores autem laudantium sapiente ad enim ipsa modi laborum 
-                              accusantium deleniti neque architecto vitae.</p>
-                            
-                            <!-- Share -->
-                            <div class="share-w"><a href="#."><i class="fa fa-bookmark-o"></i></a> <a href="#."><i class="fa fa-envelope-o"></i></a> <a href="#."><i class="fa fa-eye"></i></a></div>
-                          </div>
-                        </div>
-                        
-                        <!-- Similar -->
-                        <div class="media">
-                          <div class="media-left">
-                            <div class="inn-simi"> <img class="media-object" src="../public/socio-assets/images/med-avatar.jpg" alt=""> <a href="#">Profile </a> </div>
-                          </div>
-                          <div class="media-body">
-                            <h5>Denise Walsh</h5>
-                            <p>SEO Specialist - New York, USA</p>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit, maxime, excepturi, mollitia, 
-                              voluptatibus similique aliquid a dolores autem laudantium sapiente ad enim ipsa modi laborum 
-                              accusantium deleniti neque architecto vitae.</p>
-                            
-                            <!-- Share -->
-                            <div class="share-w"><a href="#."><i class="fa fa-bookmark-o"></i></a> <a href="#."><i class="fa fa-envelope-o"></i></a> <a href="#."><i class="fa fa-eye"></i></a></div>
-                          </div>
-                        </div>
+                     
+               
                       </div>
                     </div>
                   </div>
@@ -241,64 +199,57 @@
                     
                     <!-- Professional Details -->
                     <div class="sidebar">
-                      <h5 class="main-title">Professional Details</h5>
+                        @foreach($franquiciatarios as $franquiciatario)
+                      <h5 class="main-title">Sus Datos en Sistema</h5>
                       <div class="sidebar-information">
                         <ul class="single-category">
+                         
                           <li class="row">
-                             @foreach($franquiciatarios as $franquiciatario)
+                            
                             <h6 class="title col-xs-6">Nombre</h6>
                             <span class="subtitle col-xs-6">{{$franquiciatario->nombrecompletofran}}</span></li>
-                            @endforeach
+                      
+                        
                           <li class="row">
-                            <h6 class="title col-xs-6">Age</h6>
-                            <span class="subtitle col-xs-6">38 Years Old</span></li>
+                            <h6 class="title col-xs-6">Domicilio</h6>
+                            <span class="subtitle col-xs-6"> <a target="_blank"  href="{!!"http://maps.google.com/?q=".$franquiciatario->domiciliofran!!}" 
+                              data-toggle="tooltip" data-placement="left"><i class="fa fa-map-marker"></i>{!!$franquiciatario->domiciliofran!!} </a></span></li>
+                      
+                        
                           <li class="row">
-                            <h6 class="title col-xs-6">Location</h6>
-                            <span class="subtitle col-xs-6">Jordan Amman</span></li>
+                            <h6 class="title col-xs-6">RFC</h6>
+                            <span class="subtitle col-xs-6">{{$franquiciatario->rfc}}</span></li>
                           <li class="row">
-                            <h6 class="title col-xs-6">Experiance</h6>
-                            <span class="subtitle col-xs-6">15 Years</span></li>
-                          <li class="row">
-                            <h6 class="title col-xs-6">Dgree</h6>
-                            <span class="subtitle col-xs-6">MBA</span></li>
-                          <li class="row">
-                            <h6 class="title col-xs-6">Career Lavel</h6>
-                            <span class="subtitle col-xs-6">Mid-Level</span></li>
-                          <li class="row">
-                            <h6 class="title col-xs-6">Phone</h6>
-                            <span class="subtitle col-xs-6">(800) 123-4567</span></li>
-                          <li class="row">
-                            <h6 class="title col-xs-6">Fax </h6>
-                            <span class="subtitle col-xs-6">(800) 123-4568</span></li>
+                            <h6 class="title col-xs-6">Teléfono</h6>
+                            <span class="subtitle col-xs-6">{{$franquiciatario->celularfran}}</span></li>
+                        
                           <li class="row">
                             <h6 class="title col-xs-6">E-mail</h6>
-                            <span class="subtitle col-xs-6"><a href="#.">example@example.com</a></span></li>
-                          <li class="row">
-                            <h6 class="title col-xs-6">Website</h6>
-                            <span class="subtitle col-xs-6"><a href="#.">example.com </a></span></li>
+                            <span class="subtitle col-xs-6"><a href="#.">{{$franquiciatario->correofran}}</a></span></li>
+                             @endforeach
                         </ul>
                       </div>
                     </div>
                     
                     <!-- Rating -->
                     <div class="sidebar">
-                      <h5 class="main-title">Rating</h5>
+                      <h5 class="main-title">Encuesta</h5>
                       <div class="sidebar-information">
                         <ul class="single-category com-rate">
                           <li class="row">
-                            <h6 class="title col-xs-6">Expertise:</h6>
+                            <h6 class="title col-xs-6">Servicio:</h6>
                             <span class="col-xs-6"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i></span> </li>
                           <li class="row">
-                            <h6 class="title col-xs-6">Knowledge:</h6>
+                            <h6 class="title col-xs-6">Facturación:</h6>
                             <span class="col-xs-6"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-half-o"></i> <i class="fa fa-star-o"></i></span> </li>
                           <li class="row">
-                            <h6 class="title col-xs-6">Quality::</h6>
+                            <h6 class="title col-xs-6">Calidad:</h6>
                             <span class="col-xs-6"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i></span> </li>
                           <li class="row">
-                            <h6 class="title col-xs-6">Price:</h6>
+                            <h6 class="title col-xs-6">Precios:</h6>
                             <span class="col-xs-6"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i></span> </li>
                           <li class="row">
-                            <h6 class="title col-xs-6">Services:</h6>
+                            <h6 class="title col-xs-6">Entregas:</h6>
                             <span class="col-xs-6"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i></span> </li>
                         </ul>
                       </div>
@@ -306,19 +257,20 @@
                     
                     <!-- Social Profiles -->
                     <div class="sidebar">
-                      <h5 class="main-title">Social Profiles</h5>
+                      <h5 class="main-title">Perfiles Sociales TPSP</h5>
                       <ul class="socil">
-                        <li><a href="#."><i class="fa fa-facebook"></i></a></li>
-                        <li><a href="#."><i class="fa fa-google-plus"></i></a></li>
-                        <li><a href="#."><i class="fa fa-linkedin"></i></a></li>
-                        <li><a href="#."><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="https://www.facebook.com/TodoparasusPiesMX/"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="https://www.instagram.com/todoparasuspies/"><i class="fa fa-instagram"></i></a></li>
+                        <li><a href="https://www.youtube.com/channel/UC_Isub0CgYXzwxCNmFxvycg"><i class="fa fa-youtube"></i></a></li>
+                        <li><a href="https://twitter.com/todoparasuspies"><i class="fa fa-twitter"></i></a></li>
                       </ul>
                     </div>
                   </div>
                 </div>
               </div>
 
-
+ <!-- __________________________________________________________________________- -->
+                 <!-- Encuesta -->
 
       <div id="encuesta" class="tab-pane fade">
                 <div class="header-listing">
@@ -682,7 +634,7 @@
              
               </div>
             </div><!-- ./col -->
-                <canvas id="myChart" ></canvas>
+               
           </div><!-- /.row -->
       
         </section>
@@ -728,6 +680,27 @@
             </div>
           </div>
         </div>
+
+        <!-- _________________________________________________________________________________- -->
+           
+              <!-- Enlaces -->
+              <div id="enlaces" class="tab-pane fade">
+
+                <div class="profile-main">
+                  <h3>Enlaces</h3>
+                  <div class="profile-in">
+                    <p>Aquí podrás ver todas las enlaces que corresponde  Todo Para Sus Pies.</p>
+                    @foreach($enlaces as $enlace)
+        <h3><a href="{{$enlace->enlace}}" target="_blank">{{$enlace->nombrenenlace}}  {!!$enlace->descripcion!!}</a></h3>
+                
+                   @endforeach
+
+        {{ $enlaces->fragment('enlaces')->links() }}
+                 
+                  </div>
+                </div>
+              </div>
+ <!-- _________________________________________________________________________________- -->  
  <!-- _________________________________________________________________________________- -->
            
               <!-- Contacto -->
@@ -1022,8 +995,7 @@
 @include('layouts.partials.footer')
 @include('layouts.partials.file_manager')
 @include('layouts.partials.scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.jss" type="text/javascript" charset="utf-8"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" type="text/javascript" charset="utf-8"></script>
+
 
 <script type="text/javascript">
 var ctx = document.getElementById("myChart").getContext('2d');

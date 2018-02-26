@@ -8,12 +8,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use Illuminate\Http\Request;
-use App\Models\Blog;
+use App\Models\Noticia;
 /**
  * Class HomeController
  * @package App\Http\Controllers
  */
-class BlogController extends Controller
+class NoticiaController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -25,7 +25,17 @@ class BlogController extends Controller
         
     }
 
-
+   /**
+     * Show the application dashboard.
+     *
+     * @return Response
+     */
+    public function index()
+    {
+            $noticias = Noticia::paginate(4);
+                return view('noticias',compact('noticias'));
+    
+    }
 
         /**
      * Show the application dashboard.
@@ -34,8 +44,8 @@ class BlogController extends Controller
      */
     public function detail($id)
     {
-            $blogs = Blog::find($id);
-                return view('blog-post',compact('blogs'));
+            $noticia = Noticia::find($id);
+                return view('noticia-post',compact('noticia'));
     
     }
 }

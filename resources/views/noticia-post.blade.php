@@ -10,21 +10,21 @@
   <div class="profile-bnr sub-bnr user-profile-bnr">
     <div class="position-center-center">
       <div class="container">
-        <h2>Nuestro Blog</h2>
+        <h2>Noticias</h2>
       </div>
     </div>
   </div>
- <?php $imgs = \App\Models\Upload::find($blogs->blogimg); ?>
+ <?php $imgs = \App\Models\Upload::find($noticia->imagen); ?>
 
   <div class="blog-content pt60">
     <div class="container">
       <div class="row">
         <div class="col-md-9">
           <article class="uou-block-7f blog-post-content">
-            @if($blogs->url !='')
+            @if($noticia->url !='')
           
              <video class="col-md-12 col-sm-8 col-lg-12" controls>
-  <source src="{{$blogs->url}}" type="video/mp4">
+  <source src="{{$noticia->url}}" type="video/mp4">
  
 Your browser does not support the video tag.
 </video>
@@ -37,9 +37,9 @@ Your browser does not support the video tag.
               <a href="#" class="comments">12 Comments</a>
             </div>
 
-            <h1><a href="#">{{$blogs->titulo}}</a></h1>
+            <h1><a href="#">{{$noticia->titulo}}</a></h1>
 
-            <p>{!!$blogs->text!!}</p>
+            <p>{!!$noticia->text!!}</p>
 
 
             <div class="uou-share-story clearfix">

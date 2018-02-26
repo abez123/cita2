@@ -16,8 +16,8 @@
           <div class="col-sm-7">
             <div class="text-area">
               <div class="position-center-center col-md-10">
-                <h1> Here comes the social networking platform that you’ve been waiting for</h1><a href="whatsapp://send?text=Hello World!&phone=+523316108875">Ping me on WhatsApp</a>
-                <h6>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue conseqaut nibbhi ellit ipsum consectetur. </h6>
+                <h1> Plataforma Todo Para Sus Pies Franquiciatario</h1><a href="whatsapp://send?text=Hello World!&phone=+523316108875">Ping me on WhatsApp</a>
+                <h6>Tu plataforma para compartir, informar y recibir noticias de parte del corporativo Todo Para Sus Pies </h6>
               </div>
             </div>
           </div>
@@ -29,22 +29,11 @@
               <!-- TABS -->
               <div class="uou-tabs">
                 <ul class="tabs">
-                  <li><a href="#register">Register Now</a></li>
-                  <li class="active"><a href="#log-in">Member Login</a></li>
+                 
+                  <li class="active"><a href="#log-in">Ingreso Franquiciatario</a></li>
                 </ul>
                 
-                <!-- REGISTER -->
-                <div class="content">
-                  <div id="register">
-                    <form>
-                      <input type="text" placeholder="Full Name">
-                      <input type="email" placeholder="Email Address">
-                      <input type="text" placeholder="Phone">
-                      <input type="password" placeholder="Password">
-                      <button type="submit">Register</button>
-                      <div class="login-with"> <span>Or login with:</span> <a href="#."><i class="fa fa-facebook"></i></a> <a href="#."><i class="fa fa-google"></i></a> <a href="#."><i class="fa fa-linkedin"></i></a> </div>
-                    </form>
-                  </div>
+           
                   
                   <!-- LOGIN -->
                   <div id="log-in" class="active">
@@ -54,23 +43,26 @@
                       <input type="email" name="email" placeholder="Email Address">
                       <input type="password" name="password" placeholder="Password">
                       <button type="submit">Ingresar</button>
-                      <div class="login-with"> <span>Or login with:</span> <a href="#."><i class="fa fa-facebook"></i></a> <a href="#."><i class="fa fa-google"></i></a> <a href="#."><i class="fa fa-linkedin"></i></a> </div>
-                      <div class="forget">Forgot your password? <a href="#.">Click Here</a></div>
+                     
+                      <div class="forget">¿Olvidó su contraseña? <a href="{{ url('/password/reset') }}">Entra aqui</a></div>
+                      
                     </form>
-                     @elseif(\Entrust::hasRole('SOCIO'))
-                   <li><a href="{{ url('user_profile') }}">{{ Auth::user()->name }}</a></li>
-                    <li><a href="{{ url('/logout') }}">Salir</a></li>
-                    @else
-                     <ul><li><a href="{{ url(config('laraadmin.adminRoute')) }}">{{ Auth::user()->name }}</a>
-                      <li><a href="{{ url('/logout') }}">Salir</a></li></li></ul>
+                  @elseif(\Entrust::hasRole('FRANQUICIATARIO'))
+                <li><a href="{{ url('user_profile') }}">{{ Auth::user()->name }}</a></li>
+                 
+                        <li><a href="{{ url('/logout') }}">Salir</a></li></ul>
+                  @elseif(\Entrust::hasRole('FRANQUICIATARIO_ADMIN'))
+             <li><a href="{{ url(config('laraadmin.adminRoute')) }}">Admin</a></li>
+
+              <li><a href="{{ url('user_profile') }}"> {{ Auth::user()->name }} </a></li>
+                   <li><a href="{{ url('/logout') }}">Salir</a></li></ul>
+               @else
+            <li><a href="{{ url(config('laraadmin.adminRoute')) }}">{{ Auth::user()->name }}</a></li>
+                       <li><a href="{{ url('/logout') }}">Salir</a></li></ul>  
                 @endif
+             
                   </div>
-                  <div id="forget">
-                    <form>
-                      <input type="email" placeholder="Email Address">
-                      <button type="submit">Login</button>
-                    </form>
-                  </div>
+                 
                 </div>
               </div>
             </div>
@@ -89,10 +81,9 @@
         <li class="col-md-4">
           <div class="ser-inn">
           <i class="fa fa-globe"></i>
-            <h4>Stay in touch with your
-              colleagues</h4>
+            <h4>Mantente informado</h4>
             <i class="fa fa-globe big"></i>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue conseqaut nibbhi ellit ipsum consectetur.</p>
+            <p>La pataforma de Todo Para Sus Pies Franquiciatario es un lugar para estar informado y poder comunicarte facilemte con el corporativo</p>
           </div>
         </li>
         
@@ -100,10 +91,9 @@
         <li class="col-md-4">
           <div class="ser-inn">
             <i class="fa fa-book"></i>
-            <h4>Get the latest news
-              in your industry</h4>
+            <h4>Puedes obtener las últimas noticias para tu franquicia</h4>
             <i class="fa fa-book big"></i>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue conseqaut nibbhi ellit ipsum consectetur.</p>
+            <p>Copartimos constantemente noticias para la mejora continua</p>
           </div>
         </li>
         
@@ -111,10 +101,9 @@
         <li class="col-md-4">
           <div class="ser-inn">
           <i class="fa fa-picture-o"></i>
-            <h4>Share what’s up
-              with you</h4>
+            <h4>Comparte información con nostros</h4>
             <i class="fa fa-picture-o big"></i>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue conseqaut nibbhi ellit ipsum consectetur.</p>
+            <p>Nos puedes enviar mensaje, chat o subir archivos para compartir</p>
           </div>
         </li>
       </ul>
@@ -131,12 +120,8 @@
           <!-- PRO CONTENT -->
           <div class="col-md-6 pro-inside">
             <div class="position-center-center col-md-6">
-              <h1>Interact with other
-                professionals</h1>
-              <p> Sed ut perspiciatis unde omnis iste natus error sit voluptatem 
-                accusantium doloremque laudantium, totam rem aperiam, 
-                eaque ipsa quae ab illo inventore veritatis et quasi architecto 
-                beatae vitae dicta sunt explicabo. </p>
+              <h1>Reportes Especializados</h1>
+              <p> Reportes para tomar decisiones importantes. Reportes de ventas por semana, mes y año. Tambíen por pedicurista y sucursales </p>
             </div>
           </div>
         </div>
@@ -149,12 +134,8 @@
           <!-- PRO TEXT -->
           <div class="col-md-6 pro-inside">
             <div class="position-center-center col-md-6">
-              <h1>Collaborate on a
-                project</h1>
-              <p> Sed ut perspiciatis unde omnis iste natus error sit voluptatem 
-                accusantium doloremque laudantium, totam rem aperiam, 
-                eaque ipsa quae ab illo inventore veritatis et quasi architecto 
-                beatae vitae dicta sunt explicabo. </p>
+              <h1>Recibe Notificaciones Importantes</h1>
+              <p> Les enviamos noticas importantes parala mejora continua de su frnaquicia Todo Para Sus Pies </p>
             </div>
           </div>
           
@@ -171,13 +152,9 @@
           
           <!-- TEXT -->
           <div class="col-md-6 text-center text-area">
-            <h1>SocialMe for your 
-              Smartphone</h1>
-            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem 
-              accusantium doloremque laudantium, totam rem aperiam, 
-              eaque ipsa quae ab illo inventore veritatis et quasi architecto 
-              beatae vitae dicta sunt explicabo. </p>
-            <a href="#."><i class="fa fa-apple"></i> App Store</a> </div>
+            <h1>Se adapta a su Smartphone</h1>
+            <p>La plataforma se adapta a cualquier dispositivo.</p>
+            </div>
           
           <!-- APP IMAGE -->
           <div class="col-md-6 text-right"><img src="../public/socio-assets/images/app-img.png" alt="" > </div>
@@ -188,47 +165,36 @@
     <!-- TESTIMONIALS -->
     <section class="clients-says">
       <div class="container">
-        <h3 class="section-title">what our users say </h3>
+        <h3 class="section-title">que dicen nuestros franquiciatarios </h3>
         <div class="testi">
           <div class="texti-slide"> 
             <!-- SLide -->
             <div class="clints-text">
               <div class="text-in">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue.</p>
+                <p>Es una manera de poder estar informado de los más importante para mi franquicia</p>
               </div>
               <div class="avatar">
                 <div class="media-left"> <a href="#."> <img src="../public/socio-assets/images/clients-avatar-1.jpg" alt=""> </a> </div>
                 <div class="media-body">
-                  <h6>John Kevin Mara</h6>
-                  <span>smashingmagazine.com</span> </div>
+                  <h6>Ignacio GP</h6>
+               </div>
               </div>
             </div>
             
             <!-- SLide -->
             <div class="clints-text">
               <div class="text-in">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue.</p>
+                <p>Puede organizar mi franquicia de una manera mucha más efectiva. Muchas Gracias</p>
               </div>
               <div class="avatar">
                 <div class="media-left"> <a href="#."> <img src="../public/socio-assets/images/clients-avatar-1.jpg" alt=""> </a> </div>
                 <div class="media-body">
-                  <h6>John Kevin Mara</h6>
-                  <span>smashingmagazine.com</span> </div>
+                  <h6>Omar Garcia P</h6>
+                </div>
               </div>
             </div>
             
-            <!-- SLide -->
-            <div class="clints-text">
-              <div class="text-in">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue.</p>
-              </div>
-              <div class="avatar">
-                <div class="media-left"> <a href="#."> <img src="../public/socio-assets/images/clients-avatar-1.jpg" alt=""> </a> </div>
-                <div class="media-body">
-                  <h6>John Kevin Mara</h6>
-                  <span>smashingmagazine.com</span> </div>
-              </div>
-            </div>
+
           </div>
         </div>
       </div>
@@ -239,7 +205,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-12">
-            <h3 class="section-title">Our Sponsors</h3>
+            <h3 class="section-title">Franquicias Destacadas</h3>
             <div class="sponsors-slider">
               <div class="item"><img src="../public/socio-assets/images/sponsor_logo1.png" alt="" class="img-responsive"></div>
               <div class="item"><img src="../public/socio-assets/images/sponsor_logo2.png" alt="" class="img-responsive"></div>

@@ -7,63 +7,54 @@
   <div class="profile-bnr sub-bnr user-profile-bnr">
     <div class="position-center-center">
       <div class="container">
-        <h2>Our Blog</h2>
+        <h2>Noticias</h2>
       </div>
     </div>
   </div>
+     <div class="profile-company-content user-profile main-user" data-bg-color="f5f5f5">
+      <div class="container">
+        <div class="row"> 
+            <!-- Nav Tabs -->
+          <div class="col-md-12">
+            <ul class="nav nav-tabs">
+              <li class="active"><a  href="{{url('/user_profile')}}">Perfil</a></li>
+              <li><a  href="{{url('/user_profile#factura')}}">Facturas</a> </li>
+               <li><a  href="{{url('/user_profile#reportes')}}">Reportes</a></li>
+             
+                  <li><a  href="{{url('/user_profile#citas')}}">Citas</a></li>
+                  <li><a data-toggle="tab" href="#noticias">Noticias</a></li>
+              
+               <li><a  href="{{url('/user_profile#docus')}}">Documentos</a></li>
+              <!--<li><a data-toggle="tab" href="#contacto">Contacto</a></li>-->
+              <li><a href="{{url('/user_profile#tareas')}}">Tareas</a></li>         
+              <li><a  href="{{url('/user_profile#enlaces')}}">Enlaces</a></li>    
+              <li><a  href="{{url('/user_profile#encuesta')}}">Encuestas</a></li>
+             
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
   <div class="blog-content pt60">
     <div class="container">
       <div class="row">
         <div class="col-md-9">
-          <article class="uou-block-7f"> <img src="img/blog-image-1.jpg" alt="" class="thumb">
-            <div class="meta"> <span class="time-ago">3 days ago</span> <span class="category">Posted in: <a href="#">Design</a></span> <a href="#" class="comments">12 Comments</a> </div>
-            <h1><a href="#">Perspiciatis Sint Pariatur Velit Corrupti</a></h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.</p>
-            <a href="#" class="btn btn-small btn-primary">Read More</a> </article>
-          <!-- end .uou-block-7f -->
-          
-          <article class="uou-block-7f"> <img src="img/blog-image-2.jpg" alt="" class="thumb">
-            <div class="meta"> <span class="time-ago">3 days ago</span> <span class="category">Posted in: <a href="#">Design</a></span> <a href="#" class="comments">12 Comments</a> </div>
-            <h1><a href="#">Perspiciatis Sint Pariatur Velit Corrupti</a></h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.</p>
-            <a href="#" class="btn btn-small btn-primary">Read More</a> </article>
-          <!-- end .uou-block-7f -->
-          
-          <article class="uou-block-7f"> <img src="img/blog-image-3.jpg" alt="" class="thumb">
-            <div class="meta"> <span class="time-ago">3 days ago</span> <span class="category">Posted in: <a href="#">Design</a></span> <a href="#" class="comments">12 Comments</a> </div>
-            <h1><a href="#">Perspiciatis Sint Pariatur Velit Corrupti</a></h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.</p>
-            <a href="#" class="btn btn-small btn-primary">Read More</a> </article>
-          <!-- end .uou-block-7f -->
-          
-          <article class="uou-block-7f"> <img src="img/blog-image-3.jpg" alt="" class="thumb">
-            <div class="meta"> <span class="time-ago">3 days ago</span> <span class="category">Posted in: <a href="#">Design</a></span> <a href="#" class="comments">12 Comments</a> </div>
-            <h1><a href="#">Perspiciatis Sint Pariatur Velit Corrupti</a></h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.</p>
-            <a href="#" class="btn btn-small btn-primary">Read More</a> </article>
-          <!-- end .uou-block-7f -->
-          
-          <article class="uou-block-7f"> <img src="img/blog-image-4.jpg" alt="" class="thumb">
-            <div class="meta"> <span class="time-ago">3 days ago</span> <span class="category">Posted in: <a href="#">Design</a></span> <a href="#" class="comments">12 Comments</a> </div>
-            <h1><a href="#">Perspiciatis Sint Pariatur Velit Corrupti</a></h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.</p>
-            <a href="#" class="btn btn-small btn-primary">Read More</a> </article>
-          <!-- end .uou-block-7f -->
-          
-          <article class="uou-block-7f"> <img src="img/blog-image-5.jpg" alt="" class="thumb">
-            <div class="meta"> <span class="time-ago">3 days ago</span> <span class="category">Posted in: <a href="#">Design</a></span> <a href="#" class="comments">12 Comments</a> </div>
-            <h1><a href="#">Perspiciatis Sint Pariatur Velit Corrupti</a></h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.</p>
-            <a href="#" class="btn btn-small btn-primary">Read More</a> </article>
-          <!-- end .uou-block-7f -->
+          @foreach($noticias as $noticia)
+        <?php $imgs = \App\Models\Upload::find($noticia->imagen); ?>
+          <article class="uou-block-7f"> <img src="{{$imgs->path()}}" alt="" class="thumb">
+            <div class="meta"> <span class="time-ago">{{date("F jS, Y", strtotime($noticia->created_at))}}</span> <span class="category">Escrito por: <a href="#">TPSP</a></span> <a href="#" class="comments"></a> </div>
+            <h1><a href="{{url('/noticia/'.$noticia->id)}}">{{$noticia->titulo}}</a></h1>
+            <p>{!!$noticia->text!!}</p>
+            <a href="{{url('/noticia/'.$noticia->id)}}" class="btn btn-small btn-primary">Leer más</a> </article>
+          <!-- end .uou-block-7f -->         
+     
+      @endforeach
+    
           
           <div class="text-center pt20">
             <ul class="uou-paginatin list-unstyled">
-              <li class="active"><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
+             
+               <li>{{$noticias->links()}}</li>
             </ul>
           </div>
         </div>

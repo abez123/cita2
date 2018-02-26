@@ -6113,6 +6113,12 @@ p i {
 .uou-block-1a .social li a.fa-google-plus {
 	background: #dd4b39;
 }
+.uou-block-1a .social li a.fa-youtube {
+	background: #FE0000;
+}
+.uou-block-1a .social li a.fa-instagram {
+	background: #B131BA;
+}
 .uou-block-1a .social li a:hover.fa-facebook {
 	background: #2d4474;
 }
@@ -6121,6 +6127,12 @@ p i {
 }
 .uou-block-1a .social li a:hover.fa-google-plus {
 	background: #c23321;
+}
+.uou-block-1a .social li a:hover.fa-youtube {
+	background: #030305;
+}
+.uou-block-1a .social li a:hover.fa-instagram {
+	background: #F64F51;
 }
 @media (max-width: 767px) {
 .uou-block-1a {

@@ -18,7 +18,7 @@ use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
 use App\Models\Franquiciatario;
 use App\Models\Reporte;
-
+use App\Models\Cita;
 class ReportesController extends Controller
 {
     public $show_action = true;
@@ -43,14 +43,41 @@ class ReportesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    { 
+
+        $franquiciatarios = Franquiciatario::join('users','users.context_id','=','franquiciatarios.id')->where('franquiciatarios.id',Auth::user()->context_id)->where('users.type','FRANQUICIATARIO')->select(array('franquiciatarios.*'))->whereNull('franquiciatarios.deleted_at')->get();  
+
+
+        foreach($franquiciatarios as $franquiciatario){
+        $proper1 = $franquiciatario->sucursal;          
+
+          
+    }
+          $prop2 = str_replace('"', ' ', $proper1);
+          $miems = json_decode($prop2); 
+
         $module = Module::get('Reportes');
+
+       $citasasigandas = DB::table('citas')->join('clientes','clientes.id','=','citas.cliente_id')->join('sucursals','sucursals.id','=','citas.sucursal_id')->join('servicios','servicios.id','=','citas.servicio_id')->join('pedicuristas','pedicuristas.id','=','citas.pedicurista_id')->select(array('citas.id','clientes.nombrecompleto','sucursals.nombresuc','servicios.nombreservicio','pedicuristas.nombrecompletoped','citas.fechaservicio','citas.hora','citas.estatus','citas.cortesia'))->whereNull('citas.deleted_at')->whereIN('sucursals.id',$miems)->where('citas.estatus','Asignada')->count();
+
+       $citascancladas = DB::table('citas')->join('clientes','clientes.id','=','citas.cliente_id')->join('sucursals','sucursals.id','=','citas.sucursal_id')->join('servicios','servicios.id','=','citas.servicio_id')->join('pedicuristas','pedicuristas.id','=','citas.pedicurista_id')->select(array('citas.id','clientes.nombrecompleto','sucursals.nombresuc','servicios.nombreservicio','pedicuristas.nombrecompletoped','citas.fechaservicio','citas.hora','citas.estatus','citas.cortesia'))->whereNull('citas.deleted_at')->whereIN('sucursals.id',$miems)->where('citas.estatus','Cancelada')->count();
+
+       $citaspagadas = DB::table('citas')->join('clientes','clientes.id','=','citas.cliente_id')->join('sucursals','sucursals.id','=','citas.sucursal_id')->join('servicios','servicios.id','=','citas.servicio_id')->join('pedicuristas','pedicuristas.id','=','citas.pedicurista_id')->select(array('citas.id','clientes.nombrecompleto','sucursals.nombresuc','servicios.nombreservicio','pedicuristas.nombrecompletoped','citas.fechaservicio','citas.hora','citas.estatus','citas.cortesia'))->whereNull('citas.deleted_at')->whereIN('sucursals.id',$miems)->where('citas.estatus','Pagada')->count();
+
+       $citasconfirmadas = DB::table('citas')->join('clientes','clientes.id','=','citas.cliente_id')->join('sucursals','sucursals.id','=','citas.sucursal_id')->join('servicios','servicios.id','=','citas.servicio_id')->join('pedicuristas','pedicuristas.id','=','citas.pedicurista_id')->select(array('citas.id','clientes.nombrecompleto','sucursals.nombresuc','servicios.nombreservicio','pedicuristas.nombrecompletoped','citas.fechaservicio','citas.hora','citas.estatus','citas.cortesia'))->whereNull('citas.deleted_at')->whereIN('sucursals.id',$miems)->where('citas.estatus','Confirmada')->count();
+
+        $citasnoshows = DB::table('citas')->join('clientes','clientes.id','=','citas.cliente_id')->join('sucursals','sucursals.id','=','citas.sucursal_id')->join('servicios','servicios.id','=','citas.servicio_id')->join('pedicuristas','pedicuristas.id','=','citas.pedicurista_id')->select(array('citas.id','clientes.nombrecompleto','sucursals.nombresuc','servicios.nombreservicio','pedicuristas.nombrecompletoped','citas.fechaservicio','citas.hora','citas.estatus','citas.cortesia'))->whereNull('citas.deleted_at')->whereIN('sucursals.id',$miems)->where('citas.estatus','No Show')->count();
         
         if(Module::hasAccess($module->id)) {
             return View('reportes', [
                 'show_actions' => $this->show_action,
                 'listing_cols' => $this->listing_cols,
-                'module' => $module
+                'module' => $module,
+                 'citasasigandas'=> $citasasigandas,
+                'citascancladas'=> $citascancladas,
+                'citaspagadas'=> $citaspagadas,
+                'citasconfirmadas'=> $citasconfirmadas,
+                'citasnoshows'=> $citasnoshows
             ]);
         } else {
             return redirect("/");

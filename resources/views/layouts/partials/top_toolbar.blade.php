@@ -10,21 +10,33 @@
           </form>
         </div>
         <ul class="social">
-          <li><a href="#" class="fa fa-facebook"></a></li>
-          <li><a href="#" class="fa fa-twitter"></a></li>
-          <li><a href="#" class="fa fa-google-plus"></a></li>
+          <li><a href="https://www.facebook.com/TodoparasusPiesMX/" class="fa fa-facebook"></a></li>
+          <li><a href="https://twitter.com/todoparasuspies" class="fa fa-twitter"></a></li>
+          <li><a href="https://www.youtube.com/channel/UC_Isub0CgYXzwxCNmFxvycg" class="fa fa-youtube"></a></li>
+           <li><a href="https://www.instagram.com/todoparasuspies/" class="fa fa-instagram"></a></li>
         </ul>
         <ul class="authentication">
            @if (Auth::guest())
-                    <li><a href="{{ url('/login') }}">Login</a></li>
-                    <li><a href="{{ url('/register') }}">Register</a></li>
-                @elseif(\Entrust::hasRole('SOCIO'))
+                    <li><a href="{{ url('/login') }}">Ingresar</a></li>
+
+                @elseif(\Entrust::hasRole('FRANQUICIATARIO'))
                    <li><a href="{{ url('user_profile') }}">{{ Auth::user()->name }}</a></li>
-                    <li><a href="{{ url('/logout') }}">Salir</a></li>
-                    @else
-                     <ul><li><a href="{{ url(config('laraadmin.adminRoute')) }}">{{ Auth::user()->name }}</a>
-                      <li><a href="{{ url('/logout') }}">Salir</a></li></li></ul>
+                
+                    @elseif(\Entrust::hasRole('FRANQUICIATARIO_ADMIN'))
+             <li><a href="{{ url(config('laraadmin.adminRoute')) }}">Admin</a></li>
+
+              <li><a href="{{ url('user_profile') }}"> {{ Auth::user()->name }} </a></li>
+
+
+              @else
+                    <li><a href="{{ url(config('laraadmin.adminRoute')) }}"> {{ Auth::user()->name }} </a></li>
+             
+                   
+
+                  
                 @endif
+
+                   <li><a href="{{ url('/logout') }}"> Salir</a></li>
       
         </ul>
         <div class="language"> <a href="#" class="toggle"><img src="http://localhost/ancham/public/socio-assets/images/flags/32/ES.png" alt=""> ES</a>

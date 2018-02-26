@@ -8,19 +8,23 @@
           <li> <i class="fa fa-map-marker"></i>
            <img src="http://todoparasuspies.com/includes/templates/tpsp.catalog/images/qr.jpg"> 
             <address>
-            795 Folsom Ave, Suite 600, San Francisco, CA 94107
+            
             </address>
           </li>
-          <li> <i class="fa fa-phone"></i> <a href="tel:#">(123) 456-7890</a> </li>
-          <li> <i class="fa fa-envelope"></i> <a href="mailto:#">first.last@example.com</a> </li>
+          <li> <i class="fa fa-phone"></i> <a href="tel:#">(33) 15151516</a> </li>
+          <li> <i class="fa fa-envelope"></i> <a href="mailto:contacto@todoparasuspies.com">contacto@todoparasuspies.com</a> </li>
         </ul>
       </div>
       <div class="col-md-3 col-sm-6">
         <h5>Twitter Feed</h5>
-        <ul class="twitter-feed">
-          <li> RT <a href="#">@no1son</a>: Now this <a href="#">http://t.co/TSfMW1qMAW</a> is one hell of a stunning site!!! Awesome work guys <a href="#">@AIRNAUTS</a> <a href="#" class="time">May 25</a> </li>
-          <li> Check out the wordpress version of Tucson - <a href="#">http://t.co/sBlU3GbapT</a> <a href="#" class="time">May 22</a> </li>
-        </ul>
+       
+         <a class="twitter-timeline"
+  href="https://twitter.com/todoparasuspies"
+ 
+   data-tweet-limit="3">
+Tweets by @todoparasuspies
+</a>
+        
       </div>
       <div class="col-md-3 col-sm-6">
         <h5>Photostream</h5>
@@ -49,10 +53,10 @@
 <div class="uou-block-4a secondary dark">
   <div class="container">
     <ul class="links">
-      <li><a href="#">Privacy Policy</a></li>
-      <li><a href="#">Terms &amp; Conditions</a></li>
+      <li><a href="http://todoparasuspies.com/mx/privacy">Aviso de privacidad</a></li>
+     
     </ul>
-    <p>Copyright &copy; 2015 <a href="#">UOUAPPS</a>. All Rights reserved.</p>
+    <p>Copyright &copy; {{date('Y')}}<a href="http://todoparasuspies.com/mx/privacy"></a>. Todos los derechos reservados.</p>
   </div>
 </div>
 <!-- end .uou-block-4a -->

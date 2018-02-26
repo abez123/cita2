@@ -37,6 +37,8 @@ use App\Models\Upload;
 use Mail;
 use Carbon\Carbon;
 use App\Models\EncuestaISF;
+use App\Models\Enlace;
+
 /**
  * Class HomeController
  * @package App\Http\Controllers
@@ -77,7 +79,7 @@ class UserProfileController extends Controller
         $module = Module::get('Citas');
         $clientes= Cliente::all();
         $cliente='';
-        $sucursales= Sucursal::all();
+      
         $sucursal = '';
         $servicios= Servicio::all();
         $servicio = '';
@@ -144,6 +146,10 @@ class UserProfileController extends Controller
 
         $citasnoshows = DB::table('citas')->join('clientes','clientes.id','=','citas.cliente_id')->join('sucursals','sucursals.id','=','citas.sucursal_id')->join('servicios','servicios.id','=','citas.servicio_id')->join('pedicuristas','pedicuristas.id','=','citas.pedicurista_id')->select(array('citas.id','clientes.nombrecompleto','sucursals.nombresuc','servicios.nombreservicio','pedicuristas.nombrecompletoped','citas.fechaservicio','citas.hora','citas.estatus','citas.cortesia'))->whereNull('citas.deleted_at')->whereIN('sucursals.id',$miems)->where('citas.estatus','No Show')->count();
 
+        $enlaces=Enlace::paginate(8);
+     
+
+
     return View('user-profile', [
                 'show_actions' => $this->show_action,
                 'listing_cols' => $this->listing_cols,
@@ -172,7 +178,8 @@ class UserProfileController extends Controller
                 'citasconfirmadas'=> $citasconfirmadas,
                 'citasnoshows'=> $citasnoshows,
                 'sucursalescnt'=> $sucursalescnt,
-                'encuesta'=> $encuesta
+                'encuesta'=> $encuesta,
+                'enlaces'=> $enlaces
             ]);
 			
 			

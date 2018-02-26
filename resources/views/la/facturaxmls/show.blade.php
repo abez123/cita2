@@ -109,7 +109,7 @@
 					<div class="panel-body">
 						@la_display($module, 'xml')
 						@la_display($module, 'pdf')
-						@la_display($module, 'conceptofac')
+						
 						@la_display($module, 'nombre')
 						@la_display($module, 'rfc')
 						@la_display($module, 'usocfdi')
@@ -126,6 +126,9 @@
 						@la_display($module, 'moneda')
 						@la_display($module, 'mes')
 						@la_display($module, 'year')
+						@la_display($module, 'emisornombre')
+						@la_display($module, 'emisorrfc')
+						@la_display($module, 'emisorregimen')
 					</div>
 				</div>
 			</div>

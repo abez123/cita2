@@ -49,6 +49,15 @@
           href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css" type="text/css"/>
 <link rel="stylesheet"
           href="https://cdn.datatables.net/buttons/1.1.2/css/buttons.dataTables.min.css" type="text/css"/>
+<!-- ionicons.css-->
+
+    <link href="{{ asset('la-assets/css/ionicons.css') }}" rel="stylesheet" type="text/css" />
+      <link href="{{ asset('la-assets/css/ionicons.min.css') }}" rel="stylesheet" type="text/css" />
+       <link href="{{ asset('la-assets/fonts/ionicons.eot') }}" rel="stylesheet" type="text/css" />
+         <link href="{{ asset('la-assets/fonts/ionicons.svg') }}" rel="stylesheet" type="text/css" />
+           <link href="{{ asset('la-assets/fonts/ionicons.ttf') }}" rel="stylesheet" type="text/css" />
+            <link href="{{ asset('la-assets/fonts/ionicons.woff') }}" rel="stylesheet" type="text/css" />
+          
     @stack('styles')
 </head>
 

@@ -35,7 +35,7 @@
     <div class="row">
 
       <div class="col-md-8 col-md-offset-2">
-        <h3><a href="{{url('user_profile')}}">Regrasar a Incio</a></h3>
+        <h3><a href="{{url('user_profile')}}">Regresar</a></h3>
          @if(\Entrust::hasRole('GERENTE_TIENDA'))
         <div class="classesCallendar">
         <div id='calendar'></div>

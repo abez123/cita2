@@ -36,7 +36,7 @@ use App\User;
 use App\Models\Upload;
 use Mail;
 use Carbon\Carbon;
-
+use App\Models\EncuestaISF;
 /**
  * Class HomeController
  * @package App\Http\Controllers
@@ -85,12 +85,12 @@ class UserProfileController extends Controller
         $horario = '';
        
            
-      
+      $encuesta=EncuestaISF::all();
 
         $franquiciatarios = Franquiciatario::join('users','users.context_id','=','franquiciatarios.id')->where('franquiciatarios.id',Auth::user()->context_id)->where('users.type','FRANQUICIATARIO')->select(array('franquiciatarios.*'))->whereNull('franquiciatarios.deleted_at')->get();    
         $franquiciatariorfc = Franquiciatario::join('users','users.context_id','=','franquiciatarios.id')->where('franquiciatarios.id',Auth::user()->context_id)->where('users.type','FRANQUICIATARIO')->select(array('franquiciatarios.rfc'))->whereNull('franquiciatarios.deleted_at')->value('rfc');    
          
-        $facturasxmls = FacturaXML::join('franquiciatarios','franquiciatarios.rfc','=','facturaxmls.rfc')->join('users','users.context_id','=','franquiciatarios.id')->where('franquiciatarios.rfc','=',$franquiciatariorfc)->select(array('facturaxmls.*'))->whereNull('facturaxmls.deleted_at')->groupBy('facturaxmls.id')->paginate(6);
+        $facturasxmls = FacturaXML::join('franquiciatarios','franquiciatarios.rfc','=','facturaxmls.rfc')->join('users','users.context_id','=','franquiciatarios.id')->where('franquiciatarios.rfc','=',$franquiciatariorfc)->select(array('facturaxmls.*'))->whereNull('facturaxmls.deleted_at')->groupBy('facturaxmls.id')->paginate(4);
 
          $xmlsfiles = FacturaXML::join('franquiciatarios','franquiciatarios.rfc','=','facturaxmls.rfc')->join('users','users.context_id','=','franquiciatarios.id')->where('franquiciatarios.rfc','=',$franquiciatariorfc)->select(array('facturaxmls.*'))->whereNull('facturaxmls.deleted_at')->value('xml');
 
@@ -117,6 +117,32 @@ class UserProfileController extends Controller
 
        // $eventos = Evento::leftJoin('patrocinadores','patrocinadores.id','=','eventos.patrocinadores')->select(array('eventos.*','patrocinadores.nombrepatroc','patrocinadores.logopatroc'))->orderBy('eventos.fecha','DESC')->paginate(4);
 
+    foreach($franquiciatarios as $franquiciatario){
+        $proper1 = $franquiciatario->sucursal;          
+
+          
+    }
+          $prop2 = str_replace('"', ' ', $proper1);
+          $miems = json_decode($prop2); 
+
+      $sucursales= Sucursal::whereIN('sucursals.id',$miems)->select(array('sucursals.id','sucursals.nombresuc'))->get();
+      foreach ($sucursales as $sucursal) {
+        $suc=$sucursal->id;
+      }
+
+      $sucursalescnt= Sucursal::whereIN('sucursals.id',$miems)->select(array('sucursals.id','sucursals.nombresuc'))->count();
+      $pedicuristas= Pedicurista::where('pedicuristas.sucursal_id',$suc)->select(array('pedicuristas.id','pedicuristas.nombrecompletoped'))->get();
+      $pedicuristascnt= Pedicurista::where('pedicuristas.sucursal_id',$suc)->select(array('pedicuristas.id','pedicuristas.nombrecompletoped'))->count();
+
+       $citasasigandas = DB::table('citas')->join('clientes','clientes.id','=','citas.cliente_id')->join('sucursals','sucursals.id','=','citas.sucursal_id')->join('servicios','servicios.id','=','citas.servicio_id')->join('pedicuristas','pedicuristas.id','=','citas.pedicurista_id')->select(array('citas.id','clientes.nombrecompleto','sucursals.nombresuc','servicios.nombreservicio','pedicuristas.nombrecompletoped','citas.fechaservicio','citas.hora','citas.estatus','citas.cortesia'))->whereNull('citas.deleted_at')->whereIN('sucursals.id',$miems)->where('citas.estatus','Asignada')->count();
+
+       $citascancladas = DB::table('citas')->join('clientes','clientes.id','=','citas.cliente_id')->join('sucursals','sucursals.id','=','citas.sucursal_id')->join('servicios','servicios.id','=','citas.servicio_id')->join('pedicuristas','pedicuristas.id','=','citas.pedicurista_id')->select(array('citas.id','clientes.nombrecompleto','sucursals.nombresuc','servicios.nombreservicio','pedicuristas.nombrecompletoped','citas.fechaservicio','citas.hora','citas.estatus','citas.cortesia'))->whereNull('citas.deleted_at')->whereIN('sucursals.id',$miems)->where('citas.estatus','Cancelada')->count();
+
+       $citaspagadas = DB::table('citas')->join('clientes','clientes.id','=','citas.cliente_id')->join('sucursals','sucursals.id','=','citas.sucursal_id')->join('servicios','servicios.id','=','citas.servicio_id')->join('pedicuristas','pedicuristas.id','=','citas.pedicurista_id')->select(array('citas.id','clientes.nombrecompleto','sucursals.nombresuc','servicios.nombreservicio','pedicuristas.nombrecompletoped','citas.fechaservicio','citas.hora','citas.estatus','citas.cortesia'))->whereNull('citas.deleted_at')->whereIN('sucursals.id',$miems)->where('citas.estatus','Pagada')->count();
+
+       $citasconfirmadas = DB::table('citas')->join('clientes','clientes.id','=','citas.cliente_id')->join('sucursals','sucursals.id','=','citas.sucursal_id')->join('servicios','servicios.id','=','citas.servicio_id')->join('pedicuristas','pedicuristas.id','=','citas.pedicurista_id')->select(array('citas.id','clientes.nombrecompleto','sucursals.nombresuc','servicios.nombreservicio','pedicuristas.nombrecompletoped','citas.fechaservicio','citas.hora','citas.estatus','citas.cortesia'))->whereNull('citas.deleted_at')->whereIN('sucursals.id',$miems)->where('citas.estatus','Confirmada')->count();
+
+        $citasnoshows = DB::table('citas')->join('clientes','clientes.id','=','citas.cliente_id')->join('sucursals','sucursals.id','=','citas.sucursal_id')->join('servicios','servicios.id','=','citas.servicio_id')->join('pedicuristas','pedicuristas.id','=','citas.pedicurista_id')->select(array('citas.id','clientes.nombrecompleto','sucursals.nombresuc','servicios.nombreservicio','pedicuristas.nombrecompletoped','citas.fechaservicio','citas.hora','citas.estatus','citas.cortesia'))->whereNull('citas.deleted_at')->whereIN('sucursals.id',$miems)->where('citas.estatus','No Show')->count();
 
     return View('user-profile', [
                 'show_actions' => $this->show_action,
@@ -137,10 +163,30 @@ class UserProfileController extends Controller
                 'impresos'=> $impresos,
                 'videopantallas'=> $videopantallas,
                 'xmls'=> $xmls,
-                'pdfs'=> $pdfs
+                'pdfs'=> $pdfs,
+                'pedicuristas'=> $pedicuristas,
+                'pedicuristascnt'=> $pedicuristascnt,
+                'citasasigandas'=> $citasasigandas,
+                'citascancladas'=> $citascancladas,
+                'citaspagadas'=> $citaspagadas,
+                'citasconfirmadas'=> $citasconfirmadas,
+                'citasnoshows'=> $citasnoshows,
+                'sucursalescnt'=> $sucursalescnt,
+                'encuesta'=> $encuesta
             ]);
 			
 			
+    }
+
+    public function dashboard()
+    {
+      return view('user-dashboard');
+    }
+
+
+    public function company()
+    {
+      return view('profile_company');
     }
     
 

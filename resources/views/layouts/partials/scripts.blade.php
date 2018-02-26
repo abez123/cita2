@@ -18,7 +18,9 @@
 <script src="{{ asset('socio-assets/js/owl.carousel.min.js') }}"></script> 
 <script src="{{ asset('socio-assets/js/gmap3.min.js') }}"></script> 
 <script src="{{ asset('socio-assets/js/scripts.js') }}"></script>
-
+<!-- Morris.js charts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="{{ asset('la-assets/plugins/morris/morris.min.js') }}"></script>
 <!-- jquery.validate + select2 -->
 <script src="{{ asset('la-assets/plugins/jquery-validation/jquery.validate.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('la-assets/plugins/select2/select2.full.min.js') }}" type="text/javascript"></script>

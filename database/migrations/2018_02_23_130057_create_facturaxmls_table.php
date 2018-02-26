@@ -19,6 +19,11 @@ class CreateFacturaxmlsTable extends Migration
     {
         Module::generate("Facturaxmls", 'facturaxmls', 'nombre', 'fa-file-code-o', [
             ["subimporte", "Sub Total", "Currency", false, "", 0, 11, false],
+            ["mes", "Mes", "TextField", false, "", 0, 256, false],
+            ["year", "Año", "Integer", false, "", 0, 11, false],
+            ["emisornombre", "Emisor Nombre", "TextField", false, "", 0, 256, false],
+            ["emisorrfc", "Emisor RFC", "TextField", false, "", 0, 256, false],
+            ["emisorregimen", "Emisor Regimen", "Integer", false, "", 0, 11, false],
             ["xml", "XML", "File", false, "", 0, 0, false],
             ["pdf", "PDF", "File", false, "", 0, 0, false],
             ["conceptofac", "Concepto", "TextField", false, "", 0, 256, false],

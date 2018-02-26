@@ -747,7 +747,7 @@ Pedicurista en especifico y con incapacidad
                 
                 $module->row = $cita;
                 
-                return view('cita.edit', [
+                return view('cita-edit', [
                     'module' => $module,
                     'view_col' => $this->view_col,
                 ])->with('cita', $cita);

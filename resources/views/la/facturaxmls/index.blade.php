@@ -28,6 +28,7 @@
 	<!--<div class="box-header"></div>-->
 	<div class="box-body">
 		<table id="example1" class="table table-bordered table-responsive table-striped">
+
 		<thead>
 		<tr class="success">
 			@foreach( $listing_cols as $col )
@@ -38,16 +39,16 @@
 			@endif
 		</tr>
 		</thead>
-
-		<tbody>
-			
-		</tbody>
-		  <tfoot>
+<tfoot>
             <tr>
                 <th colspan="4" style="text-align:right">Total:</th>
                 <th></th>
             </tr>
         </tfoot>
+		<tbody>
+			
+		</tbody>
+		  
 		</table>
 	</div>
 </div>
@@ -161,7 +162,7 @@ $(function () {
  
             // Total over all pages
             total = api
-                .column(13)
+                .column(11)
                 .data()
                 .reduce( function (a, b) {
                     return  intVal(a) + intVal(b);
@@ -169,7 +170,7 @@ $(function () {
  
             // Total over this page
             pageTotal = api
-                .column(11, { page: 'current'} )
+                .column(9, { page: 'current'} )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
@@ -177,7 +178,7 @@ $(function () {
 
                   // Total over this page
             ivaTotal = api
-                .column(12, { page: 'current'} )
+                .column(10, { page: 'current'} )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
@@ -185,7 +186,7 @@ $(function () {
  
             // Update footer
             $( api.column(0).footer() ).html(
-                'Sub total $'+pageTotal +' + I.V.A $'+ivaTotal +' = $'+ total +' total'
+                'Sub total $'+pageTotal +' + I.V.A $'+ivaTotal +' = $'+ total +' Total'
             );
         }
   

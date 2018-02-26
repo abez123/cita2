@@ -48,7 +48,8 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:FRANQUICIATARIO_
 	Route::get('empresa/{id}', 'EmpresaController@detail');
 	/* ================== User Profile Routes ================== */
 	Route::get('user_profile', 'UserProfileController@index');
-
+    Route::get('user_pdashboard', 'UserProfileController@dashboard');
+    Route::get('profile_company', 'UserProfileController@company');
 /* ================== ComiteRoutes ================== */
     
 	Route::get('front_comite/{id}', 'ComiteController@detail');
@@ -67,6 +68,20 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:FRANQUICIATARIO_
 
 	Route::get('/crear_cita', 'CitasController@createcita');
 
+	/* ================== FacturaXMLs ================== */
+	Route::resource('/facturaxmls', 'EstadoCuentasController');
+	Route::get('/facturaxml_dt_ajax', 'EstadoCuentasController@dtajax');
+    Route::get('/estado_cuenta', 'EstadoCuentasController@index');
+
+
+	/* ================== Reportess ================== */
+	Route::resource('/reportes', 'ReportesController');
+	Route::get('/reporte_dt_ajax', 'ReportesController@dtajax');
+   
+   /* ================== Encuestass ================== */
+	Route::resource('/encuestas', 'EncuestasController');
+	Route::get('/encuesta_dt_ajax', 'EncuestasController@dtajax');
+   
 });
 
 /* ================== Homepage + Admin Routes ================== */

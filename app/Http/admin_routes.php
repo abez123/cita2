@@ -152,4 +152,12 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== FacturaXMLs ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/facturaxmls', 'LA\FacturaXMLsController');
 	Route::get(config('laraadmin.adminRoute') . '/facturaxml_dt_ajax', 'LA\FacturaXMLsController@dtajax');
+
+	/* ================== Reportes ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/reportes', 'LA\ReportesController');
+	Route::get(config('laraadmin.adminRoute') . '/reporte_dt_ajax', 'LA\ReportesController@dtajax');
+
+	/* ================== EncuestaISFs ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/encuestaisfs', 'LA\EncuestaISFsController');
+	Route::get(config('laraadmin.adminRoute') . '/encuestaisf_dt_ajax', 'LA\EncuestaISFsController@dtajax');
 });

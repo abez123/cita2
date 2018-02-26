@@ -24,7 +24,7 @@ class FacturaXMLsController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'nombre';
-	public $listing_cols = ['id', 'xml', 'pdf', 'nombre', 'rfc', 'usocfdi', 'clave', 'cantidad', 'claveunidad', 'descripcion', 'valorunitario','subimporte', 'impuesto' ,'importe', 'fecha', 'formapago', 'folio', 'moneda', 'mes', 'year'];
+	public $listing_cols = ['id', 'fecha','folio','nombre', 'rfc', 'usocfdi',  'cantidad',  'descripcion', 'valorunitario','subimporte', 'impuesto' ,'importe',  'formapago',  'moneda'];
 	
 	public function __construct() {
 		// Field Access of Listing Columns
@@ -110,6 +110,11 @@ class FacturaXMLsController extends Controller
     $xmldata->rfc= $Receptor['Rfc'];
     $xmldata->nombre= $Receptor['Nombre'];
     $xmldata->usocfdi= $Receptor['UsoCFDI'];
+ }
+ foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Emisor') as $Emisor){ // SECCION EMISOR
+    $xmldata->emisorrfc= $Emisor['Rfc'];
+    $xmldata->emisornombre= $Emisor['Nombre'];
+    $xmldata->emisorregimen= $Emisor['RegimenFiscal'];
  }
   	foreach ($xml->xpath('//cfdi:Comprobante//cfdi:Conceptos//cfdi:Concepto') as $Concepto){ // SECCION EMISOR
     $xmldata->cantidad= $Concepto['Cantidad'];

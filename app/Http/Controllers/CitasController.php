@@ -66,7 +66,7 @@ class CitasController extends Controller
         $horarios = Horario::all();
         $horario = '';
         if(Module::hasAccess($module->id)) {
-            return View('user-profile', [
+            return View('citas', [
                 'show_actions' => $this->show_action,
                 'listing_cols' => $this->listing_cols,
                 'module' => $module,

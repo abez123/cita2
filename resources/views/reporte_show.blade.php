@@ -17,7 +17,7 @@
   </div>
 
 <div class="container">
- <h3><a href="{{url('user_profile')}}">Regresar</a></h3>
+ <h3><a href="{{url('user_profile#reportes')}}">Regresar</a></h3>
 <div class="box">
  
   <div class="box-body">

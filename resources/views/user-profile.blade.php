@@ -73,12 +73,12 @@
           
           <!-- Nav Tabs -->
           <div class="col-md-12">
-            <ul class="nav nav-tabs">
+            <ul class="nav nav-tabs" id="myTab">
               <li class="active"><a data-toggle="tab" href="#profile">Perfil</a></li>
               <li><a data-toggle="tab" href="#factura">Facturas</a> </li>
                <li><a data-toggle="tab" href="#reportes">Reportes</a></li>
              
-                  <li><a data-toggle="tab" href="#citas">Citas</a></li>
+                  <li><a href="{{url('/citasver')}}">Citas</a></li>
                   <li><a  href="{{url('/noticias')}}">Noticias</a></li>
               
                <li><a data-toggle="tab" href="#docus">Documentos</a></li>
@@ -645,43 +645,7 @@
                   </div>
                 </div>
               </div>
- <!-- _________________________________________________________________________________- -->
-                             <!-- Citas -->
-              <div id="citas" class="tab-pane fade">
-                <div class="profile-main">
-                 <button type="button"><a href="{{url('crear_cita')}}">Crear una cita</a></button> 
-
-                  <div class="profile-in">
-                  
-                        <br>
-                          <br>
-                      <div class="box box-success">
-  <!--<div class="box-header"></div>-->
-  <div class="box-body">
-    <table id="example1" class="table table-bordered">
-    <thead>
-    <tr class="success">
-      @foreach( $listing_cols as $col )
-      <th>{{ $module->fields[$col]['label'] or ucfirst($col) }}</th>
-      @endforeach
-      @if($show_actions)
-      <th>Actions</th>
-      @endif
-    </tr>
-    </thead>
-    <tbody>
-
-    </tbody>
-    </table>
-  </div>
-</div>
-
-            
-            </div>
-          </div>
-        </div>
-
-        <!-- _________________________________________________________________________________- -->
+  <!-- _________________________________________________________________________________- --> 
            
               <!-- Enlaces -->
               <div id="enlaces" class="tab-pane fade">
@@ -700,7 +664,7 @@
                   </div>
                 </div>
               </div>
- <!-- _________________________________________________________________________________- -->  
+ 
  <!-- _________________________________________________________________________________- -->
            
               <!-- Contacto -->
@@ -1085,6 +1049,7 @@ $(document).ready(function(){
 
 </script>
 <!--Start of Tawk.to Script-->
+<!--Start of Tawk.to Script-->
 <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
 (function(){
@@ -1095,76 +1060,22 @@ s1.charset='UTF-8';
 s1.setAttribute('crossorigin','*');
 s0.parentNode.insertBefore(s1,s0);
 })();
-</script>
-<!--End of Tawk.to Script-->
 
-<link rel="stylesheet" type="text/css" href="{{ asset('la-assets/plugins/datatables/datatables.min.css') }}"/>
 
-<script src="{{ asset('la-assets/plugins/datatables/datatables.min.js') }}"></script>
-<script src="https://cdn.datatables.net/buttons/1.1.2/js/dataTables.buttons.min.js"></script>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
- <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
- <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
- <script src="https://cdn.datatables.net/buttons/1.1.2/js/buttons.html5.min.js"></script>
-  <script src="https://cdn.datatables.net/buttons/1.1.2/js/buttons.print.min.js"></script>
-<script>
-$(function () {
-  $("#example1").DataTable({
+
+
+$(function(){
+  var hash = window.location.hash;
+  hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+  $('.nav-tabs a').click(function (e) {
+    $(this).tab('show');
+    var scrollmem = $('body').scrollTop();
+    window.location.hash = this.hash;
   
-    dom: 'Bfrtip',
-    buttons: [
-          
-            'excelHtml5',{
-              extend: 'print',
-               message: 'Autopartes Legazpi',
-               exportOptions: {
-                    columns: ':visible'
-                },
-                customize: function ( win ) {
-                    $(win.document.body)
-                        .css( 'font-size', '10pt' )
-                        .prepend(
-                            '<img src="http://www.grupoemco.com.mx/" />'
-                        );
- 
-                    $(win.document.body).find( 'table' )
-                        .addClass( 'compact' )
-                        .css( 'font-size', 'inherit' );
-                    }
-                },
-            {
-                extend: 'pdfHtml5',
-                
-                message: 'Autopartes Legazpi',
-                orientation: 'landscape',
-                pageSize: 'LEGAL',
-                download: 'open', 
-                exportOptions: { columns: ':visible' },
-                 
-            }
-        
-           
-           
-            
-        ],
-    processing: true,
-        serverSide: true,
-        ajax: "{{ url('/cita_dt_ajax') }}",
-    language: {
-      "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
-    },
-    @if($show_actions)
-    columnDefs: [ { orderable: false, targets: [-1] }],
-    @endif
-    autoWidth: false,
-    scrollY: true,
-        scrollX: true,
-        scrollCollapse: true,
-  });
-  $("#cita-add-form").validate({
-    
   });
 });
+
 </script>
 
 </body>

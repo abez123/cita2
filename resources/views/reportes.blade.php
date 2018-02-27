@@ -26,28 +26,49 @@
         </ul>
     </div>
 @endif
+ <div class="profile-company-content user-profile main-user" data-bg-color="f5f5f5">
+      <div class="container">
+        <div class="row"> 
+            <!-- Nav Tabs -->
+          <div class="col-md-12">
+            <ul class="nav nav-tabs">
+              <li class="active"><a  href="{{url('/user_profile')}}">Perfil</a></li>
+              <li><a  href="{{url('/user_profile#factura')}}">Facturas</a> </li>
+               <li><a  href="{{url('/user_profile#reportes')}}">Reportes</a></li>
+             
+                  <li><a  href="{{url('/citasver')}}">Citas</a></li>
+                  <li><a data-toggle="tab" href="{{url('/noticias')}}">Noticias</a></li>
+              
+               <li><a  href="{{url('/user_profile#docus')}}">Documentos</a></li>
+              <!--<li><a data-toggle="tab" href="#contacto">Contacto</a></li>-->
+              <li><a href="{{url('/user_profile#tareas')}}">Tareas</a></li>         
+              <li><a  href="{{url('/user_profile#enlaces')}}">Enlaces</a></li>    
+              <li><a  href="{{url('/user_profile#encuesta')}}">Encuestas</a></li>
+             
+            </ul>
+          </div>
+        </div>
+        <div class="box box-success">
 
-<div class="box box-success">
-      <h3><a href="{{url('user_profile#reporte')}}">Regresar</a></h3>
-	<!--<div class="box-header"></div>-->
-	<div class="box-body">
-		<table id="example1" class="table table-bordered table-responsive table-striped">
+  <!--<div class="box-header"></div>-->
+  <div class="box-body">
+    <table id="example1" class="table table-bordered table-responsive table-striped">
 
-		<thead>
-		<tr class="success">
-			@foreach( $listing_cols as $col )
-			<th>{{ $module->fields[$col]['label'] or ucfirst($col) }}</th>
-			@endforeach
-			
-		</tr>
-		</thead>
+    <thead>
+    <tr class="success">
+      @foreach( $listing_cols as $col )
+      <th>{{ $module->fields[$col]['label'] or ucfirst($col) }}</th>
+      @endforeach
+      
+    </tr>
+    </thead>
 
-		<tbody>
-			
-		</tbody>
-		  
-		</table>
-	</div>
+    <tbody>
+      
+    </tbody>
+      
+    </table>
+  </div>
 </div>
 <br>
  <div class="col-md-6"> 
@@ -123,6 +144,9 @@
            
     </div>         
 </div>
+      </div>
+    </div>
+
    <br>
 </div>
 
@@ -177,11 +201,16 @@ var stackedLine = new Chart(ctx2, {
     "Abril",
     "Mayo",
     "Junio",
-    "Julio"],
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre"],
     "datasets":
     [{"label":"Ventas x mes en miles",
     "data":
-    [65000,59000,80000,81000,70000,65000,83000],
+    [110851.01,105314.00,128831.15,122071.86,125426.25,128360.45,116271.25,124387.31,122309.27,126976.35,117454.50,138025.69],
     "fill":true,
     "borderColor":"rgb(75, 192, 192)",
     "lineTension":0.1}]},
@@ -193,13 +222,15 @@ var myPieChart = new Chart(ctx3,{
   "type":"doughnut",
   "data":
   {"labels":
-  ["Red","Blue","Yellow"],
+  ["Pedicure","Manicure","Masaje","Gelish","Productos"],
   "datasets":
   [{"label":"Clientes",
-  "data":[300,50,100],
+  "data":[300000,500000,1000000,323344,75656],
   "backgroundColor":["rgb(255, 99, 132)",
   "rgb(54, 162, 235)",
-  "rgb(255, 205, 86)"]}
+  "rgb(255, 205, 86)",
+  "rgb(72, 200, 137)",
+  "rgb(54, 99, 144)"]}
   ]}
 });
 var randomScalingFactor = function() {
@@ -215,52 +246,55 @@ var randomScalingFactor = function() {
     var config = {
       type: 'line',
       data: {
-        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'],
+        labels: ["Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre"],
         datasets: [{
-          label: 'Servicios',
-          fill: true,
-          backgroundColor: "rgba(220,220,220,0.5)",
-          borderColor: "rgba(220,220,220,0.5)",
+          label: 'Martha Calderon Sosa',
+          fill: false,
+          backgroundColor: "rgb(72, 200, 137)",
+          borderColor: "rgb(72, 200, 137)",
           borderDash: [5, 5],
           data: [
-            randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor()
+            8034.60,4934.80,6164,3443,4743,6120,6820,9541,13564,7895,4568.10,5769
           ],
         }, {
-          label: 'Productos',
-          fill: true,
-          backgroundColor: "rgba(255,187,205,1)",
-          borderColor: "rgba(255,187,205,1)",
+          label: 'Gabriela Dominguez Sanchez',
+          fill: false,
+          backgroundColor: "rgb(255, 205, 86)",
+          borderColor: "rgb(255, 205, 86)",
           borderDash: [5, 5],
           data: [
-            randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor()
+            71619.37,42462,58974.75,60385.50,56641.75,74524,50693.62,52776.50,52776.50,49903.50,46640.50,45053.45,49441.50
           ],
         }, {
-          label: 'Paquetes',
-          backgroundColor: "rgba(151,187,205,0.5)",
-          borderColor: "rgba(151,187,205,0.5)",
+          label: 'Elizabeth Robles Cardenas',
+          fill: false,
+          backgroundColor: "rgb(54, 162, 235)",
+          borderColor: "rgb(54, 162, 235)",
           borderDash: [5, 5],
           data: [
-            randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor()
+            78168,75961.50,74246.50,67880,57046,71243,65509.62,64091,56438,48728,52236.80,56107.50
           ],
-          fill: true,
+        },
+        {
+          label: 'Fidelina Reyes Farelo',
+          backgroundColor: "rgb(255, 99, 132)",
+          borderColor: "rgb(255, 99, 132)",
+          borderDash: [5, 5],
+          data: [
+            0,0,0,0,0,0,0,0,54563.25,44780,48529.45,52588.50
+          ],
+          fill: false,
         }]
       },
       options: {

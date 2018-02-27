@@ -21,7 +21,7 @@
               <li><a  href="{{url('/user_profile#factura')}}">Facturas</a> </li>
                <li><a  href="{{url('/user_profile#reportes')}}">Reportes</a></li>
              
-                  <li><a  href="{{url('/user_profile#citas')}}">Citas</a></li>
+                  <li><a  href="{{url('/citasver')}}">Citas</a></li>
                   <li><a data-toggle="tab" href="#noticias">Noticias</a></li>
               
                <li><a  href="{{url('/user_profile#docus')}}">Documentos</a></li>

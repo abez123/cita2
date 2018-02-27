@@ -26,9 +26,30 @@
         </ul>
     </div>
 @endif
-
+ <div class="profile-company-content user-profile main-user" data-bg-color="f5f5f5">
+      <div class="container">
+        <div class="row"> 
+            <!-- Nav Tabs -->
+          <div class="col-md-12">
+            <ul class="nav nav-tabs">
+              <li class="active"><a  href="{{url('/user_profile')}}">Perfil</a></li>
+              <li><a  href="{{url('/user_profile#factura')}}">Facturas</a> </li>
+               <li><a  href="{{url('/user_profile#reportes')}}">Reportes</a></li>
+             
+                  <li><a  href="{{url('/citasver')}}">Citas</a></li>
+                  <li><a data-toggle="tab" href="{{url('/noticias')}}">Noticias</a></li>
+              
+               <li><a  href="{{url('/user_profile#docus')}}">Documentos</a></li>
+              <!--<li><a data-toggle="tab" href="#contacto">Contacto</a></li>-->
+              <li><a href="{{url('/user_profile#tareas')}}">Tareas</a></li>         
+              <li><a  href="{{url('/user_profile#enlaces')}}">Enlaces</a></li>    
+              <li><a  href="{{url('/user_profile#encuesta')}}">Encuestas</a></li>
+             
+            </ul>
+          </div>
+        </div>
 <div class="box box-success">
-      <h3><a href="{{url('user_profile#factura')}}">Regresar</a></h3>
+    
 	<!--<div class="box-header"></div>-->
 	<div class="box-body">
 		<table id="example1" class="table table-bordered table-responsive table-striped">
@@ -55,7 +76,8 @@
 	</div>
 </div>
 
-     
+     </div>
+ </div>
     
 
 

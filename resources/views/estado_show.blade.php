@@ -11,13 +11,35 @@
     <div class="position-center-center">
       <div class="container">
 
-        <h2>Estado de Cuenta Detalle</h2>
+        <h2>Factura Detalle</h2>
       </div>
     </div>
   </div>
 
-<div class="container">
- <h3><a href="{{url('user_profile')}}">Regresar</a></h3>
+ <div class="profile-company-content user-profile main-user" data-bg-color="f5f5f5">
+      <div class="container">
+        <div class="row"> 
+            <!-- Nav Tabs -->
+          <div class="col-md-12">
+            <ul class="nav nav-tabs">
+              <li class="active"><a  href="{{url('/user_profile')}}">Perfil</a></li>
+              <li><a  href="{{url('/user_profile#factura')}}">Facturas</a> </li>
+               <li><a  href="{{url('/user_profile#reportes')}}">Reportes</a></li>
+             
+                  <li><a  href="{{url('/citasver')}}">Citas</a></li>
+                  <li><a data-toggle="tab" href="#noticias">Noticias</a></li>
+              
+               <li><a  href="{{url('/user_profile#docus')}}">Documentos</a></li>
+              <!--<li><a data-toggle="tab" href="#contacto">Contacto</a></li>-->
+              <li><a href="{{url('/user_profile#tareas')}}">Tareas</a></li>         
+              <li><a  href="{{url('/user_profile#enlaces')}}">Enlaces</a></li>    
+              <li><a  href="{{url('/user_profile#encuesta')}}">Encuestas</a></li>
+             
+            </ul>
+          </div>
+        </div>
+ 
+
 <div class="box">
  
   <div class="box-body">
@@ -193,6 +215,7 @@
  </div>
 </div>
 </div>
+
 
 
 <!-- end #main-wrapper -->

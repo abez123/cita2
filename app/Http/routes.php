@@ -14,6 +14,13 @@
 Route::get('/', function () {
     return view('welcome');
 });
+/* ================== Prospectos================== */
+Route::resource('/prospectos', 'ProspectosController');
+Route::resource('/prospectos_crear', 'ProspectosController@create');
+Route::get('/prospectos_dt_ajax', 'ProspectosController@dtajax');
+
+
+
 Route::get('files/{hash}/{name}', 'UploadsController@get_file');
 Route::group(['prefix' => 'api/v1', 'middleware' => 'auth:api'], function () {
     	Route::post('/citaapp', 'API\APICitaController@store');
@@ -64,6 +71,7 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:FRANQUICIATARIO_
 
 	/* ================== Citas ================== */
 	Route::resource('/citas', 'CitasController');
+	Route::resource('/citasver', 'CitasController@index');
 	Route::get('/cita_dt_ajax', 'CitasController@dtajax');
 
 	Route::get('/crear_cita', 'CitasController@createcita');

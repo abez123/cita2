@@ -120,6 +120,7 @@
 						@la_display($module, 'comidainicia')
 						@la_display($module, 'comidaduracion')
 						@la_display($module, 'comidatermina')
+						@la_display($module, 'diadescanso')
 					</div>
 				</div>
 			</div>

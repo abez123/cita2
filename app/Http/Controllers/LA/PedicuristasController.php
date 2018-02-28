@@ -23,7 +23,7 @@ class PedicuristasController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'nombrecompletoped';
-	public $listing_cols = ['id', 'nombrecompletoped', 'sucursal_id', 'imagen', 'pediestandard', 'pediespecial', 'manicure', 'masaje', 'gelish', 'horario_entrada', 'horario_salida', 'comidainicia', 'comidaduracion', 'comidatermina'];
+	public $listing_cols = ['id', 'nombrecompletoped', 'sucursal_id', 'imagen', 'pediestandard', 'pediespecial', 'manicure', 'masaje', 'gelish', 'horario_entrada', 'horario_salida', 'comidainicia', 'comidaduracion', 'comidatermina', 'diadescanso'];
 	
 	public function __construct() {
 		// Field Access of Listing Columns

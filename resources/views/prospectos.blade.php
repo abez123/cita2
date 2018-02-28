@@ -12,7 +12,7 @@
       <div class="container">
 
         <h2>Prospectos</h2>
-        <button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal"><i class="fa fa-plus"></i> Prospecto</button>
+        <button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal" data-backdrop="static" data-keyboard="false"><i class="fa fa-plus"></i> Prospecto</button>
       </div>
     </div>
   </div>

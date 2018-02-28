@@ -65,20 +65,24 @@ Tweets by @todoparasuspies
   <h5 class="title">Menu</h5>
   <a href="#" class="mobile-sidebar-close">&times;</a>
   <nav class="main-nav">
-    <ul>
-      <li class="active"><a href="index-2.html">Index</a></li>
-      <li> <a href="listing-filter.html">Professionals</a> </li>
-      <li><a href="profile_company.html">Profile Company</a></li>
-      <li><a href="profile_company-no-tabs.html">Profile Company No Tabs</a></li>
-      <li><a href="user-dashboard(connections)(hotkeys-disabled).html">User Dashboard 1</a></li>
-      <li><a href="user-dashboard(connections)(hotkeys-enabled).html">User Dashboard 2</a></li>
-      <li><a href="user-dashboard(followers).html">User Dashboard 3</a></li>
-      <li><a href="user-dashboard(following).html">User Dashboard 4</a></li>
-      <li><a href="blog-post.html">Blog Post</a></li>
-      <li> <a href="user-profile(layout-1).html">User Profile</a></li>
-      <li><a href="blog.html">Blog</a></li>
-      <li><a href="gui-kit.html">GUI KIT</a></li>
-    </ul>
+   <ul>
+            <li><a href="{{url('/user_profile')}}"><i class="fa  fa-home"></i></a></li>
+ 
+            <li> <a href="#">Páginas</a>
+              <ul>
+                <li><a href="{{url('/crear_cita')}}">Crear una cita</a></li>
+                <li><a href="http://todoparasuspies.com/">Todo Para Sus Pies</a></li>
+               
+                <li><a href="http://workadministra.com/">Tareas</a></li>
+                <li><a href="http://143.255.56.90:8083/ASFACEDOCTA/">Estado de Cuenta</a></li>
+                <li><a href="http://universidad.todoparasuspies.com/universidad/">Universidad TPSP</a></li>
+                            
+              </ul>
+            </li>
+             <li> <a href="{{url('/noticias')}}">Noticias</a></li>
+                     <li> <a href="http://todoparasuspies.com/mx/blog-tpsp">Blog TPSP</a> </li>
+            
+          </ul>
   </nav>
   <hr>
 </div>

@@ -109,7 +109,7 @@
 					<div class="panel-body">
 						@la_display($module, 'xml')
 						@la_display($module, 'pdf')
-						
+						@la_display($module, 'estatus')
 						@la_display($module, 'nombre')
 						@la_display($module, 'rfc')
 						@la_display($module, 'usocfdi')

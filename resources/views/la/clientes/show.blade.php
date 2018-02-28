@@ -115,6 +115,7 @@
 						@la_display($module, 'celular')
 						@la_display($module, 'correo')
 						@la_display($module, 'nota')
+						@la_display($module, 'formacom')
 					</div>
 				</div>
 			</div>

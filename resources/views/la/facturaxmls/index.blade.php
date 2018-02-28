@@ -69,6 +69,7 @@
                   
 					@la_input($module, 'xml')
 					@la_input($module, 'pdf')
+                    @la_input($module, 'estatus')
 				
 				</div>
 			</div>

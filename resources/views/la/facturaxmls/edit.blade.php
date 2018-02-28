@@ -33,6 +33,7 @@
 					
 					@la_input($module, 'xml')
 					@la_input($module, 'pdf')
+					@la_input($module, 'estatus')
 			
                     <br>
 					<div class="form-group">

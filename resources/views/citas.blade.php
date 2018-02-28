@@ -32,7 +32,7 @@
               <!--<li><a data-toggle="tab" href="#contacto">Contacto</a></li>-->
               <li><a href="{{url('/user_profile#tareas')}}">Tareas</a></li>         
               <li><a  href="{{url('/user_profile#enlaces')}}">Enlaces</a></li>    
-              <li><a  href="{{url('/user_profile#encuesta')}}">Encuestas</a></li>
+              <li><a  href="{{url('/encuestas')}}">Encuestas</a></li>
              
             </ul>
           </div>

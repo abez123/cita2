@@ -39,6 +39,7 @@ use Carbon\Carbon;
 use App\Models\EncuestaISF;
 use App\Models\Enlace;
 
+
 /**
  * Class HomeController
  * @package App\Http\Controllers
@@ -147,7 +148,7 @@ class UserProfileController extends Controller
         $citasnoshows = DB::table('citas')->join('clientes','clientes.id','=','citas.cliente_id')->join('sucursals','sucursals.id','=','citas.sucursal_id')->join('servicios','servicios.id','=','citas.servicio_id')->join('pedicuristas','pedicuristas.id','=','citas.pedicurista_id')->select(array('citas.id','clientes.nombrecompleto','sucursals.nombresuc','servicios.nombreservicio','pedicuristas.nombrecompletoped','citas.fechaservicio','citas.hora','citas.estatus','citas.cortesia'))->whereNull('citas.deleted_at')->whereIN('sucursals.id',$miems)->where('citas.estatus','No Show')->count();
 
         $enlaces=Enlace::paginate(8);
-     
+      
 
 
     return View('user-profile', [

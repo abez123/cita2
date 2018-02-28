@@ -23,7 +23,7 @@
         
         <!-- Top Riht Button -->
         <div class="right-top-bnr">
-          <div class="connect"> <a href="#." data-toggle="modal" data-target="#myModal"><i class="fa fa-user-plus"></i> Contacto</a> 
+          <div class="connect"> <a href="#." data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false"><i class="fa fa-user-plus"></i> Contacto</a> 
             <div class="bt-ns"> <a href="#."><i class="fa fa-bookmark-o"></i> </a> <a href="#."><i class="fa fa-envelope-o"></i> </a> <a href="#."><i class="fa fa-exclamation"></i> </a> </div>
           </div>
         </div>
@@ -85,7 +85,7 @@
              <!-- <li><a data-toggle="tab" href="#contacto">Contacto</a></li>-->
               <li><a data-toggle="tab" href="#tareas">Tareas</a></li>         
               <li><a data-toggle="tab" href="#enlaces">Enlaces</a></li>    
-              <li><a data-toggle="tab" href="#encuesta">Encuestas</a></li>
+              <li><a  href="{{url('/encuestas')}}">Encuestas</a></li>
              
             </ul>
           </div>
@@ -269,227 +269,7 @@
                 </div>
               </div>
 
- <!-- __________________________________________________________________________- -->
-                 <!-- Encuesta -->
 
-      <div id="encuesta" class="tab-pane fade">
-                <div class="header-listing">
-                  <h6>Encuesta de satisfacción</h6>
-                
-                 
-                </div>
-
-          <form id="feedback_preview_form"  autocomplete="off" action="http://universidad.todoparasuspies.com/mod/feedback/use_templ.php" method="POST" accept-charset="utf-8">
- 
-<input name="id" type="hidden" value="40">
-<input name="courseid" type="hidden" value="26">
-<input name="gopage" type="hidden" value="0">
-<input name="lastpage" type="hidden" value="">
-<input name="startitempos" type="hidden" value="">
-<input name="lastitempos" type="hidden" value="">
-<input name="sesskey" type="hidden" value="FL1SGRgk9c">
-<input name="_qf__mod_feedback_complete_form" type="hidden" value="1">
-
-
-
-  <div>
-    <div id="fitem_id_multichoice_17_0" ><div ><label for="id_multichoice_17_0">(FEET PERFECT) Considerando que se tiene hasta 5 horas hábiles para que se genere su factura una vez que se ha realizado su pedido en el sistema punto de venta, ¿Recibe Usted sus facturas de pedidos en tiempo a traves del Portal?<img  title="Campo requerido" alt="Campo requerido" src="http://universidad.todoparasuspies.com/theme/image.php/lambda/core/1507660313/req"> </label></div><div  data-fieldtype="select"><select  name="multichoice_17[0]" id="id_multichoice_17_0">
-  <option value="0"></option>
-  <option value="1">EXCELENTE
-</option>
-  <option value="2">BUENO
-</option>
-  <option value="3">ACEPTABLE
-</option>
-  <option value="4">REGULAR
-</option>
-  <option value="5">PÉSIMO</option>
-</select></div></div>
-    <div id="fitem_id_multichoice_18_0" ><div ><label for="id_multichoice_18_0"> El pedido que recibio es conforme a los facturado?<img title="Campo requerido" alt="Campo requerido" src="http://universidad.todoparasuspies.com/theme/image.php/lambda/core/1507660313/req"> </label></div><div  data-fieldtype="select"><select  name="multichoice_18[0]" id="id_multichoice_18_0">
-  <option value="0"></option>
-  <option value="1">EXCELENTE
-</option>
-  <option value="2">BUENO
-</option>
-  <option value="3">ACEPTABLE
-</option>
-  <option value="4">REGULAR
-</option>
-  <option value="5">PÉSIMO</option>
-</select></div></div>
-    <div id="fitem_id_multichoice_19_0" ><div><label for="id_multichoice_19_0">En su ultimo pedido, se le notificó acerca de algún desabasto de producto, cambio de presentación, precio, gramaje, etc.?<img  title="Campo requerido" alt="Campo requerido" src="http://universidad.todoparasuspies.com/theme/image.php/lambda/core/1507660313/req"> </label></div><div  data-fieldtype="select"><select  name="multichoice_19[0]" id="id_multichoice_19_0">
-  <option value="0"></option>
-  <option value="1">EXCELENTE
-</option>
-  <option value="2">BUENO
-</option>
-  <option value="3">ACEPTABLE
-</option>
-  <option value="4">REGULAR
-</option>
-  <option value="5">PÉSIMO</option>
-</select></div></div>
-    <div id="fitem_id_multichoice_20_0"><div ><label for="id_multichoice_20_0">Considerando que se tiene hasta 48 hrs. Hábiles despues de validarse su pago, sus pedidos han sido puestos en la paqueteria en tiempo y forma?<img  title="Campo requerido" alt="Campo requerido" src="http://universidad.todoparasuspies.com/theme/image.php/lambda/core/1507660313/req"> </label></div><div  data-fieldtype="select"><select  name="multichoice_20[0]" id="id_multichoice_20_0">
-  <option value="0"></option>
-  <option value="1">EXCELENTE
-</option>
-  <option value="2">BUENO
-</option>
-  <option value="3">ACEPTABLE
-</option>
-  <option value="4">REGULAR
-</option>
-  <option value="5">PÉSIMO</option>
-</select></div></div>
-    <div id="fitem_id_multichoice_21_0"><div ><label for="id_multichoice_21_0">La atención brindada por el departamento de Almacén, ha sido satisfactoria?<img  title="Campo requerido" alt="Campo requerido" src="http://universidad.todoparasuspies.com/theme/image.php/lambda/core/1507660313/req"> </label></div><div  data-fieldtype="select"><select  name="multichoice_21[0]" id="id_multichoice_21_0">
-  <option value="0"></option>
-  <option value="1">EXCELENTE
-</option>
-  <option value="2">BUENO
-</option>
-  <option value="3">ACEPTABLE
-</option>
-  <option value="4">REGULAR
-</option>
-  <option value="5">PÉSIMO</option>
-</select></div></div>
-    <div id="fitem_id_multichoice_22_0"><div ><label for="id_multichoice_22_0">(CENTRO CAPACITACIÓN) Recibe en tiempo y forma el calendario de Capacitación?<img  title="Campo requerido" alt="Campo requerido" src="http://universidad.todoparasuspies.com/theme/image.php/lambda/core/1507660313/req"> </label></div><div  data-fieldtype="select"><select  name="multichoice_22[0]" id="id_multichoice_22_0">
-  <option value="0"></option>
-  <option value="1">EXCELENTE
-</option>
-  <option value="2">BUENO
-</option>
-  <option value="3">ACEPTABLE
-</option>
-  <option value="4">REGULAR
-</option>
-  <option value="5">PÉSIMO</option>
-</select></div></div>
-    <div id="fitem_id_multichoice_23_0"><div class="fitemtitle"><label for="id_multichoice_23_0"> En caso de haber requerido hospedaje, cómo calificó la estancia?<img  title="Campo requerido" alt="Campo requerido" src="http://universidad.todoparasuspies.com/theme/image.php/lambda/core/1507660313/req"> </label></div><div  data-fieldtype="select"><select  name="multichoice_23[0]" id="id_multichoice_23_0">
-  <option value="0"></option>
-  <option value="1">EXCELENTE
-</option>
-  <option value="2">BUENO
-</option>
-  <option value="3">ACEPTABLE
-</option>
-  <option value="4">REGULAR
-</option>
-  <option value="5">PÉSIMO</option>
-</select></div></div>
-    <div id="fitem_id_multichoice_24_0"><div class="fitemtitle"><label for="id_multichoice_24_0">La atención brindada por el departamento de Centro de Capacitación, ha sido satisfactoria?<img  title="Campo requerido" alt="Campo requerido" src="http://universidad.todoparasuspies.com/theme/image.php/lambda/core/1507660313/req"> </label></div><div  data-fieldtype="select"><select  name="multichoice_24[0]" id="id_multichoice_24_0">
-  <option value="0"></option>
-  <option value="1">EXCELENTE
-</option>
-  <option value="2">BUENO
-</option>
-  <option value="3">ACEPTABLE
-</option>
-  <option value="4">REGULAR
-</option>
-  <option value="5">PÉSIMO</option>
-</select></div></div>
-    <div id="fitem_id_multichoice_25_0"><div class="fitemtitle"><label for="id_multichoice_25_0">(FEETCO)  Cuando surge alguna necesidad de atención a franquicias recibe respuesta en un tiempo no mayor de 24 hrs. Hábiles.?<img  title="Campo requerido" alt="Campo requerido" src="http://universidad.todoparasuspies.com/theme/image.php/lambda/core/1507660313/req"> </label></div><div  data-fieldtype="select"><select  name="multichoice_25[0]" id="id_multichoice_25_0">
-  <option value="0"></option>
-  <option value="1">EXCELENTE
-</option>
-  <option value="2">BUENO
-</option>
-  <option value="3">ACEPTABLE
-</option>
-  <option value="4">REGULAR
-</option>
-  <option value="5">PÉSIMO</option>
-</select></div></div>
-    <div id="fitem_id_multichoice_26_0"><div class="fitemtitle"><label for="id_multichoice_26_0"> Las facturas por concepto de regalías, arrendamiento, call center, telefonía (cuando aplica) se generan en tiempo y forma en su portal?<img  title="Campo requerido" alt="Campo requerido" src="http://universidad.todoparasuspies.com/theme/image.php/lambda/core/1507660313/req"> </label></div><div  data-fieldtype="select"><select  name="multichoice_26[0]" id="id_multichoice_26_0">
-  <option value="0"></option>
-  <option value="1">EXCELENTE
-</option>
-  <option value="2">BUENO
-</option>
-  <option value="3">ACEPTABLE
-</option>
-  <option value="4">REGULAR
-</option>
-  <option value="5">PÉSIMO</option>
-</select></div></div>
-    <div id="fitem_id_multichoice_27_0"><div class="fitemtitle"><label for="id_multichoice_27_0">Recibe de forma bimestral las encuestas de Indice de Satisfacción al Cliente y le son de utilidad?<img  title="Campo requerido" alt="Campo requerido" src="http://universidad.todoparasuspies.com/theme/image.php/lambda/core/1507660313/req"> </label></div><div  data-fieldtype="select"><select  name="multichoice_27[0]" id="id_multichoice_27_0">
-  <option value="0"></option>
-  <option value="1">EXCELENTE
-</option>
-  <option value="2">BUENO
-</option>
-  <option value="3">ACEPTABLE
-</option>
-  <option value="4">REGULAR
-</option>
-  <option value="5">PÉSIMO</option>
-</select></div></div>
-    <div id="fitem_id_multichoice_28_0"><div class="fitemtitle"><label for="id_multichoice_28_0"> Al reportar una falla en Sistema Punto de Venta, se le brinda soporte en un tiempo no mayor de 24 hrs. Hábiles?<img  title="Campo requerido" alt="Campo requerido" src="http://universidad.todoparasuspies.com/theme/image.php/lambda/core/1507660313/req"> </label></div><div  data-fieldtype="select"><select  name="multichoice_28[0]" id="id_multichoice_28_0">
-  <option value="0"></option>
-  <option value="1">EXCELENTE
-</option>
-  <option value="2">BUENO
-</option>
-  <option value="3">ACEPTABLE
-</option>
-  <option value="4">REGULAR
-</option>
-  <option value="5">PÉSIMO</option>
-</select></div></div>
-    <div id="fitem_id_multichoice_29_0"><div class="fitemtitle"><label for="id_multichoice_29_0">Cuando solicita gráficos institucionales, recibe respuesta del depto. De Marketing en un tiempo no mayor de 24 hrs. Hábiles?<img  title="Campo requerido" alt="Campo requerido" src="http://universidad.todoparasuspies.com/theme/image.php/lambda/core/1507660313/req"> </label></div><div  data-fieldtype="select"><select  name="multichoice_29[0]" id="id_multichoice_29_0">
-  <option value="0"></option>
-  <option value="1">EXCELENTE
-</option>
-  <option value="2">BUENO
-</option>
-  <option value="3">ACEPTABLE
-</option>
-  <option value="4">REGULAR
-</option>
-  <option value="5">PÉSIMO</option>
-</select></div></div>
-    <div id="fitem_id_multichoice_30_0"><div class="fitemtitle"><label for="id_multichoice_30_0">(RECURSOS HUMANOS) Cuándo tuve alguna duda referente a la contratación de personal, se lo resolvieron  de forma satisfactoria?<img  title="Campo requerido" alt="Campo requerido" src="http://universidad.todoparasuspies.com/theme/image.php/lambda/core/1507660313/req"> </label></div><div  data-fieldtype="select"><select  name="multichoice_30[0]" id="id_multichoice_30_0">
-  <option value="0"></option>
-  <option value="1">EXCELENTE
-</option>
-  <option value="2">BUENO
-</option>
-  <option value="3">ACEPTABLE
-</option>
-  <option value="4">REGULAR
-</option>
-  <option value="5">PÉSIMO</option>
-</select></div></div>
-    <div id="fitem_id_multichoice_31_0"><div class="fitemtitle"><label for="id_multichoice_31_0">(PRODUCCIÓN) La calidad de los productos de venta ha sido satisfactoria?<img  title="Campo requerido" alt="Campo requerido" src="http://universidad.todoparasuspies.com/theme/image.php/lambda/core/1507660313/req"> </label></div><div  data-fieldtype="select"><select  name="multichoice_31[0]" id="id_multichoice_31_0">
-  <option value="0"></option>
-  <option value="1">EXCELENTE
-</option>
-  <option value="2">BUENO
-</option>
-  <option value="3">ACEPTABLE
-</option>
-  <option value="4">REGULAR
-</option>
-  <option value="5">PÉSIMO</option>
-</select></div></div>
-    <div id="fitem_id_multichoice_32_0"><div class="fitemtitle"><label for="id_multichoice_32_0">La calidad de los Insumos de cubiculo ha sido satisfactoria?<img  title="Campo requerido" alt="Campo requerido" src="http://universidad.todoparasuspies.com/theme/image.php/lambda/core/1507660313/req"> </label></div><div  data-fieldtype="select"><select  name="multichoice_32[0]" id="id_multichoice_32_0">
-  <option value="0"></option>
-  <option value="1">EXCELENTE
-</option>
-  <option value="2">BUENO
-</option>
-  <option value="3">ACEPTABLE
-</option>
-  <option value="4">REGULAR
-</option>
-  <option value="5">PÉSIMO</option>
-</select></div></div>
-    <div id="fitem_id_requiredfields" ><div class="fitemtitle"><div > </div></div><div  data-fieldtype="static">En este formato hay campos obligatorios<img alt="Campo requerido" src="http://universidad.todoparasuspies.com/theme/image.php/lambda/core/1507660313/req"></div></div>
-    </div>
-     <button class="btn btn-primary">Enviar Encuesta</button>
-</form>    
-</div>
      <!-- __________________________________________________________________________- -->
                  <!-- Facturación -->
               <div id="factura" class="tab-pane fade">
@@ -511,14 +291,15 @@
                         <h5>Fecha: {{$facturasxml->fecha}}</h5>
                         &nbsp;
                        <h5>Emisor: {{$facturasxml->emisornombre}}</h5>
-                        &nbsp;
-                        <h5>Emisor RFC: {{$facturasxml->emisorrfc}}</h5>
+                    
+                      
                       </div>
                       <div class="listing-inner">
                         <div class="listing-content">
                           <h6 class="title-company">Folio: {{$facturasxml->folio}}</h6>
                             <h6 class="title-company">A Nombre: {{$facturasxml->nombre}}</h6>
-                    
+                   
+                        <h6 class="title-company">Estatus: {{$facturasxml->estatus}}</h6>
                      <h6 class="title-company">RFC: {{$facturasxml->rfc}}</h6>
                           <h6 class="title-company">Descripción: {{$facturasxml->descripcion}}</h6>
                          <h6>Subtotal: ${{$facturasxml->subimporte}}</h6>
@@ -1048,21 +829,8 @@ $(document).ready(function(){
 
 
 </script>
-<!--Start of Tawk.to Script-->
-<!--Start of Tawk.to Script-->
+
 <script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/59a99bdfc28eca75e461d9ae/default';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-
-
-
 
 $(function(){
   var hash = window.location.hash;

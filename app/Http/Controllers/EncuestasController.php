@@ -22,8 +22,8 @@ use App\Models\EncuestaISF;
 class EncuestasController extends Controller
 {
     public $show_action = true;
-    public $view_col = 'franquiciatario_id';
-    public $listing_cols = ['id', 'franquiciatario_id', 'recibirfactura', 'pedidorecibido', 'notificarpedido', 'paqueteria', 'almacen', 'mes'];
+    public $view_col = 'mes';
+    public $listing_cols = ['id', 'franquiciatario_id',  'mes'];
     
     public function __construct() {
         // Field Access of Listing Columns
@@ -47,13 +47,13 @@ class EncuestasController extends Controller
         $module = Module::get('EncuestaISFs');
         
         if(Module::hasAccess($module->id)) {
-            return View('la.encuestaisfs.index', [
+            return View('encuesta', [
                 'show_actions' => $this->show_action,
                 'listing_cols' => $this->listing_cols,
                 'module' => $module
             ]);
         } else {
-            return redirect(config('laraadmin.adminRoute')."/");
+            return redirect("/");
         }
     }
 
@@ -87,10 +87,9 @@ class EncuestasController extends Controller
             
             $insert_id = Module::insert("EncuestaISFs", $request);
             
-            return redirect()->route(config('laraadmin.adminRoute') . '.encuestaisfs.index');
-            
+            return redirect()->back();
         } else {
-            return redirect(config('laraadmin.adminRoute')."/");
+            return redirect("/");
         }
     }
 
@@ -105,14 +104,18 @@ class EncuestasController extends Controller
         if(Module::hasAccess("EncuestaISFs", "view")) {
             
             $encuestaisf = EncuestaISF::find($id);
+           
             if(isset($encuestaisf->id)) {
                 $module = Module::get('EncuestaISFs');
+
                 $module->row = $encuestaisf;
+              
                 
-                return view('la.encuestaisfs.show', [
+                return view('encuesta-show', [
                     'module' => $module,
                     'view_col' => $this->view_col,
                     'no_header' => true,
+                   
                     'no_padding' => "no-padding"
                 ])->with('encuestaisf', $encuestaisf);
             } else {
@@ -122,7 +125,7 @@ class EncuestasController extends Controller
                 ]);
             }
         } else {
-            return redirect(config('laraadmin.adminRoute')."/");
+            return redirect("/");
         }
     }
 
@@ -141,7 +144,7 @@ class EncuestasController extends Controller
                 
                 $module->row = $encuestaisf;
                 
-                return view('la.encuestaisfs.edit', [
+                return view('encuesta-edit', [
                     'module' => $module,
                     'view_col' => $this->view_col,
                 ])->with('encuestaisf', $encuestaisf);
@@ -152,7 +155,7 @@ class EncuestasController extends Controller
                 ]);
             }
         } else {
-            return redirect(config('laraadmin.adminRoute')."/");
+            return redirect("/");
         }
     }
 
@@ -177,10 +180,10 @@ class EncuestasController extends Controller
             
             $insert_id = Module::updateRow("EncuestaISFs", $request, $id);
             
-            return redirect()->route(config('laraadmin.adminRoute') . '.encuestaisfs.index');
+            return redirect()->route('encuestas.index');
             
         } else {
-            return redirect(config('laraadmin.adminRoute')."/");
+            return redirect("/");
         }
     }
 
@@ -196,9 +199,9 @@ class EncuestasController extends Controller
             EncuestaISF::find($id)->delete();
             
             // Redirecting to index() method
-            return redirect()->route(config('laraadmin.adminRoute') . '.encuestaisfs.index');
+            return redirect()->route('encuestas.index');
         } else {
-            return redirect(config('laraadmin.adminRoute')."/");
+            return redirect("/");
         }
     }
     
@@ -222,7 +225,7 @@ class EncuestasController extends Controller
                     $data->data[$i][$j] = ModuleFields::getFieldValue($fields_popup[$col], $data->data[$i][$j]);
                 }
                 if($col == $this->view_col) {
-                    $data->data[$i][$j] = '<a href="'.url(config('laraadmin.adminRoute') . '/encuestaisfs/'.$data->data[$i][0]).'">'.$data->data[$i][$j].'</a>';
+                    $data->data[$i][$j] = '<a href="'.url( '/encuestas/'.$data->data[$i][0]).'">'.$data->data[$i][$j].'</a>';
                 }
                 // else if($col == "author") {
                 //    $data->data[$i][$j];
@@ -232,11 +235,11 @@ class EncuestasController extends Controller
             if($this->show_action) {
                 $output = '';
                 if(Module::hasAccess("EncuestaISFs", "edit")) {
-                    $output .= '<a href="'.url(config('laraadmin.adminRoute') . '/encuestaisfs/'.$data->data[$i][0].'/edit').'" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>';
+                    $output .= '<a href="'.url('/encuestas/'.$data->data[$i][0].'/edit').'" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>';
                 }
                 
                 if(Module::hasAccess("EncuestaISFs", "delete")) {
-                    $output .= Form::open(['route' => [config('laraadmin.adminRoute') . '.encuestaisfs.destroy', $data->data[$i][0]], 'method' => 'delete', 'style'=>'display:inline']);
+                    $output .= Form::open(['route' => ['encuestas.destroy', $data->data[$i][0]], 'method' => 'delete', 'style'=>'display:inline']);
                     $output .= ' <button class="btn btn-danger btn-xs" type="submit"><i class="fa fa-times"></i></button>';
                     $output .= Form::close();
                 }

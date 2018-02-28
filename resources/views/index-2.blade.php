@@ -224,7 +224,7 @@
 
 @include('layouts.partials.footer')
 @include('layouts.partials.scripts')
-<script src="https://widget.flowxo.com/embed.js" data-fxo-widget="eyJ0aGVtZSI6IiM2N2MxOGUiLCJ3ZWIiOnsiYm90SWQiOiI1OWYxNDBhOWU5MDVkMTAwYTNjYmU2Y2MiLCJ0aGVtZSI6IiM2N2MxOGUifX0=" async defer></script>
+
 </body>
 
 

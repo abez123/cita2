@@ -24,7 +24,7 @@ class FacturaXMLsController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'nombre';
-	public $listing_cols = ['id', 'fecha','folio','nombre', 'rfc', 'usocfdi',  'cantidad',  'descripcion', 'valorunitario','subimporte', 'impuesto' ,'importe',  'formapago',  'moneda'];
+	public $listing_cols = ['id', 'fecha','folio','nombre', 'rfc', 'usocfdi',  'cantidad',  'descripcion', 'valorunitario','subimporte', 'impuesto' ,'importe',  'formapago',  'moneda',  'estatus'];
 	
 	public function __construct() {
 		// Field Access of Listing Columns

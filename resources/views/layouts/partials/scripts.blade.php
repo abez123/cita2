@@ -1,7 +1,7 @@
 <!-- REQUIRED JS SCRIPTS -->
 
 <!-- Scripts --> 
-<script src="https://maps.googleapis.com/maps/api/js"></script> 
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXFNXUXTucS-m45EVzs_QCnX1-HoNjuks"></script> 
 <!-- jQuery 2.1.4 -->
 <script src="{{ asset('la-assets/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
 <!-- Bootstrap 3.3.2 JS -->
@@ -63,4 +63,19 @@ $(function () {
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.js" type="text/javascript" charset="utf-8"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/5a95f3174b401e45400d427d/default';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+
 @stack('scripts')

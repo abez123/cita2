@@ -37,13 +37,13 @@
                <li><a  href="{{url('/user_profile#reportes')}}">Reportes</a></li>
              
                   <li><a  href="{{url('/citasver')}}">Citas</a></li>
-                  <li><a data-toggle="tab" href="{{url('/noticias')}}">Noticias</a></li>
+                  <li><a href="{{url('/noticias')}}">Noticias</a></li>
               
                <li><a  href="{{url('/user_profile#docus')}}">Documentos</a></li>
               <!--<li><a data-toggle="tab" href="#contacto">Contacto</a></li>-->
               <li><a href="{{url('/user_profile#tareas')}}">Tareas</a></li>         
               <li><a  href="{{url('/user_profile#enlaces')}}">Enlaces</a></li>    
-              <li><a  href="{{url('/user_profile#encuesta')}}">Encuestas</a></li>
+              <li><a  href="{{url('/encuestas')}}">Encuestas</a></li>
              
             </ul>
           </div>

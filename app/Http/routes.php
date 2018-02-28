@@ -11,9 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 /* ================== Prospectos================== */
 Route::resource('/prospectos', 'ProspectosController');
 Route::resource('/prospectos_crear', 'ProspectosController@create');

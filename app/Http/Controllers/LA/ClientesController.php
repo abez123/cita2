@@ -31,7 +31,7 @@ class ClientesController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'nombrecompleto';
-	public $listing_cols = ['id', 'nombrecompleto', 'telcasa', 'celular', 'correo', 'nota'];
+	public $listing_cols = ['id', 'nombrecompleto', 'telcasa', 'celular', 'correo', 'nota', 'formacom'];
 	
 	public function __construct() {
 		// Field Access of Listing Columns

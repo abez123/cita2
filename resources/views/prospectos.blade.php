@@ -84,7 +84,7 @@
            </div>
        <div class="form-group">
                     <label>Estado Civil:</label>
-       <select style="width: 1000%" class="form-control select2" name="estadocivil" required>
+       <select  class="form-control select2" name="estadocivil" required>
         <option value="Soletero">Soletero</option>
         <option value="Casado">Casado</option>
         <option value="Divorciado">Divorciado</option>
@@ -159,7 +159,7 @@
           
     <div class="form-group">
                     <label>¿Su inversión está solventada por? </label>
-       <select style="width: 1000%" class="form-control select2" name="solventadapor" required>
+       <select  class="form-control select2" name="solventadapor" required>
         <option value="Usted Solo">Usted Solo</option>
         <option value="Sociedad">Sociedad</option>
         <option value="Familiar">Familiar</option>
@@ -184,7 +184,7 @@
 
    <div class="form-group">
                     <label>  A cuánto asciende el monto de lo que Usted desea invertir? </label>
-       <select style="width: 1000%" class="form-control select2" name="inversion" required>
+       <select  class="form-control select2" name="inversion" required>
         <option value="Menos de $500,000.00">Menos de $500,000.00</option>
         <option value="De $5000,000.00 a $1,000,000.00">De $5000,000.00 a $1,000,000.00</option>
         <option value="Arriba de $1,000,000.00">Arriba de $1,000,000.00</option>
@@ -201,7 +201,7 @@
 
           <div class="form-group">
                     <label> Antendido por: </label>
-       <select style="width: 1000%" class="form-control select2" name="atendidopor" required>
+       <select  class="form-control select2" name="atendidopor" required>
         <option value="Osiris Ruvalcaba">Osiris Ruvalcaba</option>
         <option value="Clarisa Macias">Clarisa Macias</option>
         <option value="Dr Ignacio Garcia de la Paz">Dr Ignacio Garcia de la Paz</option>

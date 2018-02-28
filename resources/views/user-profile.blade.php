@@ -629,9 +629,9 @@
                         @foreach( $adecuacionsucursalinteriors as  $adecuacionsucursalinterior)
           
                        
-                          <h1><a href="{{$adecuacionsucursalinterior->urldocu}}">{{$adecuacionsucursalinterior->nombredocu}}</a></h1>
+                          <h1><a href="{{$adecuacionsucursalinterior->urldocu}}" target="_blank">{{$adecuacionsucursalinterior->nombredocu}} </a></h1>
                        
-                          <a href="{{$adecuacionsucursalinterior->urldocu}}" class="btn btn-small btn-primary">Ir a Google Drive</a> </article>
+                          <a href="{{$adecuacionsucursalinterior->urldocu}}" class="btn btn-small btn-primary" target="_blank">Ir a Google Drive</a> </article>
                         <!-- end .uou-block-7f -->
 
                         @endforeach
@@ -653,9 +653,9 @@
                         @foreach( $adecuacionsucursalexteriors as  $adecuacionsucursalexterior)
           
                        
-                          <h1><a href="{{$adecuacionsucursalexterior->urldocu}}">{{$adecuacionsucursalexterior->nombredocu}}</a></h1>
+                          <h1><a href="{{$adecuacionsucursalexterior->urldocu}}" target="_blank">{{$adecuacionsucursalexterior->nombredocu}}</a></h1>
                        
-                          <a href="{{$adecuacionsucursalexterior->urldocu}}" class="btn btn-small btn-primary">Ir a Google Drive</a> </article>
+                          <a href="{{$adecuacionsucursalexterior->urldocu}}" class="btn btn-small btn-primary" target="_blank">Ir a Google Drive</a> </article>
                         <!-- end .uou-block-7f -->
 
                         @endforeach
@@ -677,9 +677,9 @@
                         @foreach( $impresos as  $impreso)
           
                        
-                          <h1><a href="{{$impreso->urldocu}}">{{$impreso->nombredocu}}</a></h1>
+                          <h1><a href="{{$impreso->urldocu}}" target="_blank">{{$impreso->nombredocu}}</a></h1>
                        
-                          <a href="{{$impreso->urldocu}}" class="btn btn-small btn-primary">Ir a Google Drive</a> </article>
+                          <a href="{{$impreso->urldocu}}" class="btn btn-small btn-primary" target="_blank">Ir a Google Drive</a> </article>
                         <!-- end .uou-block-7f -->
 
                         @endforeach
@@ -701,9 +701,9 @@
                         @foreach( $videopantallas as  $videopantalla)
           
                        
-                          <h1><a href="{{$videopantalla->urldocu}}">{{$videopantalla->nombredocu}}</a></h1>
+                          <h1><a href="{{$videopantalla->urldocu}}" target="_blank">{{$videopantalla->nombredocu}}</a></h1>
                        
-                          <a href="{{$videopantalla->urldocu}}" class="btn btn-small btn-primary">Ir a Google Drive</a> </article>
+                          <a href="{{$videopantalla->urldocu}}" class="btn btn-small btn-primary" target="_blank">Ir a Google Drive</a> </article>
                         <!-- end .uou-block-7f -->
 
                         @endforeach

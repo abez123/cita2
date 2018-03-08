@@ -16,10 +16,11 @@ Route::resource('/prospectos', 'ProspectosController');
 Route::resource('/prospectos_crear', 'ProspectosController@create');
 Route::get('/prospectos_dt_ajax', 'ProspectosController@dtajax');
 
-
+	Route::get('/sucursal', 'API\APICitaController@sucursal');
 
 Route::get('files/{hash}/{name}', 'UploadsController@get_file');
 Route::group(['prefix' => 'api/v1', 'middleware' => 'auth:api'], function () {
+	Route::get('/sucursalapi', 'API\APICitaController@sucursal');
     	Route::post('/citaapp', 'API\APICitaController@store');
     	Route::get('/cliente-ajaxapp', 'API\APICitaController@buscarCliente');
 	});

@@ -308,8 +308,8 @@
                           <h6 class="title-tags">Descargar Facturas:</h6>
                           <ul >
               
-                            <li><a href="{{$xmls->path()}}">descargar xml </a></li>
-                             <li><a href="{{$pdfs->path()}}">descargar pdf </a></li>
+                            <li><a href="{{$xmls}}">descargar xml </a></li>
+                             <li><a href="{{$pdfs}}">descargar pdf </a></li>
               
                           </ul>
                         </div>
@@ -743,6 +743,8 @@
 
 
 <script type="text/javascript">
+
+
 var ctx = document.getElementById("myChart").getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'bar',
@@ -848,5 +850,27 @@ $(function(){
 
 </body>
 
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/5a95f3174b401e45400d427d/default';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+<script type="text/javascript">
 
+Tawk_API = Tawk_API || {};
+Tawk_API.visitor = {
+ 
+    name  : '{{$name}}',
+    email : '{{$email}}'
+    
+};
+</script>
 </html>

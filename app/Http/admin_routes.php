@@ -29,7 +29,10 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	Route::get(config('laraadmin.adminRoute'), 'LA\DashboardController@index');
 	Route::get(config('laraadmin.adminRoute'). '/dashboard', 'LA\DashboardController@index');
 	/* ================== Ajax calls JSON ================== */
+	Route::get('/sucursal-ajax', 'LA\CitasController@buscarSucursal');
+
 	Route::get('/calendario-ajax', 'LA\CitasController@jsonCalendar');
+
 	Route::get('/cliente-ajax', 'LA\CitasController@buscarCliente');
 
 	Route::get('/pedicurista-ajax', 'LA\CitasController@buscarPedicurista');
@@ -41,7 +44,9 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 
 	Route::get('/comidatermina-ajax', 'LA\CitasController@comidaterminCalendar');
 
-		Route::get('/citaconfirm-ajax', 'LA\CitasController@clienteConfirm');
+	Route::get('/citaconfirm-ajax', 'LA\CitasController@clienteConfirm');
+
+
 	/* ================== Users ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/users', 'LA\UsersController');
 	Route::get(config('laraadmin.adminRoute') . '/user_dt_ajax', 'LA\UsersController@dtajax');

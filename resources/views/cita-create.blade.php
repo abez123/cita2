@@ -1,5 +1,18 @@
 @include('layouts.partials.htmlheader')
-
+<style>
+.table-responsive {
+  min-height: .01%;
+  overflow-x: auto;
+}
+@media screen and (max-width: 767px) {
+  .table-responsive {
+    width: 100%;
+    margin-bottom: 15px;
+    overflow-y: hidden;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    border: 1px solid #ddd;       
+  }
+  </style>
 <body>
 <div id="main-wrapper">
 @include('layouts.partials.top_toolbar')  
@@ -15,7 +28,6 @@
       </div>
     </div>
   </div>
-
 
 
 
@@ -109,10 +121,11 @@
                       </select>                                    
            
                     <br>
+
               @la_input($module, 'fechaservicio')
 
                      <div class="form-group ">
-                   <label class="control-label" for="hora"> <i class="glyphicon glyphicon-user"></i>  Horario</label>
+                   <label class="control-label" for="hora"> <i class="glyphicon glyphicon-time"></i>  Horario</label>
                       <select style="width: 100%" name="hora" id="hora" class="form-control" rel="select2">
                        
                         
@@ -252,116 +265,13 @@
 </div>
 </div>
 </div>
+
+   <br>
+<br>
+<br> 
 </div>
 
 
-        <div class="col-md-3">
-          <div class="uou-sidebar">
-
-            <div class="search-widget">
-              <form class="search-form-widget" action="#">
-                <input type="text" class="search-input" placeholder="Search ...">
-                <input type="submit" value="">
-              </form>
-            </div> <!-- end search-widget -->
-
-            <h5 class="sidebar-title">Categories</h5>
-
-            <div class="list-widget">
-              <ul>
-                <li><a href="#">Creative</a></li>
-                <li><a href="#">Design</a></li>
-                <li><a href="#">Development</a></li>
-                <li><a href="#">Mulitmedia</a></li>
-                <li><a href="#">Offtopic</a></li>
-
-              </ul>
-            </div>
-
-
-            <h5 class="sidebar-title">About Us</h5>
-
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi.</p>
-
-
-            <h5 class="sidebar-title">Connect With Us</h5>
-
-            <div class="social-widget">
-              <div class="uou-block-4b">
-
-                <ul class="social-icons">
-                  <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                  <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                  <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                  <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
-                  <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-                </ul>
-
-              </div> <!-- end .uou-block-4b -->
-            </div> <!-- end social widget -->
-
-            <h5 class="sidebar-title">Popular Posts</h5>
-
-            <div class="latest-post-widget">
-              <div class="post-single">
-                <img src="../public/socio-assets/img/p-post-1.png" alt="">
-                <p class="meta">January 12, 2015</p>
-                <p class="meta">Design</p>
-                <h6 class="post-title"><a href="#">Pariatur Vellit Corrupti Goes Into 2 Lines</a></h6>
-
-              </div>
-
-              <div class="post-single">
-                <img src="../public/socio-assets/img/p-post-2.png" alt="">
-                <p class="meta">January 12, 2015</p>
-                <p class="meta">Design</p>
-                <h6 class="post-title"><a href="#">Pariatur Vellit Corrupti Goes Into 2 Lines</a></h6>
-
-              </div>
-
-              <div class="post-single">
-                <img src="../public/socio-assets/img/p-post-3.png" alt="">
-                <p class="meta">January 12, 2015</p>
-                <p class="meta">Design</p>
-                <h6 class="post-title"><a href="#">Pariatur Vellit Corrupti Goes Into 2 Lines</a></h6>
-
-              </div>
-            </div> <!-- end latest-post-widget -->
-
-
-            <h5 class="sidebar-title">Tag Cloud</h5>
-
-            <div class="widget-tag">
-              <div class="tag-cloud">
-                <a class="btn btn-primary" href="#">User Experience</a>
-                <a class="btn btn-primary" href="#">HTML 5</a>
-                <a class="btn btn-primary" href="#">Css 3</a>
-                <a class="btn btn-primary" href="#">web design</a>
-                <a class="btn btn-primary" href="#">social media</a>
-                <a class="btn btn-primary" href="#">web development</a>
-                <a class="btn btn-primary" href="#">print design</a>
-                <a class="btn btn-primary" href="#">e-commerce</a>
-                <a class="btn btn-primary" href="#">java script</a>
-              </div>
-
-            </div>
-
-            <h5 class="sidebar-title">Archive</h5>
-
-            <div class="list-widget">
-              <ul>
-                <li><a href="#">May 2015</a></li>
-                <li><a href="#">April 2015</a></li>
-                <li><a href="#">July 2015</a></li>
-                <li><a href="#">Frbruary 2015</a></li>
-                <li><a href="#">January 2015</a></li>
-
-              </ul>
-            </div>
-
-
-          </div> <!-- end uou-sidebar -->
-        </div>
 
       </div> <!-- end row -->
 
@@ -373,7 +283,7 @@
 
 </div>
 <!-- end #main-wrapper -->
-@include('layouts.partials.footer')
+
 
 @include('layouts.partials.scripts')
 
@@ -763,11 +673,11 @@ $('#cliente_id').on('change', function(e){
            //success data
            $('#clientehistory').empty();
 
-           $('#clientehistory').append('<div class="box-body"><table id="example1" class="table table-bordered"><thead><tr class="success"><th>id</th><th>Cliente</th><th>Sucursal</th><th>Servicio</th><th>Pedicurista</th><th>Fecha</th><th>Hora</th><th>Estaus</th></tr></thead></table></div>');
+           $('#clientehistory').append('<div class="box-body"><table id="example1" class="table table-bordered table-condensed table-responsive"><thead><tr class="success"><th>id</th><th>Cliente</th><th>Sucursal</th><th>Servicio</th><th>Pedicurista</th><th>Fecha</th><th>Hora</th><th>Estaus</th></tr></thead></table></div>');
             
            $.each(data, function(index, subcatObj){
                 if(data && data !=""){
-$('#clientehistory').append('<div class="box-body"><table id="example1" class="table table-bordered"><tr><td>'+ subcatObj.id+ '</td><td>'+ subcatObj.nombrecompleto+ '</td><td>'+ subcatObj.nombresuc+ '</td><td>'+ subcatObj.nombreservicio+ '</td><td>'+ subcatObj.nombrecompletoped+ '</td><td>'+ subcatObj.fechaservicio+ '</td><td>'+ subcatObj.hora+ '</td><td>'+ subcatObj.estatus+ '</td></tr></tbody></table></div>');
+$('#clientehistory').append('<div class="box-body table-responsive"><table id="example1" class="table table-bordered table-condensed table-responsive"><tr><td>'+ subcatObj.id+ '</td><td>'+ subcatObj.nombrecompleto+ '</td><td>'+ subcatObj.nombresuc+ '</td><td>'+ subcatObj.nombreservicio+ '</td><td>'+ subcatObj.nombrecompletoped+ '</td><td>'+ subcatObj.fechaservicio+ '</td><td>'+ subcatObj.hora+ '</td><td>'+ subcatObj.estatus+ '</td></tr></tbody></table></div>');
                }else{
  $('#clientehistory').append('Sin Historial');
                 
@@ -845,6 +755,29 @@ $( "#imageped" ).attr( "src", subcatObj.imagen);
 
 
 </script>
+
+<!--S
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/5a98554cd7591465c7082a92/default';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+
+<script type="text/javascript">
+Tawk_API = Tawk_API || {};
+Tawk_API.visitor = {
+ 
+ 
+  
+};
+</script>
+-->
 </body>
 
 

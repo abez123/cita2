@@ -95,8 +95,10 @@ class CitasController extends Controller
         $clientes= Cliente::all();
         $cliente='';
 
-    $franquiciatarios=Franquiciatario::join('users','users.context_id','=','franquiciatarios.id')->where('franquiciatarios.id','=',Auth::user()->context_id)->where('users.type','=','FRANQUICIATARIO')->select(array('franquiciatarios.sucursal'))->get();
+    $franquiciatarios=Franquiciatario::join('users','users.context_id','=','franquiciatarios.id')->where('franquiciatarios.id','=',Auth::user()->context_id)->where('users.type','=','FRANQUICIATARIO')->select(array('franquiciatarios.*'))->get();
     foreach($franquiciatarios as $franquiciatario){
+        $name=$franquiciatario->nombrecompletofran;
+        $email=$franquiciatario->correofran;
         $proper1 = $franquiciatario->sucursal;          
 
           
@@ -130,10 +132,13 @@ class CitasController extends Controller
                 'servicios' => $servicios,
                 'servicio' => $servicio,
                 'horarios' => $horarios,
-                'horario' => $horario
+                'horario' => $horario,
+                'franquiciatarios' => $franquiciatarios,
+                'name' => $name,
+                'email' => $email
             ]);
         } else {
-            return redirect(config('laraadmin.adminRoute')."/");
+            return redirect("/");
         }
     }
 

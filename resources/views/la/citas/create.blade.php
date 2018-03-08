@@ -39,9 +39,54 @@
 			{!! Form::open(['action' => 'LA\CitasController@store', 'id' => 'cita-add-form']) !!}
 			<div class="modal-body">
 				<div class="box-body">
+
+                    <label class="control-label"  for="cliente_id"> <i class="glyphicon glyphicon-user"></i> Cliente *:</label> <select
+              style="width: 100%" rel="select2" name="cliente_id" id="cliente_id"
+              class="form-control select2"> 
+              <option value=""></option>
+                          <option value="0">Nuevo Cliente</option>
+              @foreach($clientes as $item)
+              <option value="{{$item->id}}"
+                @if(!empty($clientes))
+                                        @if($item->id==$cliente)
+                            selected="selected"
+                        @endif
+                @endif >{{$item->nombrecompleto}} | Celular: {{$item->celular}} | Tel casa: {{$item->telcasa}} | {{$item->correo}}</option>
+              @endforeach
+            </select>
+          <div class="box box-success" id="clientehistory">
+  <!--<div class="box-header"></div>-->
+  
+</div>
+
+      <div style="display: none" class="modal-header" id="newclient">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-plus"></i> <i class="glyphicon glyphicon-user"></i>  Nuevo Cliente</h4>
+      </div>
+      
+      <div style="display: none" class="modal-body" id="newclientII">
+        <div class="box-body">
                    
-	 @if(\Entrust::hasRole('GERENTE_TIENDA'))
-		 
+          <div class="form-group">
+            <label>Nombre Completo: <input class="form-control" type="text" name="nombrecompleto" value="" id="nombrecompleto"></label>
+          </div>
+          <div class="form-group">
+          <label>Telefono de Casa: <input class="form-control" type="tel" name="telcasa" value="" id="telcasa"></label>
+          </div>
+          <div class="form-group">
+          <label>Celular: <input class="form-control" type="tel" name="celular" value="" id="celular"></label>
+          </div>
+          <div class="form-group">
+          <label>Correo: <input class="form-control" type="email" name="correo" value="" id="correo"></label>
+        </div>
+
+          
+          
+        </div>
+      </div>
+      
+                @if(\Entrust::hasRole('GERENTE_TIENDA'))
+     
 @foreach($sucursales as $item)
 <h3>Sucursal: {{$item->nombresuc}}</h3>
 <input type="hidden" name="sucursal_id" value="{{$item->id}}">
@@ -64,8 +109,10 @@
             </select>
                           @endif
 
-   
-                            <br>
+          <br>
+	 
+              @la_input($module, 'fechaservicio')
+                        
 					
 						
 						<label class="control-label"  for="servicio_id"><i class="glyphicon glyphicon-heart"></i> Servicio *:</label> <select
@@ -99,8 +146,7 @@
 
                       </select>                                    
            
-                    <br>
-             	@la_input($module, 'fechaservicio')
+                <br>
 
                      <div class="form-group ">
                    <label class="control-label" for="hora"> <i class="glyphicon glyphicon-user"></i>  Horario</label>
@@ -116,50 +162,7 @@
 					
 				</div>
 				
-			<label class="control-label"  for="cliente_id"> <i class="glyphicon glyphicon-user"></i> Cliente *:</label> <select
-							style="width: 100%" rel="select2" name="cliente_id" id="cliente_id"
-							class="form-control select2"> 
-							<option value=""></option>
-                          <option value="0">Nuevo Cliente</option>
-							@foreach($clientes as $item)
-							<option value="{{$item->id}}"
-								@if(!empty($clientes))
-                                        @if($item->id==$cliente)
-								            selected="selected"
-								        @endif
-								@endif >{{$item->nombrecompleto}} | Celular: {{$item->celular}} | Tel casa: {{$item->telcasa}} | {{$item->correo}}</option>
-							@endforeach
-						</select>
-					<div class="box box-success" id="clientehistory">
-	<!--<div class="box-header"></div>-->
-	
-</div>
-
-			<div style="display: none" class="modal-header" id="newclient">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel"><i class="fa fa-plus"></i> <i class="glyphicon glyphicon-user"></i>  Nuevo Cliente</h4>
-			</div>
-			
-			<div style="display: none" class="modal-body" id="newclientII">
-				<div class="box-body">
-                   
-					<div class="form-group">
-						<label>Nombre Completo: <input class="form-control" type="text" name="nombrecompleto" value="" id="nombrecompleto"></label>
-					</div>
-					<div class="form-group">
-					<label>Telefono de Casa: <input class="form-control" type="tel" name="telcasa" value="" id="telcasa"></label>
-					</div>
-					<div class="form-group">
-					<label>Celular: <input class="form-control" type="tel" name="celular" value="" id="celular"></label>
-					</div>
-					<div class="form-group">
-					<label>Correo: <input class="form-control" type="email" name="correo" value="" id="correo"></label>
-				</div>
-
-					
-					
-				</div>
-			</div>
+		
 			<br>
 				@la_input($module, 'estatus')
         @la_input($module, 'cortesia')
@@ -235,6 +238,8 @@
 @endsection
 
 @push('scripts')
+
+
   <script type="text/javascript">
   
    
@@ -330,9 +335,65 @@ eventMouseout: function(calEvent, jsEvent) {
 
 
     </script>
-<script>
 
 
+    <script type="text/javascript">
+      //Obtener la sucursal para ver el dia que no abren.Por lo pronto programado para el domingo
+      
+    @if(\Entrust::hasRole('GERENTE_TIENDA'))
+   // $( window ).load(function() {
+  
+  $( "#fechaservicio" ).click(function(){
+    
+        @foreach($sucursales as $item)
+        var sucursal_id ={{$item->id}};
+        @endforeach
+    @else
+     $('#sucursal_id').change(function(e){
+  
+     var sucursal_id = e.target.value; 
+     
+    @endif
+
+    
+  $.get('{{url('/sucursal-ajax')}}?sucursal_id=' + sucursal_id, function(data){
+ $.each(data, function(index, subcatObj){
+if(subcatObj.domingo == 0){
+   $('#fechaservicio').datetimepicker({
+     daysOfWeekDisabled: [0],
+     format: 'DD/MM/YYYY',
+     enabledHours: false,
+     viewMode: 'days',
+     useCurrent: true
+    
+  
+ });
+
+ $('#fechaservicio').data("DateTimePicker").hide();
+ $('#fechaservicio').data("DateTimePicker").show();
+
+        }//Si abre el domingo
+        else{
+          $('#fechaservicio').datetimepicker({
+    
+     format: 'DD/MM/YYYY',
+     enabledHours: false,
+     viewMode: 'days',
+     useCurrent: true
+    
+  
+ });
+
+ $('#fechaservicio').data("DateTimePicker").show();
+        }
+     })
+})
+   
+ });
+
+
+
+//Validar formulario
 
          
 $(function () {
@@ -340,6 +401,8 @@ $(function () {
 		
 	});
 });
+
+//Anadir cliente nuevo si seleccionan Nuevo CLiente
  $('#cliente_id').change(function(){
         if ($(this).val() == '0'){
            $('#newclient').show() &&  $('#newclientII').show();
@@ -351,6 +414,9 @@ $(function () {
              $('#newclient').hide() &&  $('#newclientII').hide();
            }
     });
+
+//La sucursal de la gerente de tienda
+
   @if(\Entrust::hasRole('GERENTE_TIENDA'))
  $('#servicio_id').on('change', function(e){
     var cat_id = e.target.value; 
@@ -414,7 +480,7 @@ $('#pedicurista_id').empty();
        });
 
 });
-   });
+   });//La sucursales para call center, Super admins
    @else
     $('#servicio_id').on('change', function(e){
     var cat_id = e.target.value; 
@@ -422,7 +488,7 @@ $('#pedicurista_id').empty();
  
 
 
- 
+ //Si cambia la cucursal debe de cambiar las pedicuristas
  $( "#sucursal_id" ).on('change', function(e){
                
                $('#pedicurista_id').empty();
@@ -481,27 +547,30 @@ $('#pedicurista_id').empty();
 });
    });
     @endif
-  @if(\Entrust::hasRole('GERENTE_TIENDA'))
- $('.input-group.date').on('dp.hide', function(e){
+
+    //Si es gerente de tienda obtener su sucursal
+        @if(\Entrust::hasRole('GERENTE_TIENDA'))
+    $( "#pedicurista_id" ).on('change', function(e){
  
     var pedicurista_id  =  $('#pedicurista_id').val();
-     var newfecha1=  $('#fechaservicio').val(); 
+    var newfecha1=  $('#fechaservicio').val(); 
     var servicio_id = $('#servicio_id').val();
         @foreach($sucursales as $item)
-var sucursal_id ={{$item->id}};
-@endforeach
+     var sucursal_id ={{$item->id}};
+        @endforeach
     
     // var timedisable=["10:00:00","12:00:00"]
 
  
    var newfecha = newfecha1.split("/").reverse().join("-");
        //ajax 
-$( "#pedicurista_id" ).on('change', function(e){
+       $('.input-group.date').on('dp.hide', function(e){
+
    var pedicurista_id  =  $('#pedicurista_id').val();
-     var newfecha1=  $('#fechaservicio').val(); 
-    var servicio_id = $('#servicio_id').val();
-     var sucursal_id = $('#sucursal_id').val();
-      var newfecha = newfecha1.split("/").reverse().join("-");
+   var newfecha1=  $('#fechaservicio').val(); 
+   var servicio_id = $('#servicio_id').val();
+   var sucursal_id = $('#sucursal_id').val();
+   var newfecha = newfecha1.split("/").reverse().join("-");
        $.get('{{url('/horario-ajax')}}?fechaservicio=' +newfecha+'&servicio_id=' + servicio_id+'&pedicurista_id=' + pedicurista_id+ '&sucursal_id=' + sucursal_id, function(data){
 
            //success data
@@ -547,7 +616,8 @@ $.get('{{url('/horario-ajax')}}?fechaservicio=' +newfecha+'&servicio_id=' + serv
 
 
 @else
- $('.input-group.date').on('dp.hide', function(e){
+$( "#pedicurista_id" ).on('change', function(e){
+ 
  
     var pedicurista_id  =  $('#pedicurista_id').val();
      var newfecha1=  $('#fechaservicio').val(); 
@@ -559,7 +629,7 @@ $.get('{{url('/horario-ajax')}}?fechaservicio=' +newfecha+'&servicio_id=' + serv
  
    var newfecha = newfecha1.split("/").reverse().join("-");
        //ajax 
-$( "#pedicurista_id" ).on('change', function(e){
+$('.input-group.date').on('dp.hide', function(e){
 	 var pedicurista_id  =  $('#pedicurista_id').val();
      var newfecha1=  $('#fechaservicio').val(); 
     var servicio_id = $('#servicio_id').val();
@@ -586,13 +656,14 @@ $( "#pedicurista_id" ).on('change', function(e){
 
        });
  });
+
 $.get('{{url('/horario-ajax')}}?fechaservicio=' +newfecha+'&servicio_id=' + servicio_id+'&pedicurista_id=' + pedicurista_id+ '&sucursal_id=' + sucursal_id, function(data){
 
            //success data
            $('#hora').empty();
 
            $('#hora').append(' Seleccione Uno');
-            
+        
            $.each(data, function(index, subcatObj){
 
                $('#hora').append('<option value ="'
@@ -603,7 +674,7 @@ $.get('{{url('/horario-ajax')}}?fechaservicio=' +newfecha+'&servicio_id=' + serv
 				//}
            });
      
-            
+          
 
        });
    });

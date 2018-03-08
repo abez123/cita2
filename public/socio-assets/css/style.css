@@ -8,7 +8,6 @@
 -------------------------------------------------------------------*/
 /*------------------------------------------------------------------
 body 
-
  + WRAP
  + HEADER
  + NAVIGATION
@@ -24,8 +23,6 @@ body
  + MEGA MENU
  + 3 MENU LEVEL 
 -------------------------------------------------------------------*/
-
-
 #profile-template-5 .profile-sidebar {
 	float: left;
 	width: 100%;
@@ -1304,7 +1301,7 @@ iframe {
 	border: none;
 }
 .banr-head input[type="email"], input[type="text"], input[type="password"] {
-	color: #00204B;
+	color: #000000;
 }
 .home-pro .services ul {
 	margin: 0px;

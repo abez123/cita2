@@ -100,11 +100,21 @@ class UserProfileController extends Controller
           $pdfsfiles = FacturaXML::join('franquiciatarios','franquiciatarios.rfc','=','facturaxmls.rfc')->join('users','users.context_id','=','franquiciatarios.id')->where('franquiciatarios.rfc','=',$franquiciatariorfc)->select(array('facturaxmls.*'))->whereNull('facturaxmls.deleted_at')->value('pdf');
 
        
-              $xmls= Upload::find($xmlsfiles); 
+              $xmlsfile= Upload::find($xmlsfiles); 
+              if($xmlsfile){
+                $xmls=$xmlsfile->path();
+              }else{
+                $xmls='Sin Archivo';
+              }
 
 
-              $pdfs= Upload::find($pdfsfiles);
-     
+              $pdfsfile= Upload::find($pdfsfiles);
+            
+              if($pdfsfile){
+                $pdfs=$pdfsfile->path();
+              }else{
+                $pdfs='Sin Archivo';
+              }
       
 
           //Docuemntos
@@ -121,6 +131,8 @@ class UserProfileController extends Controller
        // $eventos = Evento::leftJoin('patrocinadores','patrocinadores.id','=','eventos.patrocinadores')->select(array('eventos.*','patrocinadores.nombrepatroc','patrocinadores.logopatroc'))->orderBy('eventos.fecha','DESC')->paginate(4);
 
     foreach($franquiciatarios as $franquiciatario){
+        $name=$franquiciatario->nombrecompletofran;
+        $email=$franquiciatario->correofran;
         $proper1 = $franquiciatario->sucursal;          
 
           
@@ -180,7 +192,9 @@ class UserProfileController extends Controller
                 'citasnoshows'=> $citasnoshows,
                 'sucursalescnt'=> $sucursalescnt,
                 'encuesta'=> $encuesta,
-                'enlaces'=> $enlaces
+                'enlaces'=> $enlaces,
+                'name'=> $name,
+                'email'=> $email
             ]);
 			
 			

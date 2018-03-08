@@ -172,12 +172,25 @@ class CitasController extends Controller
        
     
   }
+         public function buscarSucursal(){
+            
 
+            $sucursal_id = Input::get('sucursal_id');
+          
+      
+        
+    
+         $sucursales = DB::table('sucursals')->select(array('sucursals.id','sucursals.domingo'))->where('sucursals.id',$sucursal_id)->whereNull('sucursals.deleted_at')->get();
+
+
+
+            return Response::json($sucursales);
+        }
 
 	  public function buscarCliente(){
             
 
-            $cliente_id = Input::get('cliente_id');
+         $cliente_id = Input::get('cliente_id');
           
       
         
@@ -226,40 +239,52 @@ class CitasController extends Controller
 
         public function buscarHorario(){
             
+                  //$pedicuristacount= Cita::where('fechaservicio','=',$fechas)->select(array('pedicurista_id'))->orderBy('pedicurista_id','ASC')->count('pedicurista_id');
+         // $pedicuristaasignadas= Cita::where('fechaservicio','=',$fechas)->select(array('pedicurista_id'))->orderBy('pedicurista_id','ASC')->pluck('pedicurista_id');
 
+          //$citasxpedicurista=Cita::whereIN('pedicurista_id',$pedicuristaasignadas)->select(array('pedicurista_id'))->pluck('pedicurista_id')->toArray();
+           
+          //$count=array_count_values($citasxpedicurista);
+                                      
+           // $minpedicurista=array_keys($count, min($count)); 
+           // $pedicuristaasignada=Pedicurista::where('id',$minpedicurista)->select(array('hora'))->get();
+          //  $citahoras= Cita::where('pedicurista_id','=',$minpedicurista)->where('fechaservicio','=',$fechas)->select(array('hora'))->orderBy('hora','ASC')->get();
             $pedicurista_id = Input::get('pedicurista_id');
+
             $pedicurista=Pedicurista::find($pedicurista_id);
+
             $vacaciones=Incapacidad::where('pedicurista_id',$pedicurista_id)->select(array('incapacidads.*'))->get();
            
             $servicios = Input::get('servicio_id');
+
             $sucursal = Input::get('sucursal_id');
+
             $duracion= Servicio::where('id',$servicios)->select(array('duracion'))->value('duracion');
+
             $fechas = Input::get('fechaservicio');
+
+            $diahoy = strtotime($fechas);
+          
+            $dianombre= date('l',$diahoy );
+         
                      
             $citahoras= Cita::where('pedicurista_id','=',$pedicurista_id)->where('fechaservicio','=',$fechas)->select(array('hora'))->orderBy('hora','ASC')->get();
-             $citahorasterm= Cita::where('pedicurista_id','=',$pedicurista_id)->where('fechaservicio','=',$fechas)->select(array('horafinal'))->orderBy('horafinal','ASC')->get();
-            // $starttime = new \DateTime($pedicurista->horario_entrada);
-            // $endtime = new \DateTime($pedicurista->horario_salida);
-            // $timestep= 60;
 
-           // $startdate = strtotime($pedicurista->horario_entrada);
-            // $starttm= date('H', $startdate);
-            // $enddate = strtotime($pedicurista->horario_salida);
-           //  $endtm= date('H', $enddate);
+            $citahorasterm= Cita::where('pedicurista_id','=',$pedicurista_id)->where('fechaservicio','=',$fechas)->select(array('horafinal'))->orderBy('horafinal','ASC')->get();
 
-              //Obtener la min de inicio y termino del dia de trabajo
-            //$startminute = strtotime($pedicurista->horario_entrada);
-            // $startmin= date('i', $startminute);
-            // $endminute = strtotime($pedicurista->horario_salida);
-            // $endmin= date('i', $endminute);
-      
+
+          
+
+
+
+        /* Obtener los dias de vacaciones*/
                 foreach ($vacaciones as $vaca )
                  
                 {
              $vacastart=$vaca->incapacidadinica;
              $vacafin=$vaca->incapacidadtermina;
              $vacatipo=$vaca->tipo;
-             }
+             } /* Si hay un registro de vacaciones obtener las fechas*/
              if(!empty($vacastart)&&!empty($vacafin)){
               $createDatevacastart = new \DateTime($vacastart);
 
@@ -268,7 +293,8 @@ class CitasController extends Controller
              $createDatevacafin = new \DateTime($vacafin);
 
              $vacafindt = $createDatevacafin->format('Y-m-d');
-             }else{
+             }else /* Si no hay dejar en blanco*/
+             {
              $vacastartdt ='';
              $vacafindt = '';
              }
@@ -279,17 +305,36 @@ class CitasController extends Controller
 /*          
 Horario de una pedicurista en especifico y sin incapacidad
 */       
-            if($pedicurista_id!='000'  && $fechas > $vacastartdt && $fechas > $vacafindt ||$fechas < $vacastartdt && $fechas < $vacafindt){
-                    //$pedicuristacount= Cita::where('fechaservicio','=',$fechas)->select(array('pedicurista_id'))->orderBy('pedicurista_id','ASC')->count('pedicurista_id');
-         // $pedicuristaasignadas= Cita::where('fechaservicio','=',$fechas)->select(array('pedicurista_id'))->orderBy('pedicurista_id','ASC')->pluck('pedicurista_id');
+    if($pedicurista_id!='000'  && $fechas > $vacastartdt && $fechas > $vacafindt ||$fechas < $vacastartdt && $fechas < $vacafindt){
+      
+        switch ($pedicurista->diadescanso) {
+            case 'Lunes':
+              $descanso='Monday';
+              break;
+            case 'Martes':
+              $descanso='Tuesday';
+              break;
+            case 'Miercoles':
+             $descanso='Wednesday';
+              break;  
+            case 'Jueves':
+              $descanso='Thursday';
+              break;
+            case 'Viernes':
+              $descanso='Friday';
+              break; 
+            case 'Sabado':
+              $descanso='Saturday';
+              break; 
+            case 'Domingo':
+              $descanso='Sunday';
+              break;
+            default:
+              $descanso='';
+              break;
+           }
 
-          //$citasxpedicurista=Cita::whereIN('pedicurista_id',$pedicuristaasignadas)->select(array('pedicurista_id'))->pluck('pedicurista_id')->toArray();
-           
-          //$count=array_count_values($citasxpedicurista);
-                                      
-           // $minpedicurista=array_keys($count, min($count)); 
-           // $pedicuristaasignada=Pedicurista::where('id',$minpedicurista)->select(array('hora'))->get();
-          //  $citahoras= Cita::where('pedicurista_id','=',$minpedicurista)->where('fechaservicio','=',$fechas)->select(array('hora'))->orderBy('hora','ASC')->get();
+  
 
              $start = strtotime('today '.$pedicurista->horario_entrada);
              $finish = strtotime('today '.$pedicurista->horario_salida);
@@ -301,27 +346,22 @@ Horario de una pedicurista en especifico y sin incapacidad
              $now=date("Y-m-d",$t);
              $timenow=date('H:i:00',$t);
              $tt= strtotime("-15 minutes",strtotime ( $timenow));
-
-             /*  $ttt=[];
-               $ttt[]=['hora'=>$tt];
-               $diffmerge = array_merge($diffs2,$ttt);
-              $timett=array_values($ttt);
-              $sorted=array_values($diffmerge);
-     */
-      
              $interval = 60;
-            
              $horas = [];
-            if($fechas == $now && $tt > $start &&  $tt < $finish){
-     for ($i = $tt; $i < $finish; $i += $interval * 60) {
+     if($fechas == $now && $tt > $start &&  $tt < $finish){
+             for ($i = $tt; $i < $finish; $i += $interval * 60) {
              
                $time = date('H:00:s', $i);
      
                $horas[] = ['hora'=>$time];
             
-        }
+             }
       }elseif($fechas == $now && $tt > $start &&  $tt >$finish){
     $diffs2[]=['hora'=>'Ya no hay horarios para el día de hoy'];
+
+
+     }elseif($dianombre == $descanso){
+    $diffs2[]=['hora'=> $pedicurista->diadescanso.' es su dia de descanso'];
 
 
      }else{
@@ -339,41 +379,39 @@ Horario de una pedicurista en especifico y sin incapacidad
           
 
       
-        $comterm= new Carbon($pedicurista->comidatermina); 
-			
-			$timec = strtotime($pedicurista->comidatermina);
-			$timec = $timec - (60 * 60);
-		    $datec = date("H:i:s", $timec);
+          $comterm= new Carbon($pedicurista->comidatermina); 
+			    $timec = strtotime($pedicurista->comidatermina);
+			    $timec = $timec - (60 * 60);
+		      $datec = date("H:i:s", $timec);
         	$pedihorariocome= array('hora' => $pedicurista->comidainicia);
         	$pedihorariocomf= array('hora' => $datec);
       		$horasmerge= $pedihorariocomf+$pedihorariocome;
            
             	 foreach($citahoras as $citashr)
-				{
+				     {
 				
-				    $horarios[]= ['hora'=>$citashr->hora];
+				       $horarios[]= ['hora'=>$citashr->hora];
 				   
-				} 
+				     } 
            
             
-				$newcome= array($pedihorariocome);
-				$newcomf= array($pedihorariocomf);
-				$comidacomp=array_merge($newcome,$newcomf);
-				
-         	$comidacomcol=array_column($comidacomp, 'hora');
+				  $newcome= array($pedihorariocome);
+				  $newcomf= array($pedihorariocomf);
+				  $comidacomp=array_merge($newcome,$newcomf);
+				 	$comidacomcol=array_column($comidacomp, 'hora');
        
          if(!empty($horarios)){
-         	 $resulthorario=array_column($horarios, 'hora');
-         	 $resulthorarioycom=array_merge($resulthorario,$comidacomcol);
+         	  $resulthorario=array_column($horarios, 'hora');
+         	  $resulthorarioycom=array_merge($resulthorario,$comidacomcol);
          	}else{
 
-         	 $resulthorarioycom=array_column($comidacomp, 'hora');
-         	}
+         	  $resulthorarioycom=array_column($comidacomp, 'hora');
+         	   }
             
              
-             $resulthoras=array_column($horas, 'hora');
+          $resulthoras=array_column($horas, 'hora');
 			
-				 $diffs = array_diff($resulthoras,  $resulthorarioycom);
+				  $diffs = array_diff($resulthoras,  $resulthorarioycom);
 
              foreach($diffs as $diff)
 				{
@@ -384,14 +422,17 @@ Horario de una pedicurista en especifico y sin incapacidad
 				
                 
 
-         }
+    }
          /*          
 Pedicurista en especifico y con incapacidad
 */
          elseif($pedicurista_id!='000' && $fechas >= $vacastartdt && $fechas <=  $vacafindt){
           $diffs2=[];
           $diffs2[]=['hora'=>$vacatipo.' del '.$vacastartdt.' al '.$vacafindt];
-     }else{
+     }         /*          
+Pedicurista en de la opción cualquiera
+*/
+     else{
 
          	switch ($servicios) {
            	case '1':
@@ -415,25 +456,44 @@ Pedicurista en especifico y con incapacidad
            }
     
          $pedicuristas = Pedicurista::where('sucursal_id','=',$sucursal)->where($campo,'=',1)->select(array('id'))->pluck('id');
-         $horario_entradas = Pedicurista::where('sucursal_id','=',$sucursal)->where($campo,'=',1)->select(array('horario_entrada'))->pluck('horario_entrada');
-         $horario_salidas = Pedicurista::where('sucursal_id','=',$sucursal)->where($campo,'=',1)->select(array('horario_salida'))->pluck('horario_salida');
-         $comidainicias = Pedicurista::where('sucursal_id','=',$sucursal)->where($campo,'=',1)->select(array('comidainicia'))->pluck('comidainicia');
-         $comidaterminas = Pedicurista::where('sucursal_id','=',$sucursal)->where($campo,'=',1)->select(array('comidatermina'))->pluck('comidatermina');
-         	
+         $pedicuristascnt = Pedicurista::where('sucursal_id','=',$sucursal)->where($campo,'=',1)->select(array('id'))->count();
+         $horario_entradas = Pedicurista::where('sucursal_id','=',$sucursal)->where($campo,'=',1)->select(array('horario_entrada'))->min('horario_entrada');
+         $horario_salidas = Pedicurista::where('sucursal_id','=',$sucursal)->where($campo,'=',1)->select(array('horario_salida'))->max('horario_salida');
+           /*  Comidas de la pedicuristas*/
+         $comidainicias3 = Pedicurista::where('sucursal_id','=',$sucursal)->where($campo,'=',1)->select(array('id','comidainicia','comidatermina'))->get();
+         //$comidaterminas3 = Pedicurista::where('sucursal_id','=',$sucursal)->where($campo,'=',1)->select(array('id','comidatermina'))->get();
 
-        $citahoras= Cita::where('fechaservicio','=',$fechas)->whereIN('citas.pedicurista_id',$pedicuristas)->select(array('hora'))->orderBy('hora','ASC')->get();
+         $comidainicias2=array($comidainicias3);  
+        // $comidaterminas2=array($comidaterminas3);
+        
+         $comidainicias=array_unique($comidainicias2);
+         //$comidaterminas =array_unique($comidaterminas2);
+         
+          /*  Citas de las pedicuristas*/
+         $citahoras= Cita::join('pedicuristas','pedicuristas.id','=','citas.pedicurista_id')->where('citas.fechaservicio','=',$fechas)->whereIN('citas.pedicurista_id',$pedicuristas)->select(array('pedicuristas.id','citas.hora'))->orderBy('citas.hora','ASC')->get();
 
-        	foreach($horario_entradas as $horentrada){
-        		 $start = strtotime($horentrada);
-        	}
-        	foreach($horario_salidas as $horsalida){
-        		 $finish = strtotime($horsalida);
-        	}
-        	 
+         $citahorasarray=array($citahoras);
+       
+         
+      $resulthorariostotal=array_merge($comidainicias2,$citahorasarray);
+     
+   
+          $horarioscompl = array_map(function($f, $t) { 
+              return array('hora'=>$f, 'Comida'=>$t); 
+            }, $citahorasarray, $comidainicias2
+          );
+
+        $comidacomcol=array_values($resulthorariostotal);
+       
+
+        		   $start = strtotime($horario_entradas);    
+          		 $finish = strtotime($horario_salidas);              	
                $t=time();
                $now=date("Y-m-d",$t);
                $timenow=date('H:i:00',$t);
-               $tt= $timenow;
+               $tt= strtotime("+15 minutes",strtotime ( $timenow));
+               $interval = 60;            
+               $horas = [];
              /*  $ttt=[];
                $ttt[]=['hora'=>$tt];
                $diffmerge = array_merge($diffs2,$ttt);
@@ -441,17 +501,21 @@ Pedicurista en especifico y con incapacidad
               $sorted=array_values($diffmerge);
      */
       
-             $interval = 60;
-            
-             $horas = [];
-            if($fechas == $now){
-     for ($i = $timenow; $i < $finish; $i += $interval * 60) {
+              
+
+      if($fechas == $now && $tt > $start &&  $tt < $finish){
+             for ($i = $tt; $i < $finish; $i += $interval * 60) {
              
-               $time = date('H:i:s', $i);
+               $time = date('H:00:s', $i);
      
                $horas[] = ['hora'=>$time];
             
-        }
+             }
+
+          }elseif($fechas == $now && $tt > $start &&  $tt >$finish){
+    $diffs2[]=['hora'=>'Ya no hay horarios para el día de hoy'];
+
+
           }else{
 
              for ($i = $start; $i < $finish; $i += $interval * 60) {
@@ -497,7 +561,8 @@ Pedicurista en especifico y con incapacidad
          	 $resulthorario=array_column($horarios, 'hora');
          	// $resulthorarioycom=array_merge($resulthorario,$comidacomcol);
          	 $resulthoras=array_column($horas, 'hora');
-         	 $diffs = array_diff($resulthoras,  $resulthorario);
+         	 $diffs3 = array_diff($resulthoras,  $resulthorario);
+           $diffs = array_diff($diffs3,  $resulthorariostotal);
          	}else{
     
          	// $resulthorarioycom=array_merge($resulthorario,$comidacomcol);
@@ -508,58 +573,33 @@ Pedicurista en especifico y con incapacidad
        				 
 
              foreach($diffs as $diff)
-				{
+				    {
 				
 				    $diffs2[]= ['hora'=>$diff];
 				  
-				} 
-         	 //$diffs2[]= ['hora'=>'12:00:00'];
+				     } 
+        
 
          }
        
 
-               //Obtener la hora de inicio y termino del dia de trabajo
-            /*$startdate = strtotime($horarioentrada);
-             $starttm= date('H', $startdate);
-             $enddate = strtotime($horariosalida);
-             $endtm= date('H', $enddate);
+        
 
-              //Obtener la min de inicio y termino del dia de trabajo
-            $startminute = strtotime($horarioentrada);
-             $startmin= date('i', $startminute);
-             $endminute = strtotime($horariosalida);
-             $endmin= date('i', $endminute);
 
     
 
 
 
-           /* $horas= array();
-           
-         	   	   for($h=$starttm; $h< $endtm; $h++){
-             	 for($m = $startmin; $m < 60; $m+=30){
-             	 	for($s = 00; $s < 01; $s++){
-             	 	$hora= sprintf('%02d:%02d:%02d', $h, $m,$s);
-             	 	$horas[$hora]=['hora'=>$hora];
-             	 	$horas["'$hora'"] = "'$hora'";
-             	 	//$merge=array_merge($horas,$citas);
-             	   // $gg=array_unique($merge,SORT_REGULAR);
-            $exclude=  ($horas, $citas);
-       
-
-
-             	 }
-             }
-         }
-*/
+          
 		
              
- 
-          
+
+     
+    
             return Response::json(
 
 
-            $diffs2
+           $diffs2
 
             ); 
         

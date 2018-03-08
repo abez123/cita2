@@ -113,6 +113,16 @@ class APICitaController extends Controller
         }
 	}
 
+  public function sucursal()
+  {
+    
+
+  $sucursal= Sucursal::select(array('sucursals.id','sucursals.nombresuc'))->get();
+
+ return Response::json($sucursal);   
+    
+  }
+
 	public function jsonCalendar()
   {
     
@@ -176,52 +186,53 @@ class APICitaController extends Controller
         public function buscarHorario(){
             
 
-            $pedicurista_id = Input::get('pedicurista_id');
-            $pedicurista=Pedicurista::find($pedicurista_id);
-            $servicios = Input::get('servicio_id');
-            $sucursal = Input::get('sucursal_id');
-            $duracion= Servicio::where('id',$servicios)->select(array('duracion'))->value('duracion');
-            $fechas = Input::get('fechaservicio');
+        $pedicurista_id = Input::get('pedicurista_id');
+
+        $pedicurista=Pedicurista::find($pedicurista_id);
+
+        $pedicuristadescanso=$pedicurista->diadescanso;
+
+        $servicios = Input::get('servicio_id');
+
+        $sucursal = Input::get('sucursal_id');
+
+        $duracion= Servicio::where('id',$servicios)->select(array('duracion'))->value('duracion');
+
+        $fechas = Input::get('fechaservicio');
                             
-            $citahoras= Cita::where('pedicurista_id','=',$pedicurista_id)->where('fechaservicio','=',$fechas)->select(array('hora'))->orderBy('hora','ASC')->get();
-             $citahorasterm= Cita::where('pedicurista_id','=',$pedicurista_id)->where('fechaservicio','=',$fechas)->select(array('horafinal'))->orderBy('horafinal','ASC')->get();
-            // $starttime = new \DateTime($pedicurista->horario_entrada);
-            // $endtime = new \DateTime($pedicurista->horario_salida);
-            // $timestep= 60;
+        $citahoras= Cita::where('pedicurista_id','=',$pedicurista_id)->where('fechaservicio','=',$fechas)->select(array('hora'))->orderBy('hora','ASC')->get();
 
-           // $startdate = strtotime($pedicurista->horario_entrada);
-            // $starttm= date('H', $startdate);
-            // $enddate = strtotime($pedicurista->horario_salida);
-           //  $endtm= date('H', $enddate);
+        $citahorasterm= Cita::where('pedicurista_id','=',$pedicurista_id)->where('fechaservicio','=',$fechas)->select(array('horafinal'))->orderBy('horafinal','ASC')->get();
+ 
 
-              //Obtener la min de inicio y termino del dia de trabajo
-            //$startminute = strtotime($pedicurista->horario_entrada);
-            // $startmin= date('i', $startminute);
-            // $endminute = strtotime($pedicurista->horario_salida);
-            // $endmin= date('i', $endminute);
 
-            if($pedicurista_id!='000'){
 
-             $start = strtotime('today '.$pedicurista->horario_entrada);
-             $finish = strtotime('today '.$pedicurista->horario_salida);
-             $interval = 60;
-             $horas = [];
-             $times=[];
+
+/* Si la opción es una pedicurista especifica*/
+    if($pedicurista_id!='000'){
+/* obtener el horario de netrada y salida con intervalo de 60 min*/
+       $start = strtotime('today '.$pedicurista->horario_entrada);
+       $finish = strtotime('today '.$pedicurista->horario_salida);
+       $interval = 60;
+       $horas = [];
+       $times=[];
            for ($i = $start; $i < $finish; $i += $interval * 60) {
                $time = date('H:i:s', $i);
              
                $horas[] = ['hora'=>$time];
             
         }
-        $comterm= new Carbon($pedicurista->comidatermina); 
+        /* obtener el horario de comida termina y restar 60 min para que sea el horario para bloquear*/
+       $comterm= new Carbon($pedicurista->comidatermina); 
 			
-			$timec = strtotime($pedicurista->comidatermina);
-			$timec = $timec - (60 * 60);
-		    $datec = date("H:i:s", $timec);
-        	$pedihorariocome= array('hora' => $pedicurista->comidainicia);
-        	$pedihorariocomf= array('hora' => $datec);
-      		$horasmerge= $pedihorariocomf+$pedihorariocome;
-           
+			 $timec = strtotime($pedicurista->comidatermina);
+			 $timec = $timec - (60 * 60);
+		   $datec = date("H:i:s", $timec);
+        /* obtener el horario de comida inicia y termina y juntar ambos horarios para bloquear*/
+       $pedihorariocome= array('hora' => $pedicurista->comidainicia);
+       $pedihorariocomf= array('hora' => $datec);
+       $horasmerge= $pedihorariocomf+$pedihorariocome;
+      /* obtener los horarios de citas para bloquear*/
             	 foreach($citahoras as $citashr)
 				{
 				
@@ -229,24 +240,26 @@ class APICitaController extends Controller
 				   
 				} 
            
-            
+      /* juntar los horarios de comida en un array*/
 				$newcome= array($pedihorariocome);
 				$newcomf= array($pedihorariocomf);
 				$comidacomp=array_merge($newcome,$newcomf);
-				
-         	$comidacomcol=array_column($comidacomp, 'hora');
-       
+				 /* Columnas de los horarios de comida*/
+        $comidacomcol=array_column($comidacomp, 'hora');
+       /* Si hay citas programadas juntar los horarios de comida con los horarios de citas para bloquear*/
          if(!empty($horarios)){
          	 $resulthorario=array_column($horarios, 'hora');
          	 $resulthorarioycom=array_merge($resulthorario,$comidacomcol);
-         	}else{
+         	} /* Si no hay citas solo bloquear los horarios de comida*/
+          else
+          {
 
-         	 $resulthorarioycom=array_column($comidacomp, 'hora');
+            $resulthorarioycom=array_column($comidacomp, 'hora');
          	}
             
-             
-             $resulthoras=array_column($horas, 'hora');
-			
+              /* Las columnas de los horas de inicia a terminiar del horario de la perdicurista*/
+         $resulthoras=array_column($horas, 'hora');
+			 /* La diferencia de las horas de intervlo de 60 min del incio y fin del horario e la pedicurista y los horarios de comida y horarios de citas.*/
 				 $diffs = array_diff($resulthoras,  $resulthorarioycom);
 
              foreach($diffs as $diff)
@@ -258,7 +271,9 @@ class APICitaController extends Controller
 				
                 
 
-         }else{
+         }/* Si la opción es cualquier pedicurista*/
+  else
+         {
          	//$pedicuristacount= Cita::where('fechaservicio','=',$fechas)->select(array('pedicurista_id'))->orderBy('pedicurista_id','ASC')->count('pedicurista_id');
          //	$pedicuristaasignadas= Cita::where('fechaservicio','=',$fechas)->select(array('pedicurista_id'))->orderBy('pedicurista_id','ASC')->pluck('pedicurista_id');
 

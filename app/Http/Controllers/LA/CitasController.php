@@ -207,6 +207,7 @@ class CitasController extends Controller
 
             $sucursal_id = Input::get('sucursal_id');
             $servicios = Input::get('servicio_id');
+            $fechaservicio = Input::get('fechaservicio');
       
            switch ($servicios) {
            	case '1':
@@ -228,12 +229,72 @@ class CitasController extends Controller
            		$campo='';
            		break;
            }
-    
-         $pedicuristas = Pedicurista::where('pedicuristas.sucursal_id','=',$sucursal_id)->where($campo,'=',1)->select(array('pedicuristas.id','pedicuristas.nombrecompletoped','pedicuristas.sucursal_id'))->orderBy('pedicuristas.nombrecompletoped', 'asc')->groupBy('pedicuristas.id')->get();
+    $ayer= strtotime('-1 weeks',strtotime($fechaservicio));
+    $fechaservicioayer=date('Y-m-d',$ayer);
+
+   
+       
+         $pedicuristascnt2 = Pedicurista::leftJoin('citas','citas.pedicurista_id','=','pedicuristas.id')->where('citas.sucursal_id','=',$sucursal_id)->where('pedicuristas.sucursal_id','=',$sucursal_id)->where($campo,'=',1)->whereBetween('citas.fechaservicio',[$fechaservicioayer,$fechaservicio])->selectRaw('pedicuristas.id, pedicuristas.nombrecompletoped,pedicuristas.sucursal_id, count(citas.id) as citas_count')->whereNUll('citas.deleted_at')->groupBy('pedicuristas.id')->get();
+
+         $pedicuristascnt = Pedicurista::leftJoin('citas','citas.pedicurista_id','=','pedicuristas.id')->where('citas.sucursal_id','=',$sucursal_id)->where('pedicuristas.sucursal_id','=',$sucursal_id)->where($campo,'=',1)->whereBetween('citas.fechaservicio',[$fechaservicioayer,$fechaservicio])->selectRaw('pedicuristas.id, pedicuristas.nombrecompletoped,pedicuristas.sucursal_id, count(citas.id) as citas_count')->whereNUll('citas.deleted_at')->groupBy('pedicuristas.id');
+        
+
+          $pedicuristastotal = Pedicurista::where('pedicuristas.sucursal_id','=',$sucursal_id)->where($campo,'=',1)->selectRaw('pedicuristas.id, pedicuristas.nombrecompletoped,pedicuristas.sucursal_id, count(pedicuristas.id) as citas_count')->whereNUll('deleted_at');
+       
+                 
+              if($pedicuristascnt2!='[]') {
+                $pedicuristastotal->union($pedicuristascnt);
+                $pedicuristas2=  $pedicuristastotal->orderBy('citas_count', 'asc')->orderBy('id', 'asc')->groupBy('pedicuristas.id')->get();
+                $pedicuristas3=array($pedicuristas2);
+            
+                $pedicuristas4 = array(); 
+                foreach ($pedicuristas3 as $key => $value) { 
+                 
+                    $pedicuristas4 = array_merge($pedicuristas4, array_flatten($value)); 
+                 
+                } 
+
+               $pedicuristas5=  array_reverse($pedicuristas4);
+
+                 $pedicuristas6= array();
+                 $id = array();
+                foreach($pedicuristas5 as $key=>$value){
+                   if(!in_array($value['id'], $id)){
+                      $id[] = $value['id'];
+                      $pedicuristas6[$key] = $value;
+                      
+                   }
+
+                }
+                $pedicuristas=array_reverse($pedicuristas6);
+                
+                /*$pedicuristastotal->union($pedicuristascnt);
+
+                $pedicuristas2=  $pedicuristastotal->orderBy('citas_count', 'asc')->groupBy('pedicuristas.id')->get();
+                $pedi1= array($pedicuristas2);
+                $pedi2= call_user_func_array($pedi1);
+                $pedicuristas= array_reverse($pedi2, true);
+               /* $pedicuristas= array();
+                $id = array();
+                foreach($pedicuristas2 as $key=>$value){
+                   if(!in_array($value['id'], $id)){
+                      $id[] = $value['id'];
+                      $pedicuristas[$key] = $value;
+                      
+                   }
+
+                }*/
+
+            } else{
+
+               $pedicuristas= Pedicurista::where('pedicuristas.sucursal_id','=',$sucursal_id)->where($campo,'=',1)->select('pedicuristas.id', 'pedicuristas.nombrecompletoped','pedicuristas.sucursal_id')->whereNUll('deleted_at')->orderBy('pedicuristas.id', 'asc')->groupBy('pedicuristas.id')->get();
+            }
+   
+ 
+          
 
 
-
-            return Response::json($pedicuristas);
+              return Response::json($pedicuristas);
         }
 
 
@@ -305,7 +366,7 @@ class CitasController extends Controller
 /*          
 Horario de una pedicurista en especifico y sin incapacidad
 */       
-    if($pedicurista_id!='000'  && $fechas > $vacastartdt && $fechas > $vacafindt ||$fechas < $vacastartdt && $fechas < $vacafindt){
+    if($fechas > $vacastartdt && $fechas > $vacafindt ||$fechas < $vacastartdt && $fechas < $vacafindt){
       
         switch ($pedicurista->diadescanso) {
             case 'Lunes':
@@ -345,7 +406,7 @@ Horario de una pedicurista en especifico y sin incapacidad
              $t=time();
              $now=date("Y-m-d",$t);
              $timenow=date('H:i:00',$t);
-             $tt= strtotime("-15 minutes",strtotime ( $timenow));
+             $tt= strtotime("+15 minutes",strtotime ( $timenow));
              $interval = 60;
              $horas = [];
      if($fechas == $now && $tt > $start &&  $tt < $finish){
@@ -426,13 +487,13 @@ Horario de una pedicurista en especifico y sin incapacidad
          /*          
 Pedicurista en especifico y con incapacidad
 */
-         elseif($pedicurista_id!='000' && $fechas >= $vacastartdt && $fechas <=  $vacafindt){
+         elseif($fechas >= $vacastartdt && $fechas <=  $vacafindt){
           $diffs2=[];
           $diffs2[]=['hora'=>$vacatipo.' del '.$vacastartdt.' al '.$vacafindt];
      }         /*          
 Pedicurista en de la opción cualquiera
 */
-     else{
+     /*else{
 
          	switch ($servicios) {
            	case '1':
@@ -460,7 +521,7 @@ Pedicurista en de la opción cualquiera
          $horario_entradas = Pedicurista::where('sucursal_id','=',$sucursal)->where($campo,'=',1)->select(array('horario_entrada'))->min('horario_entrada');
          $horario_salidas = Pedicurista::where('sucursal_id','=',$sucursal)->where($campo,'=',1)->select(array('horario_salida'))->max('horario_salida');
            /*  Comidas de la pedicuristas*/
-         $comidainicias3 = Pedicurista::where('sucursal_id','=',$sucursal)->where($campo,'=',1)->select(array('id','comidainicia','comidatermina'))->get();
+       /*  $comidainicias3 = Pedicurista::where('sucursal_id','=',$sucursal)->where($campo,'=',1)->select(array('id','comidainicia','comidatermina'))->get();
          //$comidaterminas3 = Pedicurista::where('sucursal_id','=',$sucursal)->where($campo,'=',1)->select(array('id','comidatermina'))->get();
 
          $comidainicias2=array($comidainicias3);  
@@ -470,7 +531,7 @@ Pedicurista en de la opción cualquiera
          //$comidaterminas =array_unique($comidaterminas2);
          
           /*  Citas de las pedicuristas*/
-         $citahoras= Cita::join('pedicuristas','pedicuristas.id','=','citas.pedicurista_id')->where('citas.fechaservicio','=',$fechas)->whereIN('citas.pedicurista_id',$pedicuristas)->select(array('pedicuristas.id','citas.hora'))->orderBy('citas.hora','ASC')->get();
+       /*  $citahoras= Cita::join('pedicuristas','pedicuristas.id','=','citas.pedicurista_id')->where('citas.fechaservicio','=',$fechas)->whereIN('citas.pedicurista_id',$pedicuristas)->select(array('pedicuristas.id','citas.hora'))->orderBy('citas.hora','ASC')->get();
 
          $citahorasarray=array($citahoras);
        
@@ -503,7 +564,7 @@ Pedicurista en de la opción cualquiera
       
               
 
-      if($fechas == $now && $tt > $start &&  $tt < $finish){
+    /*  if($fechas == $now && $tt > $start &&  $tt < $finish){
              for ($i = $tt; $i < $finish; $i += $interval * 60) {
              
                $time = date('H:00:s', $i);
@@ -543,7 +604,7 @@ Pedicurista en de la opción cualquiera
         	$pedihorariocomf= array('hora' => $datec);
       		$horasmerge= $pedihorariocomf+$pedihorariocome;
            */
-            	 foreach($citahoras as $citashr)
+      /*      	 foreach($citahoras as $citashr)
 				{
 				
 				    $horarios[]= ['hora'=>$citashr->hora];
@@ -557,7 +618,7 @@ Pedicurista en de la opción cualquiera
 				
          	$comidacomcol=array_column($comidacomp, 'hora');
        */
-         if(!empty($horarios)){
+       /*  if(!empty($horarios)){
          	 $resulthorario=array_column($horarios, 'hora');
          	// $resulthorarioycom=array_merge($resulthorario,$comidacomcol);
          	 $resulthoras=array_column($horas, 'hora');
@@ -582,7 +643,8 @@ Pedicurista en de la opción cualquiera
 
          }
        
-
+*/
+      
         
 
 

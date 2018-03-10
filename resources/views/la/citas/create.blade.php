@@ -402,6 +402,12 @@ $(function () {
 	});
 });
 
+
+
+
+
+
+
 //Anadir cliente nuevo si seleccionan Nuevo CLiente
  $('#cliente_id').change(function(){
         if ($(this).val() == '0'){
@@ -414,6 +420,19 @@ $(function () {
              $('#newclient').hide() &&  $('#newclientII').hide();
            }
     });
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //La sucursal de la gerente de tienda
 
@@ -439,16 +458,16 @@ var sucursal_id ={{$item->id}};
 
            
                $('#pedicurista_id').empty();
-                    
+
 
            $.each(data, function(index, subcatObj){
         
               if(subcatObj.citas_count){
-              $('#pedicurista_id').append(' Seleccione Una Pedicurista');
+             
               $('#pedicurista_id').append('<option value ="'
                + subcatObj.id +'">' + subcatObj.nombrecompletoped  + ' (' + subcatObj.citas_count  + ') '+ '</option');
             }else{
-               $('#pedicurista_id').append(' Seleccione Una Pedicurista');
+            
                $('#pedicurista_id').append('<option value ="'
                + subcatObj.id +'">' + subcatObj.nombrecompletoped  + ' (0) '+ '</option');
 
@@ -477,17 +496,16 @@ $('#pedicurista_id').empty();
                 
 
            
-          
-                     
+   
 
            $.each(data, function(index, subcatObj){
         
                 if(subcatObj.citas_count){
-              $('#pedicurista_id').append(' Seleccione Una Pedicurista');
+            
               $('#pedicurista_id').append('<option value ="'
                + subcatObj.id +'">' + subcatObj.nombrecompletoped  + ' (' + subcatObj.citas_count  + ') '+ '</option');
             }else{
-              $('#pedicurista_id').append(' Seleccione Una Pedicurista');
+           
                $('#pedicurista_id').append('<option value ="'
                + subcatObj.id +'">' + subcatObj.nombrecompletoped  + ' (0) '+ '</option');
 
@@ -512,11 +530,13 @@ $('#pedicurista_id').empty();
  //Si cambia la cucursal debe de cambiar las pedicuristas
  $( "#sucursal_id" ).on('change', function(e){
                
-               $('#pedicurista_id').empty();
+             
       var sucursal_id = e.target.value; 
     var cat_id = $('#servicio_id').val();
     var newfecha1 = $('#fechaservicio').val(); 
       var newfecha = newfecha1.split("/").reverse().join("-"); 
+
+
        $.get('{{url('/pedicurista-ajax')}}?sucursal_id=' + sucursal_id+'&servicio_id=' +  cat_id+'&fechaservicio=' +  newfecha, function(data){
 
            //success data
@@ -526,15 +546,16 @@ $('#pedicurista_id').empty();
            
                $('#pedicurista_id').empty();
                
+ 
 
            $.each(data, function(index, subcatObj){
         
                if(subcatObj.citas_count){
-              $('#pedicurista_id').append(' Seleccione Una Pedicurista');
+             
               $('#pedicurista_id').append('<option value ="'
                + subcatObj.id +'">' + subcatObj.nombrecompletoped  + ' (' + subcatObj.citas_count  + ') '+ '</option');
             }else{
-               $('#pedicurista_id').append(' Seleccione Una Pedicurista');
+              
                $('#pedicurista_id').append('<option value ="'
                + subcatObj.id +'">' + subcatObj.nombrecompletoped  + ' (0) '+ '</option');
 
@@ -548,7 +569,48 @@ $('#pedicurista_id').empty();
 });
            });
 
-       //ajax
+   //Si cambia la cucursal debe de cambiar las pedicuristas
+ $( "#pedicurista_id" ).on('change', function(e){
+               
+              
+      var sucursal_id = e.target.value; 
+    var cat_id = $('#servicio_id').val();
+    var newfecha1 = $('#fechaservicio').val(); 
+      var newfecha = newfecha1.split("/").reverse().join("-"); 
+
+      
+       $.get('{{url('/pedicurista-ajax')}}?sucursal_id=' + sucursal_id+'&servicio_id=' +  cat_id+'&fechaservicio=' +  newfecha, function(data){
+
+           //success data
+              
+
+
+           
+           
+               
+     
+
+           $.each(data, function(index, subcatObj){
+        
+               if(subcatObj.citas_count){
+          
+              $('#pedicurista_id').append('<option value ="'
+               + subcatObj.id +'">' + subcatObj.nombrecompletoped  + ' (' + subcatObj.citas_count  + ') '+ '</option');
+            }else{
+              
+               $('#pedicurista_id').append('<option value ="'
+               + subcatObj.id +'">' + subcatObj.nombrecompletoped  + ' (0) '+ '</option');
+
+            }
+
+      
+            
+
+       });
+
+});
+           });
+
 
 
 
@@ -558,18 +620,16 @@ $('#pedicurista_id').empty();
               
 $('#pedicurista_id').empty();
                     
-
-           
-          
-                     
+         $('#pedicurista_id').append('<option value ="000">Seleccione Una Pedicurista</option');
 
            $.each(data, function(index, subcatObj){
             if(subcatObj.citas_count){
-              $('#pedicurista_id').append(' Seleccione Una Pedicurista');
+       
+
               $('#pedicurista_id').append('<option value ="'
                + subcatObj.id +'">' + subcatObj.nombrecompletoped  + ' (' + subcatObj.citas_count  + ') '+ '</option');
             }else{
-               $('#pedicurista_id').append(' Seleccione Una Pedicurista');
+      
                $('#pedicurista_id').append('<option value ="'
                + subcatObj.id +'">' + subcatObj.nombrecompletoped  + ' (0) '+ '</option');
 
@@ -585,6 +645,10 @@ $('#pedicurista_id').empty();
 });
    });
     @endif
+
+
+
+
 
     //Si es gerente de tienda obtener su sucursal
         @if(\Entrust::hasRole('GERENTE_TIENDA'))
@@ -725,7 +789,7 @@ $('.input-group.date').on('dp.hide', function(e){
  });
 
 //Service Change
-               $( "#servicio_id" ).on('change', function(e){
+  $( "#servicio_id" ).on('change', function(e){
 
    var pedicurista_id  =  $('#pedicurista_id').val();
    var newfecha1=  $('#fechaservicio').val(); 
@@ -777,6 +841,16 @@ $.get('{{url('/horario-ajax')}}?fechaservicio=' +newfecha+'&servicio_id=' + serv
        });
    });
  @endif
+
+
+
+
+
+
+
+
+
+
 $('#cliente_id').on('change', function(e){
  
     var cliente_id  = e.target.value; 

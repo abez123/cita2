@@ -222,10 +222,11 @@
         <button type="button" 
            class="btn btn-default" 
            data-dismiss="modal">Regresar</button>
-        <span class="pull-right">
-  {!! Form::submit( 'Confirmado', ['class'=>'btn btn-success']) !!}
-        
-          </button>
+
+        <span class="pull-right" id="confirmyes">
+  
+        {!! Form::submit( 'Confirmado', ['class'=>'btn btn-success']) !!}
+ 
         </span>
       </div>
             {!! Form::close() !!}
@@ -896,6 +897,7 @@ $('#clientehistory').append('<div class="box-body"><table id="example1" class="t
     
      var pedicurista_id  =  $('#pedicurista_id').val();
      var newfecha1=  $('#fechaservicio').val(); 
+     var newfecha = newfecha1.split("/").reverse().join("-");
      var servicio_id= $('#servicio_id').val(); 
 
      var hora = $('#hora').val();
@@ -909,11 +911,11 @@ var cliente_id = $('#cliente_id').val();
      var precio = $('#precio').val();
 
  if (clienteids<1){
-       $.get('{{url('/citaconfirm-ajax')}}?cliente_id=0&servicio_id='+servicio_id+'&pedicurista_id='+pedicurista_id, function(data){
+       $.get('{{url('/citaconfirm-ajax')}}?cliente_id=0&servicio_id='+servicio_id+'&pedicurista_id='+pedicurista_id+'&fechaservicio='+newfecha+'&hora='+hora, function(data){
 
          $.each(data, function(index, subcatObj){
     
-    
+if(subcatObj.citas!=[]){  
 $('#favoritesModalLabel').append(subcatObj.nombrecompletoped);
 $('#favoritesModalfecha').text(newfecha1);
 $('#fav-sucursal').text(subcatObj.nombresuc);
@@ -921,13 +923,18 @@ $('#fav-hora').text(hora);
 $('#fav-servicio').text(subcatObj.nombreservicio);
 $('#fav-precio').text(subcatObj.precio);
 $('#fav-cliente').text(cliente_id);
+$( "#imageped" ).attr( "src", subcatObj.imagen);
+}else{
+  $('#favoritesModalLabel').text('Horario ya ocupado. Favor de regresar al cita para cambiar la hora o fecha.');
+}
+
            });
       });
      }else if(clienteids >= 1){
-   $.get('{{url('/citaconfirm-ajax')}}?cliente_id='+cliente_id+'&servicio_id='+servicio_id+'&pedicurista_id='+pedicurista_id, function(data){
+   $.get('{{url('/citaconfirm-ajax')}}?cliente_id='+cliente_id+'&servicio_id='+servicio_id+'&pedicurista_id='+pedicurista_id+'&fechaservicio='+newfecha+'&hora='+hora, function(data){
 
          $.each(data, function(index, subcatObj){
-    
+  if(subcatObj.citas!=[]){  
     
 $('#favoritesModalLabel').append(subcatObj.nombrecompletoped);
 $('#favoritesModalfecha').text(newfecha1);
@@ -936,8 +943,10 @@ $('#fav-hora').text(hora);
 $('#fav-servicio').text(subcatObj.nombreservicio);
 $('#fav-precio').text(subcatObj.precio);
 $('#fav-cliente').text(subcatObj.nombrecompleto);
-
 $( "#imageped" ).attr( "src", subcatObj.imagen);
+}else{
+ $('#favoritesModalLabel').text('Horario ya ocupado. Favor de regresar al cita para cambiar la hora o fecha.');
+}
            });
       });
 

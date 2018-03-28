@@ -181,4 +181,8 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== Prospectos ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/prospectos', 'LA\ProspectosController');
 	Route::get(config('laraadmin.adminRoute') . '/prospecto_dt_ajax', 'LA\ProspectosController@dtajax');
+
+	/* ================== Peticions ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/peticions', 'LA\PeticionsController');
+	Route::get(config('laraadmin.adminRoute') . '/peticion_dt_ajax', 'LA\PeticionsController@dtajax');
 });

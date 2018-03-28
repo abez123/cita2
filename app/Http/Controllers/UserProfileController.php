@@ -38,6 +38,8 @@ use Mail;
 use Carbon\Carbon;
 use App\Models\EncuestaISF;
 use App\Models\Enlace;
+use App\Models\Peticion;
+
 
 
 /**
@@ -87,9 +89,8 @@ class UserProfileController extends Controller
         $horarios = Horario::all();
         $horario = '';
        
-           
-      $encuesta=EncuestaISF::all();
-
+     
+          $encuesta=EncuestaISF::all();
         $franquiciatarios = Franquiciatario::join('users','users.context_id','=','franquiciatarios.id')->where('franquiciatarios.id',Auth::user()->context_id)->where('users.type','FRANQUICIATARIO')->select(array('franquiciatarios.*'))->whereNull('franquiciatarios.deleted_at')->get();    
         $franquiciatariorfc = Franquiciatario::join('users','users.context_id','=','franquiciatarios.id')->where('franquiciatarios.id',Auth::user()->context_id)->where('users.type','FRANQUICIATARIO')->select(array('franquiciatarios.rfc'))->whereNull('franquiciatarios.deleted_at')->value('rfc');    
          
@@ -195,6 +196,7 @@ class UserProfileController extends Controller
                 'enlaces'=> $enlaces,
                 'name'=> $name,
                 'email'=> $email
+
             ]);
 			
 			

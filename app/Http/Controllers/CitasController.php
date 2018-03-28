@@ -80,7 +80,7 @@ class CitasController extends Controller
                 'horario' => $horario
             ]);
         } else {
-            return redirect(config('laraadmin.adminRoute')."/");
+            return redirect("/");
         }
     }
 

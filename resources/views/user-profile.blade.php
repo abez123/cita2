@@ -76,14 +76,14 @@
             <ul class="nav nav-tabs" id="myTab">
               <li class="active"><a data-toggle="tab" href="#profile">Perfil</a></li>
               <li><a data-toggle="tab" href="#factura">Facturas</a> </li>
-               <li><a data-toggle="tab" href="#reportes">Reportes</a></li>
-             
-                  <li><a href="{{url('/citasver')}}">Citas</a></li>
+               <!--  <li><a data-toggle="tab" href="#reportes">Reportes</a></li>-->
+             <li><a  href="{{url('/peticiones')}}">Peticiones</a></li>  
+                  <!--  <li><a href="{{url('/citasver')}}">Citas</a></li>-->
                   <li><a  href="{{url('/noticias')}}">Noticias</a></li>
               
                <li><a data-toggle="tab" href="#docus">Documentos</a></li>
              <!-- <li><a data-toggle="tab" href="#contacto">Contacto</a></li>-->
-              <li><a data-toggle="tab" href="#tareas">Tareas</a></li>         
+   
               <li><a data-toggle="tab" href="#enlaces">Enlaces</a></li>    
               <li><a  href="{{url('/encuestas')}}">Encuestas</a></li>
              

@@ -676,28 +676,41 @@ Pedicurista en de la opción cualquiera
   {
 
           $servico_id= Input::get('servicio_id');
+
           $cliente_id= Input::get('cliente_id');
          
           $pedicurista_id= Input::get('pedicurista_id');
 
-  $servicio=Servicio::where('id',$servico_id)->select(array('servicios.nombreservicio'))->value('nombreservicio');
-    $precio=Servicio::where('id',$servico_id)->select(array('servicios.precio'))->value('precio');
+          $fecha= Input::get('fechaservicio');
 
-  $pedicurista=Pedicurista::where('id',$pedicurista_id)->select(array('pedicuristas.nombrecompletoped'))->value('nombrecompletoped');
-  $pedicuristaimg=Pedicurista::where('id',$pedicurista_id)->select(array('pedicuristas.imagen'))->value('imagen');
-  $image= Upload::find($pedicuristaimg);
-   $sucursal=Sucursal::join('pedicuristas','pedicuristas.sucursal_id','=','sucursals.id')->where('pedicuristas.id',$pedicurista_id)->select(array('sucursals.nombresuc'))->value('nombresuc');
-  $cliente=Cliente::where('id',$cliente_id)->select(array('clientes.nombrecompleto'))->value('nombrecompleto');
+          $hora= Input::get('hora');
 
-    return response()->json(array([
-            'nombrecompletoped'=>$pedicurista,
-            'nombreservicio'=> $servicio,
-            'nombrecompleto'=>$cliente,
-            'nombresuc'=>$sucursal,
-            'precio'=>$precio,
-            'imagen'=>$image->path(),
-           
-        ]), 200); 
+          $servicio=Servicio::where('id',$servico_id)->select(array('servicios.nombreservicio'))->value('nombreservicio');
+
+          $precio=Servicio::where('id',$servico_id)->select(array('servicios.precio'))->value('precio');
+
+          $pedicurista=Pedicurista::where('id',$pedicurista_id)->select(array('pedicuristas.nombrecompletoped'))->value('nombrecompletoped');
+
+          $pedicuristaimg=Pedicurista::where('id',$pedicurista_id)->select(array('pedicuristas.imagen'))->value('imagen');
+
+          $image= Upload::find($pedicuristaimg);
+
+          $sucursal=Sucursal::join('pedicuristas','pedicuristas.sucursal_id','=','sucursals.id')->where('pedicuristas.id',$pedicurista_id)->select(array('sucursals.nombresuc'))->value('nombresuc');
+
+          $cliente=Cliente::where('id',$cliente_id)->select(array('clientes.nombrecompleto'))->value('nombrecompleto');
+
+          $citas=Cita::where('pedicurista_id',$pedicurista_id)->where('fechaservicio',$fecha)->where('hora',$hora)->select(array('citas.id'))->get();
+
+        return response()->json(array([
+                'nombrecompletoped'=>$pedicurista,
+                'nombreservicio'=> $servicio,
+                'nombrecompleto'=>$cliente,
+                'nombresuc'=>$sucursal,
+                'precio'=>$precio,
+                'imagen'=>$image->path(),
+                'cita'=>$citas,
+               
+            ]), 200); 
     
   }
 /**
@@ -727,7 +740,8 @@ Pedicurista en de la opción cualquiera
 	 */
 	public function store(Request $request)
 	{
-		if(Module::hasAccess("Citas", "create")) {
+
+  		if(Module::hasAccess("Citas", "create")) {
 		
 			$rules = Module::validateRules("Citas", $request);
 			
@@ -736,13 +750,12 @@ Pedicurista en de la opción cualquiera
 			if ($validator->fails()) {
 				return redirect()->back()->withErrors($validator)->withInput();
 			}
-			
 
-			$insert_id = Module::insert("Citas", $request);
-			
+    
+       $insert_id = Module::insert("Citas", $request);
 			
  
-	$cita = Cita::find($insert_id);
+	    $cita = Cita::find($insert_id);
             
 			$sucursal =  Sucursal::where('sucursals.id','=',$cita->sucursal_id)->value('nombresuc');
 
@@ -750,14 +763,14 @@ Pedicurista en de la opción cualquiera
 
 			$servicio =  Servicio::where('servicios.id','=',$cita->servicio_id)->value('nombreservicio');
 			$serviciomin =  Servicio::where('servicios.id','=',$cita->servicio_id)->value('duracion');
-	$current= new Carbon($request->hora);
-    
-	$cita->horafinal=$current->addMinutes($serviciomin);
-   if($request->cortesia==1){
-        $cita->user_id_cortesia = Auth::user()->id;
-        }
-  $cita->user_id = Auth::user()->id;
-	$cita->save();
+    	$current= new Carbon($request->hora);
+        
+    	$cita->horafinal=$current->addMinutes($serviciomin);
+       if($request->cortesia==1){
+            $cita->user_id_cortesia = Auth::user()->id;
+            }
+      $cita->user_id = Auth::user()->id;
+    	$cita->save();
 			 if($cita->cliente_id == '0'){
 			 	$cliente = new Cliente();
 				$cliente->nombrecompleto = $request->nombrecompleto;
@@ -784,7 +797,11 @@ Pedicurista en de la opción cualquiera
     'from' => 'Nexmo',
     'text' => $cliente.' su cita ésta confirmada el '.$request->fechaservicio.' '.$request->hora.' en '.$sucursal.' con '.$pedicurista.' servicio de '.$servicio.'. Todo Para Sus Pies. '
 ]);
-			*/}
+			*/
+      }
+    
+
+    
 			
 			return redirect()->route(config('laraadmin.adminRoute') . '.citas.index');
 			
@@ -835,6 +852,26 @@ Pedicurista en de la opción cualquiera
 	{
 		if(Module::hasAccess("Citas", "edit")) {			
 			$cita = Cita::find($id);
+      $clientes= Cliente::all();
+      $cliente=$cita->cliente_id;
+
+
+        
+    if(\Entrust::hasRole('SUPER_ADMIN')||\Entrust::hasRole('CALLCENTER')||\Entrust::hasRole('FRANQUICIATARIO_ADMIN')){
+    $sucursales= Sucursal::all();
+    $sucursal = '';
+    }elseif(\Entrust::hasRole('GERENTE_TIENDA')){
+       $sucursales= Sucursal::join('users','users.context_id','=','sucursals.gerente_id')->where('sucursals.gerente_id','=',Auth::user()->context_id)->where('users.type','=','employee')->whereNull('users.deleted_at')->select(array('sucursals.id','sucursals.nombresuc'))->get();
+      ;
+      $sucursal= $cita->sucursal_id;
+    }
+
+
+    
+    $servicios= Servicio::all();
+    $servicio = $cita->servicio_id;
+    $horarios = Horario::all();
+    $horario = '';
 			if(isset($cita->id)) {	
 				$module = Module::get('Citas');
 				
@@ -843,7 +880,7 @@ Pedicurista en de la opción cualquiera
 				return view('la.citas.edit', [
 					'module' => $module,
 					'view_col' => $this->view_col,
-				])->with('cita', $cita);
+				])->with('cita', $cita)->with('clientes', $clientes)->with('cliente', $cliente)->with('clientes', $clientes)->with('sucursales', $sucursales)->with('sucursal', $sucursal)->with('servicios', $servicios)->with('servicio', $servicio);
 			} else {
 				return view('errors.404', [
 					'record_id' => $id,

@@ -84,9 +84,13 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:FRANQUICIATARIO_
 	Route::resource('/reportes', 'ReportesController');
 	Route::get('/reporte_dt_ajax', 'ReportesController@dtajax');
    
-   /* ================== Encuestass ================== */
+   /* ================== Encuestas ================== */
 	Route::resource('/encuestas', 'EncuestasController');
 	Route::get('/encuesta_dt_ajax', 'EncuestasController@dtajax');
+
+	 /* ================== Petciones ================== */
+	Route::resource('/peticiones', 'PeticionsController');
+	Route::get('/peticiones_dt_ajax', 'PeticionsController@dtajax');
    
 });
 
